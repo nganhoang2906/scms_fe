@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { Container, Paper, Typography } from "@mui/material";
-import OtpForm from "../components/OtpForm";
+import OtpVerificationForm from "../../components/auth-form/OtpVerificationForm";
 
 class OtpVerification extends Component {
   render() {
     return (
       <Container maxWidth="sm">
-        <Paper elevation={3} style={{ padding: "20px", marginTop: "50px" }}>
-          <Typography variant="h5" align="center" gutterBottom>
+        <Paper elevation={3} style={{ padding: "20px", margin: "20px" }}>
+          <Typography variant="h3" align="center" gutterBottom>
             Xác thực OTP
           </Typography>
-          <OtpForm />
+          <OtpVerificationForm />
         </Paper>
       </Container>
     );
