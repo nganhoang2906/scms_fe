@@ -3,7 +3,6 @@ import { TextField, Button, FormControlLabel, Checkbox, Container, Typography, M
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Alert from "../../themes/alert";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -73,14 +72,14 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/register-company", formData);
+      const response = await axios.post("http://localhost:8080/auth/register-company", formData);
       if (response.data.statusCode !== 200) {
         setErrors({ apiError: response.data.message });
         return
       }
 
       localStorage.setItem("registeredEmail", formData.email);
-      Alert.success("Đăng ký thành công! Kiểm tra email để nhận mã OTP.");
+      alert("Đăng ký thành công! Kiểm tra email để nhận mã OTP.");
       navigate("/otp-verification");
 
     } catch (error) {

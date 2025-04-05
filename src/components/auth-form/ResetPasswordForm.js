@@ -27,6 +27,7 @@ const ResetPasswordForm = () => {
     if (!formData.email) newErrors.email = "Vui lòng nhập email";
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email không hợp lệ";
     if (!formData.newPassword) newErrors.newPassword = "Vui lòng nhập mật khẩu";
+    if (formData.password.length < 6) errors.password = "Mật khẩu phải có ít nhất 6 ký tự";
     return newErrors;
   };
 
@@ -42,7 +43,7 @@ const ResetPasswordForm = () => {
 
     try {
       
-      const response = await axios.post("http://localhost:8080/reset-password", formData);
+      const response = await axios.post("http://localhost:8080/auth/reset-password", formData);
       if (response.data.statusCode !== 200) {
         setErrors({ apiError: response.data.message });
       } else {

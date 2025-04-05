@@ -28,6 +28,7 @@ export default function Theme(colors) {
       main: "#05518B",
       contrastText
     },
+    
     primary: {
       lighter: blue[0],
       100: blue[1],

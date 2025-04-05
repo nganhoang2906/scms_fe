@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Typography, Button, Grid, } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import NavBar from "../components/NavBar";
+
 import imgcard1 from "../assets/img/card/manufacture.png";
 import imgcard2 from "../assets/img/card/purchase.png";
 import imgcard3 from "../assets/img/card/sale.png";
@@ -23,28 +23,25 @@ const DefaultPage = () => {
   const navigate = useNavigate();
 
   return (
-    <>
-      <NavBar/>
-      <Container maxWidth="lg" style={{ textAlign: "center", paddingTop: "50px" }}>
-        <Typography variant="h3" gutterBottom>
-          HỆ THỐNG QUẢN LÝ CHUỖI CUNG ỨNG
-        </Typography>
-        <Typography variant="h6" color="textSecondary" paragraph>
-          Giúp doanh nghiệp tối ưu hóa quản lý sản xuất, mua hàng, bán hàng, kho và vận chuyển.
-        </Typography>
-        <Button variant="contained" color="default" onClick={() => navigate("/login")}>
-          Bắt đầu ngay
-        </Button>
+    <Container maxWidth="lg" style={{ textAlign: "center", paddingTop: "50px" }}>
+      <Typography variant="h3" gutterBottom>
+        HỆ THỐNG QUẢN LÝ CHUỖI CUNG ỨNG
+      </Typography>
+      <Typography variant="h6" color="textSecondary" paragraph>
+        Giúp doanh nghiệp tối ưu hóa quản lý sản xuất, mua hàng, bán hàng, kho và vận chuyển.
+      </Typography>
+      <Button variant="contained" color="default" onClick={() => navigate("/login")}>
+        Bắt đầu ngay
+      </Button>
 
-        <Grid container spacing={3} style={{ marginTop: "40px" }}>
-          {features.map((feature, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <FeatureCard {...feature} />
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
-    </>
+      <Grid container spacing={3} style={{ marginTop: "40px" }}>
+        {features.map((feature, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <FeatureCard {...feature} />
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
   );
 };
 

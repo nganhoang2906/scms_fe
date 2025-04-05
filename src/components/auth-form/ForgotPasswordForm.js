@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Container, TextField, Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Alert from "../../themes/alert";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +26,7 @@ const ForgotPasswordForm = () => {
     setErrors({});
 
     try {
-      const response = await axios.post(`http://localhost:8080/send-verify-otp?email=${email}`);
+      const response = await axios.post(`http://localhost:8080/auth/send-verify-otp?email=${email}`);
       
       if (response.data.statusCode !== 200) {
         setErrors({ apiError: response.data.message });
@@ -36,7 +35,7 @@ const ForgotPasswordForm = () => {
         localStorage.setItem("forgotEmail", email);
         const storedEmail = localStorage.getItem("forgotEmail");
 
-        Alert.success("Kiểm tra email để nhận mã OTP.");
+        alert("Kiểm tra email để nhận mã OTP.");
         navigate("/verify-forgot-password-otp");
         
         console.log(storedEmail)

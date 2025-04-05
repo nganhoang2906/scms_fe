@@ -2,7 +2,9 @@ export default function Drawer(theme) {
   return {
     MuiDrawer: {
       styleOverrides: {
+        variant: "permanent",
         paper: {
+          flexShrink: 0,
           width: 300,
           boxSizing: 'border-box',
           borderRight: `1px solid ${theme.palette.grey[300]}`,

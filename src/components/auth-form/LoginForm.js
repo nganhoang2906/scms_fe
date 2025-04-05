@@ -33,35 +33,48 @@ const LoginForm = () => {
     setErrors({});
 
     try {
-      const response = await axios.post("http://localhost:8080/login", formData);
+      const response = await axios.post("http://localhost:8080/auth/login", formData);
       
       if (response.data.statusCode !== 200) {
         setErrors({ apiError: response.data.message });
       } else {
         // Lưu token vào localStorage
-        localStorage.setItem("token", response.data.token);
+        const token = response.data.token;
+        localStorage.setItem("token", token);
         localStorage.setItem("role", response.data.role);
+
+        const employeeId = response.data.employeeId;
+        localStorage.setItem("employeeId", employeeId);
+        
+        console.log("Token:", token);
+        console.log("Role:", response.data.role);
+        console.log("Employee ID:", employeeId);
   
-        // Gọi API lấy thông tin user
-        const profileResponse = await axios.get("http://localhost:8080/get-profile", {
+        const employeeResponse = await axios.get(`http://localhost:8080/user/get-employee/${employeeId}`, {
           headers: {
-            Authorization: `Bearer ${response.data.token}`
+            Authorization: `Bearer ${token}`
           }
         });
   
-        if (profileResponse.data.statusCode === 200) {
-          const userData = profileResponse.data.ourUser;
-          const employeeId = userData?.employee?.employeeId;
-          const departmentId = userData?.employee?.department?.departmentId;
-          const companyId = userData?.employee?.department?.company?.companyId;
-
-          localStorage.setItem("employeeId", employeeId);
+        if (employeeResponse.status === 200) {
+          const departmentId = employeeResponse.data.departmentId;
           localStorage.setItem("departmentId", departmentId);
-          localStorage.setItem("companyId", companyId);
-          
-          console.log("Employee ID:", employeeId);
           console.log("Department ID:", departmentId);
-          console.log("Company ID:", companyId);
+          
+          const departmentResponse = await axios.get(`http://localhost:8080/user/get-department/${departmentId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+    
+          if (departmentResponse.status === 200) {
+            const companyId = departmentResponse.data.companyId;
+            localStorage.setItem("companyId", companyId);
+            console.log("Company ID:", companyId);
+          }
+        }
+        else {
+          console.error("Lỗi khi lấy thông tin nhân viên:", employeeResponse.data.message);
         }
   
         navigate("/homepage");

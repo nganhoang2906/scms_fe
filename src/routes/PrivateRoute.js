@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import Alert from "../themes/alert";
 
 const PrivateRoute = ({ element, allowedRoles, allowedDepartments }) => {
   const [redirectPath, setRedirectPath] = useState(null);
@@ -10,13 +9,13 @@ const PrivateRoute = ({ element, allowedRoles, allowedDepartments }) => {
 
   useEffect(() => {
     if (!token) {
-      Alert.warning("Bạn chưa đăng nhập!")
+      alert("Bạn chưa đăng nhập!")
       setRedirectPath("/login");
     } else if (!allowedRoles.includes(role)) {
-      Alert.error("Bạn không có quyền truy cập vào trang này!")
+      alert("Bạn không có quyền truy cập vào trang này!")
         setRedirectPath("/unauthorized");
     } else if (allowedDepartments && !allowedDepartments.includes(parseInt(departmentId))) {
-      Alert.error("Bạn không có quyền truy cập vào phòng ban này!")
+      alert("Bạn không có quyền truy cập vào trang này!")
         setRedirectPath("/unauthorized");
     }
   }, [token, role, departmentId, allowedRoles, allowedDepartments]);
