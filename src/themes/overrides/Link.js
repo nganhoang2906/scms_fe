@@ -1,11 +1,17 @@
-// ==============================|| OVERRIDES - LINK ||============================== //
-
 export default function Link() {
   return {
     MuiLink: {
       defaultProps: {
-        underline: 'hover'
-      }
-    }
+        underline: 'none',
+      },
+      styleOverrides: {
+        root: {
+          textDecoration: 'none', 
+          '&:hover': {
+            cursor: 'pointer',
+          },
+        },
+      },
+    },
   };
 }

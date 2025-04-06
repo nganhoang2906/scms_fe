@@ -5,11 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import logo from "../assets/img/logo-sidebar.png";
 import MenuItem from '../components/MenuItem';
 
-const SideBar = () => {
-
+const SideBar = ({ openSidebar, toggleSidebar }) => {
   const [openMenus, setOpenMenus] = useState({
     info: false,
-    manufacturing: false
+    manufacturing: false,
   });
 
   const navigate = useNavigate();
@@ -17,16 +16,26 @@ const SideBar = () => {
   const handleLogout = () => {
     localStorage.clear(); // Xóa toàn bộ dữ liệu
     navigate("/login");   // Chuyển về trang đăng nhập
-  };  
+  };
 
   const handleToggle = (menu) => {
     setOpenMenus((prev) => ({ ...prev, [menu]: !prev[menu] }));
   };
 
   return (
-    <Drawer variant="permanent" anchor="left">
+    <Drawer
+      variant={openSidebar ? 'permanent' : 'temporary'}
+      anchor="left"
+      open={openSidebar}
+      onClose={toggleSidebar}
+      sx={{
+        width: openSidebar ? 280 : 0,
+        transition: 'width 0.3s',
+        overflowX: 'hidden',
+      }}
+    >
       <div style={{ padding: 10, textAlign: 'center' }}>
-        <img src={logo} alt="Logo" style={{ width: 280 }} />
+        <img src={logo} alt="Logo" style={{ width: openSidebar ? 280 : 0 }} />
       </div>
       <Divider />
       <List>
@@ -37,12 +46,12 @@ const SideBar = () => {
           <ListItemText primary="Quản lý thông tin chung" />
           {openMenus.info ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        
+
         <Collapse in={openMenus.info} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
           <List component="div" disablePadding>
             <MenuItem icon={<Business />} title="Thông tin công ty" path="/company-detail" />
-            <MenuItem icon={<People />} title="Quản lý phòng ban" path="/department-management" />
-            <MenuItem icon={<People />} title="Quản lý nhân viên" path="/employee-management" />
+            <MenuItem icon={<People />} title="Quản lý phòng ban" path="/department-in-company" />
+            <MenuItem icon={<People />} title="Quản lý nhân viên" path="/employee-in-company" />
             <MenuItem icon={<ContactMail />} title="Quản lý tài khoản" path="/account-management" />
           </List>
         </Collapse>
@@ -62,7 +71,7 @@ const SideBar = () => {
       </List>
       <Divider />
       <Box sx={{ p: 2 }}>
-        <Button color="default" variant="contained" fullWidth onClick={handleLogout} >
+        <Button color="default" variant="contained" fullWidth onClick={handleLogout}>
           Đăng xuất
         </Button>
       </Box>

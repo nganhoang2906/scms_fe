@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import {
-  Container, Paper, Typography, TextField, Grid, Button, Box,
-  Select, MenuItem, FormControl, InputLabel
-} from "@mui/material";
+import { Container, Paper, Typography, TextField, Grid, Button, Box, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { getCompanyById, updateCompany, updateCompanyLogo } from "../../../services/general/company/CompanyService";
 
 const CompanyDetail = () => {
   const [company, setCompany] = useState(null);
@@ -33,23 +30,29 @@ const CompanyDetail = () => {
     const fetchCompany = async () => {
       const companyId = localStorage.getItem("companyId");
       if (!companyId) return;
+
       try {
-        const response = await axios.get(`http://localhost:8080/auth/get-company/${companyId}`);
-        const normalizedData = normalizeCompanyForDisplay(response.data);
+        const data = await getCompanyById(companyId);
+        const normalizedData = normalizeCompanyForDisplay(data);
+
+        if (normalizedData.logoUrl) {
+          normalizedData.logoUrl = `${normalizedData.logoUrl}?t=${Date.now()}`;
+        }
+
         setCompany(normalizedData);
         setEditedCompany(normalizedData);
       } catch (error) {
         console.error("Lỗi khi lấy thông tin công ty:", error);
       }
     };
+
     fetchCompany();
   }, []);
 
   const validateForm = () => {
     const errors = {};
-  
     const { companyName, mainIndustry, representativeName, address, country, phoneNumber, email, startDate, joinDate, status } = editedCompany;
-  
+
     if (!companyName.trim()) errors.companyName = "Tên công ty không được để trống";
     if (!address.trim()) errors.address = "Địa chỉ không được để trống";
     if (!country.trim()) errors.country = "Quốc gia không được để trống";
@@ -65,9 +68,8 @@ const CompanyDetail = () => {
       errors.startDate = "Ngày bắt đầu phải trước ngày tham gia";
     }
 
-  
     return errors;
-  };  
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,32 +84,25 @@ const CompanyDetail = () => {
 
   const handleSave = async () => {
     const errors = validateForm();
-
     if (Object.keys(errors).length > 0) {
-      const messages = Object.values(errors).join("\n");
-      alert(`${messages}`);
+      alert(Object.values(errors).join("\n"));
       return;
     }
-    
+
     const companyId = localStorage.getItem("companyId");
     const token = localStorage.getItem("token");
 
     try {
-      const infoResponse = await axios.put(
-        `http://localhost:8080/comsys/update-company/${companyId}`,
-        normalizeCompanyForSave(editedCompany),
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await updateCompany(companyId, normalizeCompanyForSave(editedCompany), token);
 
-      let updatedData = normalizeCompanyForDisplay(infoResponse.data);
-      setCompany(updatedData);
-      setEditedCompany(updatedData);
+      const refreshed = await getCompanyById(companyId);
+      const normalizedRefreshed = normalizeCompanyForDisplay(refreshed);
+
+      setCompany(normalizedRefreshed);
+      setEditedCompany(normalizedRefreshed);
       setIsEditing(false);
       alert("Cập nhật thông tin thành công!");
+
     } catch (error) {
       console.error("Lỗi khi cập nhật thông tin công ty:", error);
       alert("Cập nhật thất bại!");
@@ -124,48 +119,29 @@ const CompanyDetail = () => {
 
   const handleUploadLogo = async () => {
     const companyId = localStorage.getItem("companyId");
-    const formData = new FormData();
     const token = localStorage.getItem("token");
-  
-    formData.append("logo", logoFile);
-  
+
     try {
-      const res = await axios.put(
-        `http://localhost:8080/comsys/update-company-logo/${companyId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-  
-      const newLogoUrl = res.data;
+      const newLogoUrl = await updateCompanyLogo(companyId, logoFile, token);
       const updatedLogoUrl = `${newLogoUrl}?${Date.now()}`;
-  
-      setCompany((prev) => ({
-        ...prev,
-        logoUrl: updatedLogoUrl,
-      }));
-  
+      setCompany((prev) => ({ ...prev, logoUrl: updatedLogoUrl }));
       setLogoFile(null);
       setLogoPreview(null);
-  
       alert("Cập nhật logo thành công!");
-    } catch (err) {
-      console.error("Lỗi khi upload logo:", err);
+    } catch (error) {
+      console.error("Lỗi khi upload logo:", error);
       alert("Cập nhật logo thất bại!");
     }
   };
-  
+
   if (!company) return null;
 
   return (
-    <Container maxWidth="md">
-      <Paper elevation={3} sx={{ p: 4 }}>
-        <Typography variant="h3" align="center" gutterBottom>Thông tin công ty</Typography>
-
+    <Container>
+      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
+        <Typography variant="h4" align="center" gutterBottom>
+          THÔNG TIN CÔNG TY
+        </Typography>
         <Box display="flex" alignItems="center" gap={3} mb={3}>
           <img
             src={logoPreview || company.logoUrl || "https://cdn-icons-png.freepik.com/512/2774/2774806.png"}

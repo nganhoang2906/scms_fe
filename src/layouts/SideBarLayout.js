@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import SideBar from "../components/SideBar"; // Tùy bạn tạo
+import Header from "../components/Header";  // Import Header
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 
 const SideBarLayout = () => {
+  const [openSidebar, setOpenSidebar] = useState(true);
+  const toggleSidebar = () => {
+    setOpenSidebar((prev) => !prev);  // Đổi trạng thái mở/đóng sidebar
+  };
+
   return (
     <div style={{ display: "flex" }}>
-      <SideBar />
-      <Box component="main" sx={{ flexGrow: 1, ml: '300px', p: 3 }}>
-        <Outlet />
+      <SideBar openSidebar={openSidebar} toggleSidebar={toggleSidebar} />
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Header toggleSidebar={toggleSidebar} />
+        <Outlet/>
       </Box>
     </div>
   );

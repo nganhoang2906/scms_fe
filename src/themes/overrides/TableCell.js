@@ -1,5 +1,3 @@
-// ==============================|| OVERRIDES - TABLE CELL ||============================== //
-
 export default function TableCell(theme) {
   const commonCell = {
     '&:not(:last-of-type)': {
@@ -47,14 +45,10 @@ export default function TableCell(theme) {
           padding: 8
         },
         head: {
-          fontSize: '0.75rem',
           fontWeight: 700,
-          textTransform: 'uppercase',
           ...commonCell
         },
         footer: {
-          fontSize: '0.75rem',
-          textTransform: 'uppercase',
           ...commonCell
         }
       }

@@ -1,7 +1,4 @@
-// material-ui
 import { alpha } from '@mui/material/styles';
-
-// ==============================|| DEFAULT THEME - CUSTOM SHADOWS ||============================== //
 
 export default function CustomShadows(theme) {
   return {

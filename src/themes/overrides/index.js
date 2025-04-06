@@ -19,8 +19,6 @@ import Tabs from './Tabs';
 import Typography from './Typography';
 import Drawer from './Drawer';
 
-// ==============================|| OVERRIDES - MAIN ||============================== //
-
 export default function ComponentsOverrides(theme) {
   return merge(
     Button(theme),
