@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, TextField, Button, Typography, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import axios from "axios";
+import { resetPassword } from "../../services/general/AuthService";
 import { useNavigate } from "react-router-dom";
 
 const ResetPasswordForm = () => {
@@ -42,12 +42,12 @@ const ResetPasswordForm = () => {
     setErrors({});
 
     try {
+      const response = await resetPassword(formData);
       
-      const response = await axios.post("http://localhost:8080/auth/reset-password", formData);
-      if (response.data.statusCode !== 200) {
-        setErrors({ apiError: response.data.message });
+      if (response.statusCode !== 200) {
+        setErrors({ apiError: response.message });
       } else {
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("token", response.token);
         navigate("/login");
       }
     } catch (error) {

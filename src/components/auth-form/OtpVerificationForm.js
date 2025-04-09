@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Container, Typography } from "@mui/material";
-import axios from "axios";
+import { verifyOtp, sendVerifyOtp } from "../../services/general/AuthService";
 import { useNavigate } from "react-router-dom";
 
 const OtpVerificationForm = () => {
@@ -37,13 +37,13 @@ const OtpVerificationForm = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/auth/verify-otp", { otp, email });
-
-      if (response.data.statusCode !== 200) {
-        setErrors({ apiError: response.data.message });
+      const response = await verifyOtp(email, otp);
+    
+      if (response.statusCode !== 200) {
+        setErrors({ apiError: response.message });
         return;
       }
-
+    
       alert("Xác thực thành công! Đang chuyển hướng...");
       navigate("/login");
     } catch (error) {
@@ -56,11 +56,14 @@ const OtpVerificationForm = () => {
 
   const handleResendOtp = async () => {
     try {
-      await axios.post(`http://localhost:8080/auth/send-verify-otp?email=${email}`);
+      await sendVerifyOtp(email);
       alert("Mã OTP đã được gửi lại!");
       setResendTimer(60);
     } catch (error) {
-      alert(error.response?.data?.message || "Lỗi khi gửi lại OTP. Vui lòng thử lại!");
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        apiError: error.response?.data?.message || "Lỗi khi gửi lại OTP. Vui lòng thử lại!",
+      }));
     }
   };
 

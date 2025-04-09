@@ -1,0 +1,145 @@
+import React, { useEffect, useState } from "react";
+import { Container, Paper, Typography, Button, Box, } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import EmployeeForm from "../../../components/general/EmployeeForm";
+import { getEmployeeById, updateEmployee, updateEmployeeAvatar } from "../../../services/general/EmployeeService";
+
+const EditEmployee = () => {
+  const { employeeId } = useParams();
+  const navigate = useNavigate();
+  const [employee, setEmployee] = useState(null);
+  const [editedEmployee, setEditedEmployee] = useState(null);
+
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+
+  const normalizeForDisplay = (data) => {
+    const normalized = {};
+    for (const key in data) {
+      normalized[key] = data[key] ?? "";
+    }
+    return normalized;
+  };
+
+  const normalizeForSave = (data) => {
+    const normalized = {};
+    for (const key in data) {
+      normalized[key] = data[key] === "" ? null : data[key];
+    }
+    return normalized;
+  };
+
+  useEffect(() => {
+    const fetchEmployee = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const data = await getEmployeeById(employeeId, token);
+        const normalizedData = normalizeForDisplay(data);
+  
+        if (normalizedData.avatarUrl) {
+          normalizedData.avatarUrl = `${normalizedData.avatarUrl}?t=${Date.now()}`;
+        }
+  
+        setEmployee(normalizedData);
+        setEditedEmployee(normalizedData);
+      } catch (error) {
+        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin nhân viên!");
+      }
+    };
+  
+    fetchEmployee();
+  }, [employeeId]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditedEmployee((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCancel = () => {
+    setEditedEmployee(employee);
+    navigate(`/employee-detail/${employeeId}`);
+  };
+
+  const handleSave = async () => {
+    const token = localStorage.getItem("token");
+  
+    try {
+      const res = await updateEmployee( employeeId, normalizeForSave(editedEmployee), token );
+  
+      const updatedData = normalizeForDisplay(res);
+      setEmployee(updatedData);
+      setEditedEmployee(updatedData);
+      alert("Cập nhật thông tin nhân viên thành công!");
+      navigate(`/employee-detail/${employeeId}`);
+    } catch (error) {
+      alert(error.response?.data?.message || "Có lỗi xảy ra khi cập nhật thông tin nhân viên!");
+    }
+  };
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAvatarFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleUploadImage = async () => {
+    const token = localStorage.getItem("token");
+  
+    try {
+      const newAvatarUrl = await updateEmployeeAvatar(employeeId, avatarFile, token);
+      const updatedAvatarUrl = `${newAvatarUrl}?${Date.now()}`;
+  
+      setEmployee((prev) => ({
+        ...prev,
+        avatarUrl: updatedAvatarUrl,
+      }));
+  
+      setAvatarFile(null);
+      setAvatarPreview(null);
+  
+      alert("Cập nhật avatar thành công!");
+      navigate(`/employee-detail/${employeeId}`);
+    } catch (error) {
+      alert(error.response?.data?.message || "Có lỗi xảy ra khi cập nhật avatar!");
+    }
+  };
+
+  if (!employee) return null;
+
+  return (
+    <Container>
+      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
+        <Typography variant="h4" align="center" gutterBottom>
+          THÔNG TIN NHÂN VIÊN
+        </Typography>
+        <Box display="flex" alignItems="center" gap={3} mb={3}>
+          <img
+            src={avatarPreview || employee.avatarUrl || "https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg"}
+            alt="avatar"
+            style={{ width: 120, height: 120, objectFit: "cover", borderRadius: "50%" }}
+          />
+          <Box display="flex" flexDirection="column" gap={2}>
+            <Button variant="outlined" component="label">
+              Chọn ảnh
+              <input type="file" hidden accept="image/*" onChange={handleAvatarChange} />
+            </Button>
+            <Button variant="contained" disabled={!avatarFile} onClick={handleUploadImage}>
+              Cập nhật ảnh
+            </Button>
+          </Box>
+        </Box>
+
+        <EmployeeForm employee={editedEmployee} onChange={handleChange} />
+
+        <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
+          <Button variant="contained" color="default" onClick={handleSave}>Lưu</Button>
+          <Button variant="outlined" color="secondary" onClick={handleCancel}>Hủy</Button>
+        </Box>
+      </Paper>
+    </Container>
+  );
+};
+
+export default EditEmployee;

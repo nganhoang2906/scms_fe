@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Container, TextField, Button, Typography, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import axios from "axios";
+import { login } from "../../services/general/AuthService";
+import { getEmployeeById } from "../../services/general/EmployeeService";
+import { getDepartmentById } from "../../services/general/DepartmentService";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
@@ -33,52 +35,36 @@ const LoginForm = () => {
     setErrors({});
 
     try {
-      const response = await axios.post("http://localhost:8080/auth/login", formData);
-      
-      if (response.data.statusCode !== 200) {
-        setErrors({ apiError: response.data.message });
-      } else {
-        // Lưu token vào localStorage
-        const token = response.data.token;
-        localStorage.setItem("token", token);
-        localStorage.setItem("role", response.data.role);
-
-        const employeeId = response.data.employeeId;
-        localStorage.setItem("employeeId", employeeId);
-        
-        console.log("Token:", token);
-        console.log("Role:", response.data.role);
-        console.log("Employee ID:", employeeId);
-  
-        const employeeResponse = await axios.get(`http://localhost:8080/user/get-employee/${employeeId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-  
-        if (employeeResponse.status === 200) {
-          const departmentId = employeeResponse.data.departmentId;
-          localStorage.setItem("departmentId", departmentId);
-          console.log("Department ID:", departmentId);
-          
-          const departmentResponse = await axios.get(`http://localhost:8080/user/get-department/${departmentId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
+      const response = await login(formData);
     
-          if (departmentResponse.status === 200) {
-            const companyId = departmentResponse.data.companyId;
-            localStorage.setItem("companyId", companyId);
-            console.log("Company ID:", companyId);
-          }
-        }
-        else {
-          console.error("Lỗi khi lấy thông tin nhân viên:", employeeResponse.data.message);
-        }
-  
-        navigate("/homepage");
+      if (response.statusCode !== 200) {
+        setErrors({ apiError: response.message });
+        return;
       }
+    
+      const token = response.token;
+      const role = response.role;
+      const employeeId = response.employeeId;
+    
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+      localStorage.setItem("employeeId", employeeId);
+    
+      console.log("Token:", token);
+      console.log("Role:", role);
+      console.log("Employee ID:", employeeId);
+    
+      const employeeData = await getEmployeeById(employeeId, token);
+      const departmentId = employeeData.departmentId;
+      localStorage.setItem("departmentId", departmentId);
+      console.log("Department ID:", departmentId);
+    
+      const departmentData = await getDepartmentById(departmentId, token);
+      const companyId = departmentData.companyId;
+      localStorage.setItem("companyId", companyId);
+      console.log("Company ID:", companyId);
+    
+      navigate("/homepage");
     } catch (error) {
       setErrors({
         apiError: error.response?.data?.message || "Đăng nhập thất bại! Vui lòng thử lại.",

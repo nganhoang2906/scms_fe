@@ -1,13 +1,8 @@
 import React from "react";
-import {
-  Paper, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, TableSortLabel, TextField, Box,
-  FormControl, InputLabel, Select, MenuItem, InputAdornment, Pagination, Typography
-} from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Box, FormControl, InputLabel, Select, MenuItem, InputAdornment, Pagination, } from "@mui/material";
 import { Search } from "@mui/icons-material";
 
 const DataTable = ({
-  title,
   rows,
   columns,
   order,
@@ -43,11 +38,7 @@ const DataTable = ({
       : (a, b) => (a[orderBy] < b[orderBy] ? -1 : a[orderBy] > b[orderBy] ? 1 : 0);
 
   return (
-    <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-      <Typography variant="h4" align="center" gutterBottom>
-        {title}
-      </Typography>
-
+    <>
       <Box display="flex" justifyContent="space-between" mb={2}>
         <FormControl sx={{ width: 120 }}>
           <InputLabel>Số hàng</InputLabel>
@@ -77,7 +68,6 @@ const DataTable = ({
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>STT</TableCell>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
@@ -97,18 +87,17 @@ const DataTable = ({
           <TableBody>
             {stableSort(rows, getComparator(order, orderBy))
               .slice((page - 1) * rowsPerPage, page * rowsPerPage)
-              .map((row, index) => (
+              .map((row, index) =>
                 renderRow ? (
-                  renderRow(row, index, page, rowsPerPage) // 👈 gọi hàm render tùy chỉnh
+                  renderRow(row, index, page, rowsPerPage)
                 ) : (
                   <TableRow key={index}>
-                    <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
                     {columns.map((column) => (
                       <TableCell key={column.id}>{row[column.id]}</TableCell>
                     ))}
                   </TableRow>
                 )
-              ))}
+              )}
           </TableBody>
         </Table>
       </TableContainer>
@@ -122,7 +111,7 @@ const DataTable = ({
           shape="rounded"
         />
       </Box>
-    </Paper>
+    </>
   );
 };
 

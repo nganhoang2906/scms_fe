@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Drawer, List, Divider, Collapse, ListItemButton, ListItemIcon, ListItemText, Button, Box } from '@mui/material';
-import { Home, Info, ContactMail, ExpandLess, ExpandMore, Factory, Business, People } from '@mui/icons-material';
+import { Home, Info, ContactMail, ExpandLess, ExpandMore, Factory, Business, People, Person, RequestPage, Note } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import logo from "../assets/img/logo-sidebar.png";
-import MenuItem from '../components/MenuItem';
+import logo from "../../assets/img/logo-sidebar.png";
+import MenuItem from './MenuItem';
 
 const SideBar = ({ openSidebar, toggleSidebar }) => {
   const [openMenus, setOpenMenus] = useState({
@@ -14,8 +14,8 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.clear(); // Xóa toàn bộ dữ liệu
-    navigate("/login");   // Chuyển về trang đăng nhập
+    localStorage.clear();
+    navigate("/login");
   };
 
   const handleToggle = (menu) => {
@@ -51,7 +51,7 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
           <List component="div" disablePadding>
             <MenuItem icon={<Business />} title="Thông tin công ty" path="/company-detail" />
             <MenuItem icon={<People />} title="Quản lý phòng ban" path="/department-in-company" />
-            <MenuItem icon={<People />} title="Quản lý nhân viên" path="/employee-in-company" />
+            <MenuItem icon={<Person />} title="Quản lý nhân viên" path="/employee-in-company" />
             <MenuItem icon={<ContactMail />} title="Quản lý tài khoản" path="/account-management" />
           </List>
         </Collapse>
@@ -64,8 +64,8 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
 
         <Collapse in={openMenus.manufacturing} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
           <List component="div" disablePadding>
-            <MenuItem icon={<Factory />} title="Lệnh sản xuất" path="/manufacturing-orders" />
-            <MenuItem icon={<Factory />} title="Quản lý BOM" path="/bom-management" />
+            <MenuItem icon={<RequestPage />} title="Lệnh sản xuất" path="/manufacturing-orders" />
+            <MenuItem icon={<Note />} title="Quản lý BOM" path="/bom-management" />
           </List>
         </Collapse>
       </List>

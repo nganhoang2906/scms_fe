@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Container, Paper, Typography, Grid, TextField } from "@mui/material";
+import { getDepartmentById } from "../../../services/general/DepartmentService";
 
 const DepartmentDetail = () => {
   const { departmentId } = useParams();
@@ -11,22 +11,17 @@ const DepartmentDetail = () => {
   useEffect(() => {
     const fetchDepartment = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/user/get-department/${departmentId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(response.data);
-        setDepartment(response.data);
+        const data = await getDepartmentById(departmentId, token);
+        console.log(data);
+        setDepartment(data);
       } catch (error) {
-        console.error("Lỗi khi lấy thông tin phòng ban:", error);
+        alert(error.response?.data?.message || "Lỗi khi lấy thông tin phòng ban");
       }
     };
-
-    fetchDepartment();
+  
+    if (departmentId && token) {
+      fetchDepartment();
+    }
   }, [departmentId, token]);
 
   if (!department) {
@@ -45,7 +40,7 @@ const DepartmentDetail = () => {
         </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}><TextField fullWidth label="Mã phòng ban *" name="departmentCode" value={department.departmentCode} InputProps={{ readOnly: true }} /></Grid>
-          <Grid item xs={12} sm={6}><TextField fullWidth label="Tên phòng ban *" name="departmentId" value={department.departmentId} InputProps={{ readOnly: true }} /></Grid>
+          <Grid item xs={12} sm={6}><TextField fullWidth label="Tên phòng ban *" name="departmentName" value={department.departmentName} InputProps={{ readOnly: true }} /></Grid>
         </Grid>
       </Paper>
     </Container>

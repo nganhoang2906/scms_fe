@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, TextField, Button, Typography } from "@mui/material";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { sendVerifyOtp } from "../../services/general/AuthService"; 
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
@@ -26,25 +26,24 @@ const ForgotPasswordForm = () => {
     setErrors({});
 
     try {
-      const response = await axios.post(`http://localhost:8080/auth/send-verify-otp?email=${email}`);
-      
-      if (response.data.statusCode !== 200) {
-        setErrors({ apiError: response.data.message });
+      const response = await sendVerifyOtp(email);
+    
+      if (response.statusCode !== 200) {
+        setErrors({ apiError: response.message });
       } else {
-
         localStorage.setItem("forgotEmail", email);
         const storedEmail = localStorage.getItem("forgotEmail");
-
+    
         alert("Kiểm tra email để nhận mã OTP.");
         navigate("/verify-forgot-password-otp");
-        
-        console.log(storedEmail)
+    
+        console.log(storedEmail);
       }
     } catch (error) {
       setErrors({
         apiError: error.response?.data?.message || "Không thể gửi OTP! Vui lòng thử lại.",
       });
-    }
+    }    
   };
 
   return (

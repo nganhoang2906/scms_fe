@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Container, Typography } from "@mui/material";
-import axios from "axios";
+import { verifyForgotPasswordOtp, sendVerifyOtp } from "../../services/general/AuthService";
 import { useNavigate } from "react-router-dom";
 
 const OtpForgotPasswordForm = () => {
@@ -37,26 +37,27 @@ const OtpForgotPasswordForm = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/auth/verify-otp-forgot-password", { email, otp });
-
-      if (response.data.statusCode !== 200) {
-        setErrors({ apiError: response.data.message });
+      const response = await verifyForgotPasswordOtp({ email, otp });
+    
+      if (response.statusCode !== 200) {
+        setErrors({ apiError: response.message });
         return;
       }
-
+    
       alert("Xác thực thành công! Đang chuyển hướng...");
       navigate("/reset-password");
     } catch (error) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        apiError: error.response?.data?.message || "Xác thực thất bại! Vui lòng thử lại.",
+        apiError:
+          error.response?.data?.message || "Xác thực thất bại! Vui lòng thử lại.",
       }));
     }
   };
 
   const handleResendOtp = async () => {
     try {
-      await axios.post(`http://localhost:8080/auth/send-verify-otp?email=${email}`);
+      await sendVerifyOtp(email);
       alert("Mã OTP đã được gửi lại!");
       setResendTimer(60);
     } catch (error) {

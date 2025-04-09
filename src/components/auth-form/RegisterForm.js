@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, FormControlLabel, Checkbox, Container, Typography, MenuItem, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import axios from "axios";
+import { registerCompany } from "../../services/general/AuthService";
 import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
@@ -72,16 +72,17 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/auth/register-company", formData);
-      if (response.data.statusCode !== 200) {
-        setErrors({ apiError: response.data.message });
-        return
+      const response = await registerCompany(formData);
+      
+      if (response.statusCode !== 200) {
+        setErrors({ apiError: response.message });
+        return;
       }
-
+    
       localStorage.setItem("registeredEmail", formData.email);
       alert("Đăng ký thành công! Kiểm tra email để nhận mã OTP.");
       navigate("/otp-verification");
-
+    
     } catch (error) {
       setErrors({
         apiError: error.response?.data?.message || "Đăng ký thất bại! Vui lòng thử lại.",

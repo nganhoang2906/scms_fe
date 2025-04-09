@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import SideBar from "../components/SideBar"; // Tùy bạn tạo
-import Header from "../components/Header";  // Import Header
+import SideBar from "../components/layout-components/SideBar"; // Tùy bạn tạo
+import Header from "../components/layout-components/Header";  // Import Header
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 

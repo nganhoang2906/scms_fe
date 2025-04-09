@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Container, TableRow, TableCell, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import DataTable from "../../../components/DataTable";
+import { Container, TableRow, TableCell, Typography, Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import DataTable from "../../../components/content-components/DataTable";
+import { getAllDepartmentsInCompany } from "../../../services/general/DepartmentService";
 
 const DepartmentInCompany = () => {
   const [departments, setDepartments] = useState([]);
@@ -11,6 +11,7 @@ const DepartmentInCompany = () => {
   const [orderBy, setOrderBy] = useState("departmentCode");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
   const companyId = localStorage.getItem("companyId");
@@ -18,21 +19,16 @@ const DepartmentInCompany = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/comad/get-all-department-in-company/${companyId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setDepartments(response.data);
+        const data = await getAllDepartmentsInCompany(companyId, token);
+        setDepartments(data);
       } catch (error) {
-        console.error("Lỗi khi lấy danh sách phòng ban:", error);
+        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách phòng ban!");
       }
     };
-
-    fetchDepartments();
+  
+    if (companyId && token) {
+      fetchDepartments();
+    }
   }, [companyId, token]);
 
   if (!departments) {
@@ -70,31 +66,31 @@ const DepartmentInCompany = () => {
 
   return (
     <Container>
-      <DataTable
-        title="DANH SÁCH PHÒNG BAN"
-        rows={filteredDepartments}
-        columns={columns}
-        order={order}
-        orderBy={orderBy}
-        onRequestSort={handleRequestSort}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        search={search}
-        setSearch={setSearch}
-        renderRow={(dept, index) => (
-          <TableRow key={dept.departmentId}>
-            <TableCell>{(page - 1) * rowsPerPage + index + 1}</TableCell>
-            <TableCell>
-              <Link to={`/department-detail/${dept.departmentId}`}>
-                {dept.departmentCode}
-              </Link>
-            </TableCell>
-            <TableCell>{dept.departmentName}</TableCell>
-          </TableRow>
-        )}
-      />
+      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
+        <Typography variant="h4" align="center" gutterBottom>
+          DANH SÁCH PHÒNG BAN
+        </Typography>
+        <DataTable
+          rows={filteredDepartments}
+          columns={columns}
+          order={order}
+          orderBy={orderBy}
+          onRequestSort={handleRequestSort}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          search={search}
+          setSearch={setSearch}
+          renderRow={(dept) => (
+            <TableRow key={dept.departmentId} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/department-detail/${dept.departmentId}`)}
+            >
+              <TableCell>{dept.departmentCode}</TableCell>
+              <TableCell>{dept.departmentName}</TableCell>
+            </TableRow>
+          )}          
+        />
+      </Paper>
     </Container>
   );
 };

@@ -15,10 +15,13 @@ import HomePage from "../pages/HomePage";
 import Unauthorized from "../pages/Unauthorized";
 
 import CompanyDetail from "../pages/general/Company/CompanyDetail";
+import EditCompany from "../pages/general/Company/EditCompany";
 import DepartmentInCompany from "../pages/general/Department/DepartmentInCompany";
 import DepartmentDetail from "../pages/general/Department/DepartmentDetail";
 import EmployeeInCompany from "../pages/general/Employee/EmployeeInCompany";
 import EmployeeDetail from "../pages/general/Employee/EmployeeDetail";
+import EditEmployee from "../pages/general/Employee/EditEmployee";
+import CreateEmployee from "../pages/general/Employee/CreateEmployee";
 function AppRoutes() {
   return (
     <Router>
@@ -35,11 +38,14 @@ function AppRoutes() {
 
         <Route element={<SideBarLayout />}>
           <Route path="/homepage" element={<PrivateRoute element={<HomePage />} allowedRoles={["C-ADMIN", "USER"]} />} />
-          <Route path="/company-detail" element={<PrivateRoute element={<CompanyDetail />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/company-detail" element={<PrivateRoute element={<CompanyDetail />} allowedRoles={["C-ADMIN"]} />} />
+          <Route path="/company/edit" element={<PrivateRoute element={<EditCompany />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/department-in-company" element={<PrivateRoute element={<DepartmentInCompany />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/department-detail/:departmentId" element={<PrivateRoute element={<DepartmentDetail />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/employee-in-company" element={<PrivateRoute element={<EmployeeInCompany />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/employee-detail/:employeeId" element={<PrivateRoute element={<EmployeeDetail />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/employee/:employeeId/edit" element={<PrivateRoute element={<EditEmployee />} allowedRoles={["C-ADMIN", "USER"]}/>} />
+          <Route path="/create-employee" element={<PrivateRoute element={<CreateEmployee />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Route>
 

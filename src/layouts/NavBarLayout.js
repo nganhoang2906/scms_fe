@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../components/NavBar"; // Tùy bạn tạo
+import NavBar from "../components/layout-components/NavBar";
 import { Outlet } from "react-router-dom";
 
 const NavBarLayout = () => {
