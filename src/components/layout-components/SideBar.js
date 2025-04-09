@@ -23,11 +23,7 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
   };
 
   return (
-    <Drawer
-      variant={openSidebar ? 'permanent' : 'temporary'}
-      anchor="left"
-      open={openSidebar}
-      onClose={toggleSidebar}
+    <Drawer variant={openSidebar ? 'permanent' : 'temporary'} anchor="left" open={openSidebar} onClose={toggleSidebar}
       sx={{
         width: openSidebar ? 280 : 0,
         transition: 'width 0.3s',
@@ -52,7 +48,7 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
             <MenuItem icon={<Business />} title="Thông tin công ty" path="/company-detail" />
             <MenuItem icon={<People />} title="Quản lý phòng ban" path="/department-in-company" />
             <MenuItem icon={<Person />} title="Quản lý nhân viên" path="/employee-in-company" />
-            <MenuItem icon={<ContactMail />} title="Quản lý tài khoản" path="/account-management" />
+            <MenuItem icon={<ContactMail />} title="Quản lý tài khoản" path="/user-in-company" />
           </List>
         </Collapse>
 

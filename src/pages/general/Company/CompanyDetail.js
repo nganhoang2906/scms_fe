@@ -55,7 +55,7 @@ const CompanyDetail = () => {
           />
         </Box>
 
-        <CompanyForm companyData={company} onChange={() => {}} readOnly/>
+        <CompanyForm companyData={company} onChange={() => {}} errors={() => {}} readOnly/>
 
         <Box mt={3} display="flex" justifyContent="flex-end">
           <Button variant="contained" color="default" onClick={() => navigate("/company/edit")}>

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const EditCompany = () => {
   const [company, setCompany] = useState(null);
   const [editedCompany, setEditedCompany] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState(null);
@@ -53,19 +54,15 @@ const EditCompany = () => {
 
   const validateForm = () => {
     const errors = {};
-    const { companyName, mainIndustry, representativeName, address, country, phoneNumber, email, startDate, joinDate, status } = editedCompany;
-
+    const { companyName, representativeName, address, country, phoneNumber, email, startDate, joinDate } = editedCompany;
     if (!companyName.trim()) errors.companyName = "Tên công ty không được để trống";
     if (!address.trim()) errors.address = "Địa chỉ không được để trống";
     if (!country.trim()) errors.country = "Quốc gia không được để trống";
-    if (!mainIndustry.trim()) errors.mainIndustry = "Ngành nghề chính không được để trống";
     if (!representativeName.trim()) errors.representativeName = "Người đại diện không được để trống";
     if (!phoneNumber.trim()) errors.phoneNumber = "Số điện thoại không được để trống";
     if (!/^\d{10,11}$/.test(phoneNumber)) errors.phoneNumber = "Số điện thoại không hợp lệ";
     if (!email.trim()) errors.email = "Email không được để trống";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = "Email không hợp lệ";
-    if (!startDate) errors.startDate = "Ngày bắt đầu không được để trống";
-    if (!status) errors.status = "Trạng thái không được để trống";
     if (startDate && joinDate && new Date(startDate) > new Date(joinDate)) {
       errors.startDate = "Ngày bắt đầu phải trước ngày tham gia";
     }
@@ -86,7 +83,7 @@ const EditCompany = () => {
   const handleSave = async () => {
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
-      alert(Object.values(errors).join("\n"));
+      setErrors(errors);
       return;
     }
 
@@ -161,6 +158,7 @@ const EditCompany = () => {
           <CompanyForm
             companyData={editedCompany}
             onChange={handleChange}
+            errors={errors}
           />
         </Grid>
 

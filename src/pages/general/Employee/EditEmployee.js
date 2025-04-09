@@ -9,6 +9,7 @@ const EditEmployee = () => {
   const navigate = useNavigate();
   const [employee, setEmployee] = useState(null);
   const [editedEmployee, setEditedEmployee] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const [avatarFile, setAvatarFile] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(null);
@@ -28,6 +29,24 @@ const EditEmployee = () => {
     }
     return normalized;
   };
+
+  const validateForm = () => {
+    const errors = {};
+    const { position, employeeName, email, phoneNumber } = editedEmployee;
+    
+    if (!position) errors.position = "Chức vụ không được để trống";
+    if (!employeeName?.trim()) errors.employeeName = "Họ và tên không được để trống";
+  
+    if (!email?.trim()) {
+      errors.email = "Email không được để trống";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = "Email không hợp lệ";
+    }
+
+    if (!phoneNumber?.trim()) errors.phoneNumber = "Số điện thoại không được để trống";
+    if (!/^\d{10,11}$/.test(phoneNumber)) errors.phoneNumber = "Số điện thoại không hợp lệ";
+    return errors;
+  };  
 
   useEffect(() => {
     const fetchEmployee = async () => {
@@ -61,6 +80,12 @@ const EditEmployee = () => {
   };
 
   const handleSave = async () => {
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
+    
     const token = localStorage.getItem("token");
   
     try {
@@ -131,7 +156,7 @@ const EditEmployee = () => {
           </Box>
         </Box>
 
-        <EmployeeForm employee={editedEmployee} onChange={handleChange} />
+        <EmployeeForm employee={editedEmployee} onChange={handleChange} errors={errors}/>
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="contained" color="default" onClick={handleSave}>Lưu</Button>

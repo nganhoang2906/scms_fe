@@ -3,23 +3,26 @@ import {
   Grid, TextField, FormControl, InputLabel, Select, MenuItem
 } from "@mui/material";
 
-const EmployeeForm = ({ employee, onChange }) => {
+const EmployeeForm = ({ employee, onChange, errors }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Phòng ban *" name="departmentName" value={employee.departmentName} onChange={onChange} InputProps={{ readOnly: true }} />
+        <TextField fullWidth label="Phòng ban" name="departmentId" value={employee.departmentId} required onChange={onChange} InputProps={{ readOnly: true }} />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <TextField select fullWidth label="Chức vụ *" name="position" value={employee.position} onChange={onchange}>
-          <MenuItem value="Quản lý">Quản lý</MenuItem>
-          <MenuItem value="Nhân viên">Nhân viên</MenuItem>
-        </TextField>
+        <FormControl fullWidth>
+          <InputLabel>Chức vụ</InputLabel>
+          <Select name="position" value={employee.position || ''} label="Chức vụ" onChange={onChange}>
+            <MenuItem value="Quản lý">Quản lý</MenuItem>
+            <MenuItem value="Nhân viên">Nhân viên</MenuItem>
+          </Select>
+        </FormControl>
       </Grid>
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Mã nhân viên *" name="employeeCode" value={employee.employeeCode} InputProps={{ readOnly: true }} />
+        <TextField fullWidth label="Mã nhân viên" name="employeeCode" value={employee.employeeCode} required InputProps={{ readOnly: true }} />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Họ và tên *" name="employeeName" value={employee.employeeName} onChange={onChange} />
+        <TextField fullWidth label="Họ và tên" name="employeeName" value={employee.employeeName} error={!!errors.employeeName} helperText={errors.employeeName} required onChange={onChange} />
       </Grid>
       <Grid item xs={12} sm={6}>
         <TextField
@@ -41,14 +44,14 @@ const EmployeeForm = ({ employee, onChange }) => {
         <TextField fullWidth label="Địa chỉ" name="address" value={employee.address} onChange={onChange} />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Số điện thoại" name="phoneNumber" value={employee.phoneNumber} onChange={onChange} />
+        <TextField fullWidth label="Số điện thoại" name="phoneNumber" value={employee.phoneNumber} error={!!errors.phoneNumber} helperText={errors.phoneNumber} required onChange={onChange} />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Email *" name="email" value={employee.email} onChange={onChange} />
+        <TextField fullWidth label="Email" name="email" value={employee.email} error={!!errors.email} helperText={errors.email} required onChange={onChange} />
       </Grid>
       <Grid item xs={12} sm={6}>
         <FormControl fullWidth>
-          <InputLabel>Trạng thái *</InputLabel>
+          <InputLabel required>Trạng thái</InputLabel>
           <Select name="status" value={employee.status || ''} label="Trạng thái" onChange={onChange}>
             <MenuItem value="Đang làm việc">Đang làm việc</MenuItem>
             <MenuItem value="Đã nghỉ việc">Đã nghỉ việc</MenuItem>

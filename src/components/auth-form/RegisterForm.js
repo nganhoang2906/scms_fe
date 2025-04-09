@@ -57,7 +57,7 @@ const RegisterForm = () => {
     if (!formData.employeeCode.trim()) errors.employeeCode = "Mã nhân viên không được để trống";
     if (!formData.username.trim()) errors.username = "Tên đăng nhập không được để trống";
     if (!formData.password.trim()) errors.password = "Mật khẩu không được để trống";
-    if (formData.password.length < 6) errors.password = "Mật khẩu phải có ít nhất 6 ký tự";
+    if (formData.password.length < 8) errors.password = "Mật khẩu phải có ít nhất 8 ký tự";
     if (!formData.termsAccepted) errors.termsAccepted = "Bạn phải đồng ý với điều khoản";
   
     return errors;

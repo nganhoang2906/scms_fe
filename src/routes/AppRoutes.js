@@ -22,6 +22,7 @@ import EmployeeInCompany from "../pages/general/Employee/EmployeeInCompany";
 import EmployeeDetail from "../pages/general/Employee/EmployeeDetail";
 import EditEmployee from "../pages/general/Employee/EditEmployee";
 import CreateEmployee from "../pages/general/Employee/CreateEmployee";
+import UserInCompany from "../pages/general/User/UserInCompany";  
 function AppRoutes() {
   return (
     <Router>
@@ -46,6 +47,7 @@ function AppRoutes() {
           <Route path="/employee-detail/:employeeId" element={<PrivateRoute element={<EmployeeDetail />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/employee/:employeeId/edit" element={<PrivateRoute element={<EditEmployee />} allowedRoles={["C-ADMIN", "USER"]}/>} />
           <Route path="/create-employee" element={<PrivateRoute element={<CreateEmployee />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/user-in-company" element={<PrivateRoute element={<UserInCompany />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Route>
 

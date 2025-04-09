@@ -68,7 +68,7 @@ const EmployeeDetail = () => {
           />
         </Box>
 
-        <EmployeeForm employee={employee} readOnly />
+        <EmployeeForm employee={employee} onChange={() => {}} errors={() => {}} readOnly />
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="contained" color="default" onClick={() => navigate(`/employee/${employeeId}/edit`)}>
