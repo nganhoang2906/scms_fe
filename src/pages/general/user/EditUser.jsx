@@ -1,0 +1,115 @@
+import React, { useEffect, useState } from "react";
+import { Container, Paper, Typography, Box, Button } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import UserForm from "@/components/general/UserForm";
+import UpdatePasswordForm from "@/components/general/UpdatePasswordForm";
+import { getUserById, updateUser } from "@/services/general/UserService";
+
+const EditUser = () => {
+  const { userId } = useParams();
+  const [user, setUser] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [showPasswordForm, setShowPasswordForm] = useState(false); // <== thêm
+  const navigate = useNavigate();
+
+  const normalizeForDisplay = (data) => {
+    const normalized = {};
+    for (const key in data) {
+      normalized[key] = data[key] ?? "";
+    }
+    return normalized;
+  };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const data = await getUserById(userId, token);
+        setUser(normalizeForDisplay(data));
+      } catch (error) {
+        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin người dùng!");
+      }
+    };
+
+    fetchUser();
+  }, [userId]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const validateForm = () => {
+    const errors = {};
+    const { email } = user;
+
+    if (!email?.trim()) {
+      errors.email = "Email không được để trống";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = "Email không hợp lệ";
+    }
+
+    return errors;
+  };
+
+  const handleSave = async () => {
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    try {
+      await updateUser(userId, user, token);
+      alert("Cập nhật thành công!");
+      navigate(-1);
+    } catch (error) {
+      alert(error.response?.data?.message || "Lỗi khi cập nhật người dùng!");
+    }
+  };
+
+  if (!user) return null;
+
+  return (
+    <Container>
+      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
+        <Typography variant="h4" align="center" gutterBottom sx={{ mb: 3 }}>
+          CHỈNH SỬA TÀI KHOẢN
+        </Typography>
+
+        <UserForm user={user} onChange={handleChange} errors={errors} readOnly={false} />
+
+        <Box mt={3} display="flex" justifyContent="space-between" alignItems="center">
+          {!showPasswordForm ? (
+            <Button variant="contained" color="success" onClick={() => setShowPasswordForm(true)}>
+              Thay đổi mật khẩu
+            </Button>
+          ) : (
+            <span />
+          )}
+
+          <Box display="flex" gap={2}>
+            <Button variant="outlined" color="default" onClick={() => navigate(`/user-detail/${userId}`)}>
+              Hủy
+            </Button>
+            <Button variant="contained" color="default" onClick={handleSave}>
+              Lưu
+            </Button>
+          </Box>
+        </Box>
+        {showPasswordForm && (
+          <Box mt={3}>
+            <UpdatePasswordForm userId={userId} onSuccess={() => setShowPasswordForm(false)} />
+          </Box>
+        )}
+
+      </Paper>
+    </Container>
+  );
+};
+
+export default EditUser;

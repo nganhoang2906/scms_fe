@@ -1,7 +1,7 @@
 import { alpha } from '@mui/material/styles';
 
-import getColors from '../../utils/getColors';
-import getShadow from '../../utils/getShadow';
+import getColors from '@/utils/getColors';
+import getShadow from '@/utils/getShadow';
 
 function getColorStyle({ variant, color, theme }) {
   const colors = getColors(theme, color);
