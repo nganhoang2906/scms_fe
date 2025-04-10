@@ -6,8 +6,8 @@ import {
   Typography,
   Paper,
 } from "@mui/material";
-import DataTable from "@/components/content-components/DataTable";
-import { getAllItemsInCompany } from "@/services/general/ItemService";
+import DataTable from "@components/content-components/DataTable";
+import { getAllItemsInCompany } from "@services/general/ItemService";
 import { useNavigate } from "react-router-dom";
 
 const ItemInCompany = () => {

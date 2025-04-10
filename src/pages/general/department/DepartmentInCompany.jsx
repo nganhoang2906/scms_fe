@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container, TableRow, TableCell, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import DataTable from "@/components/content-components/DataTable";
-import { getAllDepartmentsInCompany } from "@/services/general/DepartmentService";
+import DataTable from "@components/content-components/DataTable";
+import { getAllDepartmentsInCompany } from "@services/general/DepartmentService";
 
 const DepartmentInCompany = () => {
   const [departments, setDepartments] = useState([]);

@@ -2,13 +2,13 @@ import React from "react";
 import { Container, Typography, Button, Grid, } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import imgcard1 from "@/assets/img/card/manufacture.png";
-import imgcard2 from "@/assets/img/card/purchase.png";
-import imgcard3 from "@/assets/img/card/sale.png";
-import imgcard4 from "@/assets/img/card/inventory.png";
-import imgcard5 from "@/assets/img/card/delivery.png";
-import imgcard6 from "@/assets/img/card/analytic.png";
-import FeatureCard from "@/components/content-components/FeatureCard";
+import imgcard1 from "@assets/img/card/manufacture.png";
+import imgcard2 from "@assets/img/card/purchase.png";
+import imgcard3 from "@assets/img/card/sale.png";
+import imgcard4 from "@assets/img/card/inventory.png";
+import imgcard5 from "@assets/img/card/delivery.png";
+import imgcard6 from "@assets/img/card/analytic.png";
+import FeatureCard from "@components/content-components/FeatureCard";
 
 const features = [
   { title: "Quản lý sản xuất", description: "Theo dõi và tối ưu quy trình sản xuất.", image: imgcard1 },

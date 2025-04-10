@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, Box, Button, Grid, } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import EmployeeForm from "@/components/general/EmployeeForm";
-import UserForm from "@/components/general/UserForm";
+import EmployeeForm from "@components/general/EmployeeForm";
+import UserForm from "@components/general/UserForm";
 
-import { getEmployeeById } from "@/services/general/EmployeeService";
-import { getUserByEmployeeId } from "@/services/general/UserService";
+import { getEmployeeById } from "@services/general/EmployeeService";
+import { getUserByEmployeeId } from "@services/general/UserService";
 
 const MyProfile = () => {
   const [employee, setEmployee] = useState(null);

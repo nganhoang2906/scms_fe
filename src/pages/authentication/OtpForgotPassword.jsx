@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Paper, Typography } from "@mui/material";
-import OtpFogotPasswordForm from "@/components/auth-form/OtpFogotPasswordForm";
+import OtpFogotPasswordForm from "@components/auth-form/OtpFogotPasswordForm";
 
 class OtpForgotPassword extends Component {
   render() {

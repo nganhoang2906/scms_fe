@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
-import WarehouseForm from "@/components/general/WarehouseForm";
-import { getWarehouseById } from "@/services/general/WarehouseService";
+import WarehouseForm from "@components/general/WarehouseForm";
+import { getWarehouseById } from "@services/general/WarehouseService";
 
 const WarehouseDetail = () => {
   const { warehouseId } = useParams();
@@ -37,8 +37,8 @@ const WarehouseDetail = () => {
   return (
     <Container>
       <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          THÔNG TIN KHO
+        <Typography variant="h4" align="center" gutterBottom  sx={{ p: 2}}>
+          THÔNG TIN 
         </Typography>
 
         <WarehouseForm warehouse={warehouse} onChange={() => {}} errors={{}} readOnly />

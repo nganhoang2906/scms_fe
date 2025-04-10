@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Paper, Typography } from "@mui/material";
-import ForgotPasswordForm from "@/components/auth-form/ForgotPasswordForm";
+import ForgotPasswordForm from "@components/auth-form/ForgotPasswordForm";
 
 class ForgotPassword extends Component {
   render() {

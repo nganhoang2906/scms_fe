@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, TextField, Button, Typography, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { updatePassword } from "@/services/general/UserService";
+import { updatePassword } from "@services/general/UserService";
 
 const UpdatePasswordForm = ({ userId, onSuccess }) => {
   const [form, setForm] = useState({

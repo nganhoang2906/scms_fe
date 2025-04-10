@@ -4,7 +4,7 @@ import {
   getWarehouseById,
   createWarehouse,
   updateWarehouse
-} from "@/services/general/WarehouseService";
+} from "@services/general/WarehouseService";
 
 const useWarehouse = (companyId, token) => {
   const [warehouses, setWarehouses] = useState([]);

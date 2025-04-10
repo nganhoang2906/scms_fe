@@ -6,9 +6,9 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material";
-import DataTable from "@/components/content-components/DataTable";
+import DataTable from "@components/content-components/DataTable";
 import { useNavigate } from "react-router-dom";
-import { getAllWarehousesInCompany } from "@/services/general/WarehouseService";
+import { getAllWarehousesInCompany } from "@services/general/WarehouseService";
 
 const WarehouseInCompany = () => {
   const [warehouses, setWarehouses] = useState([]);

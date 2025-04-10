@@ -1,6 +1,6 @@
 import { AppBar, Toolbar } from "@mui/material";
 import { Link } from "react-router-dom";
-import logo from "@/assets/img/logo.png";
+import logo from "@assets/img/logo.png";
 
 const NavBar = () => {
   return (

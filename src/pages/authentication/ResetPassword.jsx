@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Paper, Typography } from "@mui/material";
-import ResetPasswordForm from "@/components/auth-form/ResetPasswordForm";
+import ResetPasswordForm from "@components/auth-form/ResetPasswordForm";
 
 class ResetPassword extends Component {
   render() {

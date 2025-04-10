@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Container, Typography } from "@mui/material";
-import { verifyOtp, sendVerifyOtp } from "@/services/general/AuthService";
+import { verifyOtp, sendVerifyOtp } from "@services/general/AuthService";
 import { useNavigate } from "react-router-dom";
 
 const OtpVerificationForm = () => {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Paper, Typography } from "@mui/material";
-import LoginForm from "@/components/auth-form/LoginForm";
+import LoginForm from "@components/auth-form/LoginForm";
 
 class Login extends Component {
   render() {

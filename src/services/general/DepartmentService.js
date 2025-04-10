@@ -12,7 +12,7 @@ const getDepartmentById = async (departmentId, token) => {
 };
 
 const getAllDepartmentsInCompany = async (companyId, token) => {
-  const res = await axios.get(`${BASE_URL}/comad/get-all-department-in-company/${companyId}`, {
+  const res = await axios.get(`${BASE_URL}/user/get-all-department-in-company/${companyId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, FormControlLabel, Checkbox, Container, Typography, MenuItem, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { registerCompany } from "@/services/general/AuthService";
+import { registerCompany } from "@services/general/AuthService";
 import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {

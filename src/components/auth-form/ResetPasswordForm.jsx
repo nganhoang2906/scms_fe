@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, TextField, Button, Typography, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { resetPassword } from "@/services/general/AuthService";
+import { resetPassword } from "@services/general/AuthService";
 import { useNavigate } from "react-router-dom";
 
 const ResetPasswordForm = () => {
@@ -27,7 +27,7 @@ const ResetPasswordForm = () => {
     if (!formData.email) newErrors.email = "Vui lòng nhập email";
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email không hợp lệ";
     if (!formData.newPassword) newErrors.newPassword = "Vui lòng nhập mật khẩu";
-    if (formData.password.length < 6) errors.password = "Mật khẩu phải có ít nhất 6 ký tự";
+    if (formData.newPassword.length < 8) errors.newPassword = "Mật khẩu phải có ít nhất 8 ký tự";
     return newErrors;
   };
 

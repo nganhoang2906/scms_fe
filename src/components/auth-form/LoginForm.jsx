@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Container, TextField, Button, Typography, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { login } from "@/services/general/AuthService";
-import { getEmployeeById } from "@/services/general/EmployeeService";
-import { getDepartmentById } from "@/services/general/DepartmentService";
-import { getCompanyById } from "@/services/general/CompanyService";
+import { login } from "@services/general/AuthService";
+import { getEmployeeById } from "@services/general/EmployeeService";
+import { getDepartmentById } from "@services/general/DepartmentService";
+import { getCompanyById } from "@services/general/CompanyService";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
@@ -26,6 +26,7 @@ const LoginForm = () => {
   };
 
   const handleSubmit = async (event) => {
+    localStorage.clear();
     event.preventDefault();
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {

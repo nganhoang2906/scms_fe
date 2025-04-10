@@ -2,8 +2,10 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:8080";
 
-const getCompanyById = async (companyId) => {
-  const res = await axios.get(`${BASE_URL}/auth/get-company/${companyId}`);
+const getCompanyById = async (companyId, token) => {
+  const res = await axios.get(`${BASE_URL}/user/get-company/${companyId}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
   return res.data;
 };
 

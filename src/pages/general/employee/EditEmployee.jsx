@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, Button, Box, } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
-import EmployeeForm from "@/components/general/EmployeeForm";
-import { getEmployeeById, updateEmployee, updateEmployeeAvatar } from "@/services/general/EmployeeService";
+import EmployeeForm from "@components/general/EmployeeForm";
+import { getEmployeeById, updateEmployee, updateEmployeeAvatar } from "@services/general/EmployeeService";
 
 const EditEmployee = () => {
   const { employeeId } = useParams();

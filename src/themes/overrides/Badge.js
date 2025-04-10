@@ -1,4 +1,4 @@
-import getColors from '@/utils/getColors';
+import getColors from '@utils/getColors';
 
 function getColorStyle({ color, theme }) {
   const colors = getColors(theme, color);

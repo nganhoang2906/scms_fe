@@ -1,7 +1,7 @@
 import React, { useEffect, useState, } from "react";
 import { Container, Paper, Typography, Grid, Button, Box, } from "@mui/material";
-import { getCompanyById, updateCompany, updateCompanyLogo } from "@/services/general/CompanyService";
-import CompanyForm from "@/components/general/CompanyForm";
+import { getCompanyById, updateCompany, updateCompanyLogo } from "@services/general/CompanyService";
+import CompanyForm from "@components/general/CompanyForm";
 import { useNavigate } from "react-router-dom";
 
 const EditCompany = () => {

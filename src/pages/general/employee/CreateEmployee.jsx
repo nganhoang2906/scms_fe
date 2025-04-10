@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container, Typography, TextField, MenuItem, Button, Grid, Paper, } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { getAllDepartmentsInCompany } from "@/services/general/DepartmentService";
-import { createEmployee } from "@/services/general/EmployeeService";
+import { getAllDepartmentsInCompany } from "@services/general/DepartmentService";
+import { createEmployee } from "@services/general/EmployeeService";
 
 const CreateEmployee = () => {
   const navigate = useNavigate();

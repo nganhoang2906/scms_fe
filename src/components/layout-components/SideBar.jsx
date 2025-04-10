@@ -8,7 +8,7 @@ import {
   Factory, Business, People, Person, RequestPage, Note, Category, Warehouse
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import logo from "@/assets/img/logo-sidebar.png";
+import logo from "@assets/img/logo-sidebar.png";
 import MenuItem from './MenuItem';
 
 const SideBar = ({ openSidebar, toggleSidebar }) => {

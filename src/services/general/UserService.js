@@ -9,7 +9,7 @@ export const getAllUsers = async (token) => {
 };
 
 export const getAllUsersInCompany = async (companyId, token) => {
-  const response = await axios.get(`${BASE_URL}/comad/get-all-users-in-com/${companyId}`, {
+  const response = await axios.get(`${BASE_URL}/comsys/get-all-users-in-com/${companyId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
@@ -23,7 +23,7 @@ export const getUserByEmployeeId = async (employeeId, token) => {
 };
 
 export const getUserById = async (userId, token) => {
-  const response = await axios.get(`${BASE_URL}/comsys/get-user-by-userId/${userId}`, {
+  const response = await axios.get(`${BASE_URL}/user/get-user-by-userId/${userId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;

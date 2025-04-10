@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
-import UserForm from "@/components/general/UserForm";
-import { getUserById } from "@/services/general/UserService";
+import UserForm from "@components/general/UserForm";
+import { getUserById } from "@services/general/UserService";
 
 const UserDetail = () => {
   const { userId } = useParams();
@@ -38,7 +38,7 @@ const UserDetail = () => {
   return (
     <Container>
       <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom>
+        <Typography variant="h4" align="center" gutterBottom  sx={{ p: 2}}>
           THÔNG TIN TÀI KHOẢN
         </Typography>
 

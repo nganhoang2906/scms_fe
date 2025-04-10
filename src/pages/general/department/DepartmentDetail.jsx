@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Paper, Typography, Grid, TextField } from "@mui/material";
-import { getDepartmentById } from "@/services/general/DepartmentService";
+import { getDepartmentById } from "@services/general/DepartmentService";
 
 const DepartmentDetail = () => {
   const { departmentId } = useParams();

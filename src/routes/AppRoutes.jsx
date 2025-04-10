@@ -1,39 +1,39 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import NavBarLayout from "@/layouts/NavBarLayout";
-import SideBarLayout from "@/layouts/SideBarLayout";
+import NavBarLayout from "@layouts/NavBarLayout";
+import SideBarLayout from "@layouts/SideBarLayout";
 import PrivateRoute from "./PrivateRoute";
 
-import DefaultPage from "@/pages/DefaultPage";
-import Register from "@/pages/authentication/Register";
-import OtpVerification from "@/pages/authentication/OtpVerification";
-import Login from "@/pages/authentication/Login";
-import ForgotPassword from "@/pages/authentication/ForgotPassword";
-import OtpForgotPassword from "@/pages/authentication/OtpForgotPassword";
-import ResetPassword from "@/pages/authentication/ResetPassword";
+import DefaultPage from "@pages/DefaultPage";
+import Register from "@pages/authentication/Register";
+import OtpVerification from "@pages/authentication/OtpVerification";
+import Login from "@pages/authentication/Login";
+import ForgotPassword from "@pages/authentication/ForgotPassword";
+import OtpForgotPassword from "@pages/authentication/OtpForgotPassword";
+import ResetPassword from "@pages/authentication/ResetPassword";
 
-import HomePage from "@/pages/HomePage";
-import Unauthorized from "@/pages/Unauthorized";
-import MyProfile from "@/pages/general/user/MyProfile";
+import HomePage from "@pages/HomePage";
+import Unauthorized from "@pages/Unauthorized";
+import MyProfile from "@pages/general/user/MyProfile";
 
-import CompanyDetail from "@/pages/general/company/CompanyDetail";
-import EditCompany from "@/pages/general/company/EditCompany";
+import CompanyDetail from "@pages/general/company/CompanyDetail";
+import EditCompany from "@pages/general/company/EditCompany";
 
-import DepartmentInCompany from "@/pages/general/department/DepartmentInCompany";
-import DepartmentDetail from "@/pages/general/department/DepartmentDetail";
+import DepartmentInCompany from "@pages/general/department/DepartmentInCompany";
+import DepartmentDetail from "@pages/general/department/DepartmentDetail";
 
-import EmployeeInCompany from "@/pages/general/employee/EmployeeInCompany";
-import EmployeeDetail from "@/pages/general/employee/EmployeeDetail";
-import EditEmployee from "@/pages/general/employee/EditEmployee";
-import CreateEmployee from "@/pages/general/employee/CreateEmployee";
+import EmployeeInCompany from "@pages/general/employee/EmployeeInCompany";
+import EmployeeDetail from "@pages/general/employee/EmployeeDetail";
+import EditEmployee from "@pages/general/employee/EditEmployee";
+import CreateEmployee from "@pages/general/employee/CreateEmployee";
 
-import UserInCompany from "@/pages/general/user/UserInCompany";  
-import UserDetail from "@/pages/general/user/UserDetail";
-import EditUser from "@/pages/general/user/EditUser";
+import UserInCompany from "@pages/general/user/UserInCompany";  
+import UserDetail from "@pages/general/user/UserDetail";
+import EditUser from "@pages/general/user/EditUser";
 
-import ItemInCompany from "@/pages/general/item/ItemInCompany";
+import ItemInCompany from "@pages/general/item/ItemInCompany";
 
-import WarehouseInCompany from "@/pages/general/warehouse/WarehouseInCompany";
-import WarehouseDetail from "@/pages/general/warehouse/WarehouseDetail";
+import WarehouseInCompany from "@pages/general/warehouse/WarehouseInCompany";
+import WarehouseDetail from "@pages/general/warehouse/WarehouseDetail";
 
 function AppRoutes() {
   return (

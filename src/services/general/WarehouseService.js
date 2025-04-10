@@ -14,14 +14,14 @@ export const createWarehouse = async (companyId, warehouseData, token) => {
 };
 
 export const getWarehouseById = async (warehouseId, token) => {
-  const response = await axios.get(`${BASE_URL}/comad/get-warehouse/${warehouseId}`, {
+  const response = await axios.get(`${BASE_URL}/user/get-warehouse/${warehouseId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
 };
 
 export const getAllWarehousesInCompany = async (companyId, token) => {
-  const response = await axios.get(`${BASE_URL}/comad/get-all-warehouse-in-company/${companyId}`, {
+  const response = await axios.get(`${BASE_URL}/user/get-all-warehouse-in-company/${companyId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;

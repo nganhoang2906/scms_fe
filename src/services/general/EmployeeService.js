@@ -3,7 +3,7 @@ import axios from "axios";
 const BASE_URL = "http://localhost:8080";
 
 const getAllEmployeesInCompany = async (companyId, token) => {
-  const res = await axios.get(`${BASE_URL}/comad/get-all-employee-in-com/${companyId}`, {
+  const res = await axios.get(`${BASE_URL}/user/get-all-employee-in-com/${companyId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return res.data;

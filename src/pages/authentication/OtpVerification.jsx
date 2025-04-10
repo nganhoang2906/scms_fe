@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Paper, Typography } from "@mui/material";
-import OtpVerificationForm from "@/components/auth-form/OtpVerificationForm";
+import OtpVerificationForm from "@components/auth-form/OtpVerificationForm";
 
 class OtpVerification extends Component {
   render() {

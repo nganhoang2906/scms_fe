@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, TableRow, TableCell, Typography, Paper, } from "@mui/material";
-import DataTable from "@/components/content-components/DataTable";
-import { getAllUsersInCompany } from "@/services/general/UserService";
+import DataTable from "@components/content-components/DataTable";
+import { getAllUsersInCompany } from "@services/general/UserService";
 import { useNavigate } from "react-router-dom";
 
 const UserInCompany = () => {
