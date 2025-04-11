@@ -34,6 +34,18 @@ import ItemInCompany from "@pages/general/item/ItemInCompany";
 
 import WarehouseInCompany from "@pages/general/warehouse/WarehouseInCompany";
 import WarehouseDetail from "@pages/general/warehouse/WarehouseDetail";
+import EditWarehouse from "@/pages/general/warehouse/EditWarehouse";
+import CreateWarehouse from "@pages/general/warehouse/CreateWarehouse";
+
+import PlantInCompany from "@/pages/general/manufacturing-plant/PlantInCompany";
+import PlantDetail from "@/pages/general/manufacturing-plant/PlantDetail";
+import EditPlant from "@/pages/general/manufacturing-plant/EditPlant";
+import CreatePlant from "@/pages/general/manufacturing-plant/CreatePlant";
+
+import LineInCompany from "@/pages/general/manufacturing-line/LineInCompany";
+import LineDetail from "@/pages/general/manufacturing-line/LineDetail";
+import EditLine from "@/pages/general/manufacturing-line/EditLine";
+import CreateLine from "@/pages/general/manufacturing-line/CreateLine";
 
 function AppRoutes() {
   return (
@@ -72,6 +84,19 @@ function AppRoutes() {
           
           <Route path="/warehouse-in-company" element={<PrivateRoute element={<WarehouseInCompany />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/warehouse-detail/:warehouseId" element={<PrivateRoute element={<WarehouseDetail />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/create-warehouse" element={<PrivateRoute element={<CreateWarehouse />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/warehouse/:warehouseId/edit" element={<PrivateRoute element={<EditWarehouse />} allowedRoles={["C-ADMIN"]}/>} />
+          
+          <Route path="/plant-in-company" element={<PrivateRoute element={<PlantInCompany />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/plant-detail/:plantId" element={<PrivateRoute element={<PlantDetail />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/create-plant" element={<PrivateRoute element={<CreatePlant />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/plant/:plantId/edit" element={<PrivateRoute element={<EditPlant />} allowedRoles={["C-ADMIN"]}/>} />
+          
+          <Route path="/line-in-company" element={<PrivateRoute element={<LineInCompany />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/line-detail/:lineId" element={<PrivateRoute element={<LineDetail />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/create-line" element={<PrivateRoute element={<CreateLine />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/line/:lineId/edit" element={<PrivateRoute element={<EditLine />} allowedRoles={["C-ADMIN"]}/>} />
+
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Route>
       </Routes>

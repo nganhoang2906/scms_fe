@@ -43,7 +43,7 @@ const ResetPasswordForm = () => {
 
     try {
       const response = await resetPassword(formData);
-      
+
       if (response.statusCode !== 200) {
         setErrors({ apiError: response.message });
       } else {
@@ -61,7 +61,11 @@ const ResetPasswordForm = () => {
     <Container maxWidth="xs">
       <form onSubmit={handleSubmit}>
         <TextField fullWidth label="Mật khẩu mới" name="newPassword" type={showPassword ? "text" : "password"} value={formData.newPassword} onChange={handleChange} error={!!errors.newPassword} helperText={errors.newPassword} margin="normal" required InputProps={{ endAdornment: (<InputAdornment position="end"><IconButton onClick={() => setShowPassword(!showPassword)}>{showPassword ? <VisibilityOff /> : <Visibility />}</IconButton></InputAdornment>) }} />
-        {errors.apiError && <Typography color="error" align="center" sx={{ mt: 1 }}>{errors.apiError}</Typography>}
+
+        {errors.apiError && (
+          <Typography className="api-error">{errors.apiError}</Typography>
+        )}
+
         <Button type="submit" variant="contained" color="default" fullWidth style={{ marginTop: "10px" }}>Đặt lại mật khẩu</Button>
         <Typography align="center" sx={{ mt: 1 }}>
           <Button color="default" onClick={() => navigate("/login")}>Quay lại Đăng nhập</Button>

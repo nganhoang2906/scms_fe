@@ -34,21 +34,26 @@ const WarehouseDetail = () => {
 
   if (!warehouse) return null;
 
+  const readOnlyFields = {
+    warehouseCode: true,
+    warehouseName: true,
+    maxCapacity: true,
+    warehouseType: true,
+    description: true,
+    status: true,
+  };
+
   return (
     <Container>
-      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom  sx={{ p: 2}}>
-          THÔNG TIN 
+      <Paper className="paper-container" elevation={3} >
+        <Typography className="page-title" variant="h4" >
+          THÔNG TIN KHO HÀNG
         </Typography>
 
-        <WarehouseForm warehouse={warehouse} onChange={() => {}} errors={{}} readOnly />
+        <WarehouseForm warehouse={warehouse} onChange={() => { }} errors={{}} readOnlyFields={readOnlyFields} />
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
-          <Button
-            variant="contained"
-            color="default"
-            onClick={() => navigate(`/warehouse/${warehouseId}/edit`)}
-          >
+          <Button variant="contained" color="default" onClick={() => navigate(`/warehouse/${warehouseId}/edit`)} >
             Sửa
           </Button>
         </Box>

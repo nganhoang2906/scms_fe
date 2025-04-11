@@ -52,8 +52,8 @@ const EmployeeDetail = () => {
 
   return (
     <Container>
-      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom>
+      <Paper className="paper-container" elevation={3} >
+        <Typography className="page-title" variant="h4" >
           THÔNG TIN NHÂN VIÊN
         </Typography>
 
@@ -68,7 +68,7 @@ const EmployeeDetail = () => {
           />
         </Box>
 
-        <EmployeeForm employee={employee} onChange={() => {}} errors={{}} readOnly />
+        <EmployeeForm employee={employee} onChange={() => { }} errors={{}} readOnlyFields={Object.keys(employee)} />
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="contained" color="default" onClick={() => navigate(`/employee/${employeeId}/edit`)}>

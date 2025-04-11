@@ -6,8 +6,8 @@ class ResetPassword extends Component {
   render() {
     return (
       <Container maxWidth="sm">
-        <Paper elevation={3} style={{ padding: "20px", margin: "20px" }}>
-          <Typography variant="h3" align="center" gutterBottom>
+        <Paper className="paper-container" elevation={3} >
+          <Typography className="page-title" variant="h4" >
             Đặt lại mật khẩu
           </Typography>
           <ResetPasswordForm />

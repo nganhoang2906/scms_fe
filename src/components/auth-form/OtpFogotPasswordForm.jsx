@@ -38,12 +38,12 @@ const OtpForgotPasswordForm = () => {
 
     try {
       const response = await verifyForgotPasswordOtp({ email, otp });
-    
+
       if (response.statusCode !== 200) {
         setErrors({ apiError: response.message });
         return;
       }
-    
+
       alert("Xác thực thành công! Đang chuyển hướng...");
       navigate("/reset-password");
     } catch (error) {
@@ -72,11 +72,11 @@ const OtpForgotPasswordForm = () => {
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField fullWidth label="Nhập OTP" name="otp" value={otp} onChange={handleChange} error={!!errors.otp} helperText={errors.otp} margin="normal" required />
+
         {errors.apiError && (
-          <Typography color="error" align="center" sx={{ mt: 1 }}>
-            {errors.apiError}
-          </Typography>
+          <Typography className="api-error">{errors.apiError}</Typography>
         )}
+
         <Button type="submit" variant="contained" color="default" fullWidth sx={{ mt: 2 }}>Xác nhận</Button>
         <Typography align="center" sx={{ mt: 1 }}>
           Bạn chưa nhận được OTP?

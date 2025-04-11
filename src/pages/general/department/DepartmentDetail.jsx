@@ -18,7 +18,7 @@ const DepartmentDetail = () => {
         alert(error.response?.data?.message || "Lỗi khi lấy thông tin phòng ban");
       }
     };
-  
+
     if (departmentId && token) {
       fetchDepartment();
     }
@@ -34,8 +34,8 @@ const DepartmentDetail = () => {
 
   return (
     <Container>
-      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom  sx={{ p: 2}}>
+      <Paper className="paper-container" elevation={3} >
+        <Typography className="page-title" variant="h4" >
           THÔNG TIN PHÒNG BAN
         </Typography>
         <Grid container spacing={3}>

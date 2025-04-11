@@ -59,9 +59,9 @@ const UserInCompany = () => {
 
   return (
     <Container>
-      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          DANH SÁCH TÀI KHOẢN 
+      <Paper className="paper-container" elevation={3} >
+        <Typography className="page-title" variant="h4" >
+          DÁNH SÁCH TÀI KHOẢN
         </Typography>
 
         <DataTable

@@ -33,10 +33,10 @@ const EditEmployee = () => {
   const validateForm = () => {
     const errors = {};
     const { position, employeeName, email, phoneNumber } = editedEmployee;
-    
+
     if (!position) errors.position = "Chức vụ không được để trống";
     if (!employeeName?.trim()) errors.employeeName = "Họ và tên không được để trống";
-  
+
     if (!email?.trim()) {
       errors.email = "Email không được để trống";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -46,7 +46,7 @@ const EditEmployee = () => {
     if (!phoneNumber?.trim()) errors.phoneNumber = "Số điện thoại không được để trống";
     if (!/^\d{10,11}$/.test(phoneNumber)) errors.phoneNumber = "Số điện thoại không hợp lệ";
     return errors;
-  };  
+  };
 
   useEffect(() => {
     const fetchEmployee = async () => {
@@ -54,18 +54,18 @@ const EditEmployee = () => {
       try {
         const data = await getEmployeeById(employeeId, token);
         const normalizedData = normalizeForDisplay(data);
-  
+
         if (normalizedData.avatarUrl) {
           normalizedData.avatarUrl = `${normalizedData.avatarUrl}?t=${Date.now()}`;
         }
-  
+
         setEmployee(normalizedData);
         setEditedEmployee(normalizedData);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin nhân viên!");
       }
     };
-  
+
     fetchEmployee();
   }, [employeeId]);
 
@@ -85,12 +85,12 @@ const EditEmployee = () => {
       setErrors(errors);
       return;
     }
-    
+
     const token = localStorage.getItem("token");
-  
+
     try {
-      const res = await updateEmployee( employeeId, normalizeForSave(editedEmployee), token );
-  
+      const res = await updateEmployee(employeeId, normalizeForSave(editedEmployee), token);
+
       const updatedData = normalizeForDisplay(res);
       setEmployee(updatedData);
       setEditedEmployee(updatedData);
@@ -111,19 +111,19 @@ const EditEmployee = () => {
 
   const handleUploadImage = async () => {
     const token = localStorage.getItem("token");
-  
+
     try {
       const newAvatarUrl = await updateEmployeeAvatar(employeeId, avatarFile, token);
       const updatedAvatarUrl = `${newAvatarUrl}?${Date.now()}`;
-  
+
       setEmployee((prev) => ({
         ...prev,
         avatarUrl: updatedAvatarUrl,
       }));
-  
+
       setAvatarFile(null);
       setAvatarPreview(null);
-  
+
       alert("Cập nhật avatar thành công!");
       navigate(`/employee-detail/${employeeId}`);
     } catch (error) {
@@ -133,11 +133,15 @@ const EditEmployee = () => {
 
   if (!employee) return null;
 
+  const readOnlyFields = {
+    employeeCode: true,
+  };
+
   return (
     <Container>
-      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          THÔNG TIN NHÂN VIÊN
+      <Paper className="paper-container" elevation={3} >
+        <Typography className="page-title" variant="h4" >
+          CHỈNH SỬA THÔNG TIN NHÂN VIÊN
         </Typography>
         <Box display="flex" alignItems="center" gap={3} mb={3}>
           <img
@@ -146,21 +150,21 @@ const EditEmployee = () => {
             style={{ width: 120, height: 120, objectFit: "cover", borderRadius: "50%" }}
           />
           <Box display="flex" flexDirection="column" gap={2}>
-            <Button variant="outlined" component="label">
+            <Button variant="outlined" color="default" component="label">
               Chọn ảnh
               <input type="file" hidden accept="image/*" onChange={handleAvatarChange} />
             </Button>
-            <Button variant="contained" disabled={!avatarFile} onClick={handleUploadImage}>
+            <Button variant="contained" color="default" disabled={!avatarFile} onClick={handleUploadImage}>
               Cập nhật ảnh
             </Button>
           </Box>
         </Box>
 
-        <EmployeeForm employee={editedEmployee} onChange={handleChange} errors={errors}/>
+        <EmployeeForm employee={editedEmployee} onChange={handleChange} errors={errors} readOnlyFields={readOnlyFields} />
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="contained" color="default" onClick={handleSave}>Lưu</Button>
-          <Button variant="outlined" color="secondary" onClick={handleCancel}>Hủy</Button>
+          <Button variant="outlined" color="default" onClick={handleCancel}>Hủy</Button>
         </Box>
       </Paper>
     </Container>

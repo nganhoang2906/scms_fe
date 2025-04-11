@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { sendVerifyOtp } from "@services/general/AuthService"; 
+import { sendVerifyOtp } from "@services/general/AuthService";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
@@ -27,23 +27,23 @@ const ForgotPasswordForm = () => {
 
     try {
       const response = await sendVerifyOtp(email);
-    
+
       if (response.statusCode !== 200) {
         setErrors({ apiError: response.message });
       } else {
         localStorage.setItem("forgotEmail", email);
         const storedEmail = localStorage.getItem("forgotEmail");
-    
+
         alert("Kiểm tra email để nhận mã OTP.");
         navigate("/verify-forgot-password-otp");
-    
+
         console.log(storedEmail);
       }
     } catch (error) {
       setErrors({
         apiError: error.response?.data?.message || "Không thể gửi OTP! Vui lòng thử lại.",
       });
-    }    
+    }
   };
 
   return (
@@ -51,7 +51,11 @@ const ForgotPasswordForm = () => {
       <Typography align="center">Nhập email của bạn để nhận mã xác thực</Typography>
       <form onSubmit={handleSubmit}>
         <TextField fullWidth label="Email" value={email} onChange={(e) => setEmail(e.target.value)} error={!!errors.email} helperText={errors.email} margin="normal" required />
-        {errors.apiError && ( <Typography color="error" align="center" sx={{ mt: 1 }}> {errors.apiError} </Typography>)}
+        
+        {errors.apiError && (
+          <Typography className="api-error">{errors.apiError}</Typography>
+        )}
+
         <Button type="submit" variant="contained" color="default" fullWidth sx={{ mt: 2 }}>
           Gửi mã OTP
         </Button>

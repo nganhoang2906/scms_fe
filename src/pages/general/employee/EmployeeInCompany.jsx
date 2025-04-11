@@ -58,10 +58,10 @@ const EmployeeInCompany = () => {
   );
 
   const columns = [
-    { id: "departmentName", label: "Phòng ban" },
-    { id: "position", label: "Chức vụ" },
     { id: "employeeCode", label: "Mã nhân viên" },
     { id: "employeeName", label: "Tên nhân viên" },
+    { id: "departmentName", label: "Phòng ban" },
+    { id: "position", label: "Chức vụ" },
     { id: "gender", label: "Giới tính" },
     { id: "dateOfBirth", label: "Ngày sinh" },
     { id: "email", label: "Email" },
@@ -71,8 +71,8 @@ const EmployeeInCompany = () => {
 
   return (
     <Container>
-      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom>
+      <Paper className="paper-container" elevation={3} >
+        <Typography className="page-title" variant="h4" >
           DANH SÁCH NHÂN VIÊN
         </Typography>
         <Box mt={3} mb={3}>
@@ -94,10 +94,10 @@ const EmployeeInCompany = () => {
           setSearch={setSearch}
           renderRow={(emp) => (
             <TableRow key={emp.employeeId} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/employee-detail/${emp.employeeId}`)}>
-              <TableCell>{emp.departmentName || ""}</TableCell>
-              <TableCell>{emp.position || ""}</TableCell>
               <TableCell>{emp.employeeCode || ""}</TableCell>
               <TableCell>{emp.employeeName || ""}</TableCell>
+              <TableCell>{emp.departmentName || ""}</TableCell>
+              <TableCell>{emp.position || ""}</TableCell>
               <TableCell>{emp.gender || ""}</TableCell>
               <TableCell>{emp.dateOfBirth || ""}</TableCell>
               <TableCell>{emp.email || ""}</TableCell>

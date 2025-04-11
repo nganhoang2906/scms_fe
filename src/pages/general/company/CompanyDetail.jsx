@@ -19,10 +19,11 @@ const CompanyDetail = () => {
   useEffect(() => {
     const fetchCompany = async () => {
       const companyId = localStorage.getItem("companyId");
+      const token = localStorage.getItem("token");
       if (!companyId) return;
 
       try {
-        const data = await getCompanyById(companyId);
+        const data = await getCompanyById(companyId, token);
         const normalizedData = normalizeCompanyForDisplay(data);
 
         if (normalizedData.logoUrl) {
@@ -42,8 +43,8 @@ const CompanyDetail = () => {
 
   return (
     <Container>
-      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom>
+      <Paper className="paper-container" elevation={3} >
+        <Typography className="page-title" variant="h4" >
           THÔNG TIN CÔNG TY
         </Typography>
 
@@ -55,7 +56,7 @@ const CompanyDetail = () => {
           />
         </Box>
 
-        <CompanyForm companyData={company} onChange={() => {}} errors={{}} readOnly/>
+        <CompanyForm companyData={company} onChange={() => { }} errors={{}} readOnly />
 
         <Box mt={3} display="flex" justifyContent="flex-end">
           <Button variant="contained" color="default" onClick={() => navigate("/company/edit")}>

@@ -25,7 +25,7 @@ const DepartmentInCompany = () => {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách phòng ban!");
       }
     };
-  
+
     if (companyId && token) {
       fetchDepartments();
     }
@@ -66,8 +66,8 @@ const DepartmentInCompany = () => {
 
   return (
     <Container>
-      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom>
+      <Paper className="paper-container" elevation={3} >
+        <Typography className="page-title" variant="h4" >
           DANH SÁCH PHÒNG BAN
         </Typography>
         <DataTable
@@ -88,7 +88,7 @@ const DepartmentInCompany = () => {
               <TableCell>{dept.departmentCode}</TableCell>
               <TableCell>{dept.departmentName}</TableCell>
             </TableRow>
-          )}          
+          )}
         />
       </Paper>
     </Container>

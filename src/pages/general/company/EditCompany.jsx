@@ -134,10 +134,10 @@ const EditCompany = () => {
 
   return (
     <Container>
-      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          THÔNG TIN CÔNG TY
-        </Typography>
+      <Paper className="paper-container" elevation={3} >
+              <Typography className="page-title" variant="h4" >
+                CHỈNH SỬA THÔNG TIN CÔNG TY
+              </Typography>
         <Box display="flex" alignItems="center" gap={3} mb={3}>
           <Box mb={3}>
             <img
@@ -160,7 +160,7 @@ const EditCompany = () => {
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="contained" color="default" onClick={handleSave}>Lưu</Button>
-          <Button variant="outlined" color="secondary" onClick={handleCancel}>Hủy</Button>
+          <Button variant="outlined" color="default" onClick={handleCancel}>Hủy</Button>
         </Box>
       </Paper>
     </Container>

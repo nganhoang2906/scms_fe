@@ -4,8 +4,7 @@ import {
   ListItemButton, ListItemIcon, ListItemText, Button, Box
 } from '@mui/material';
 import {
-  Home, Info, ContactMail, ExpandLess, ExpandMore,
-  Factory, Business, People, Person, RequestPage, Note, Category, Warehouse
+  Home, Info, ContactMail, ExpandLess, ExpandMore, Factory, Business, People, Person, RequestPage, Note, Category, Warehouse, BuildCircle
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import logo from "@assets/img/logo-sidebar.png";
@@ -80,6 +79,8 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
             <MenuItem icon={<ContactMail />} title="Quản lý tài khoản" path="/user-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<Category />} title="Quản lý hàng hóa" path="/item-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<Warehouse />} title="Quản lý kho" path="/warehouse-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<Factory />} title="Quản lý xưởng sản xuất" path="/plant-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<BuildCircle />} title="Quản lý dây chuyền" path="/line-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
           </List>
         </Collapse>
 

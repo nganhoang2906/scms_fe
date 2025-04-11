@@ -23,7 +23,7 @@ const UserDetail = () => {
       try {
         const data = await getUserById(userId, token);
         const normalizedData = normalizeForDisplay(data);
-        
+
         setUser(normalizedData);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin người dùng!");
@@ -37,12 +37,12 @@ const UserDetail = () => {
 
   return (
     <Container>
-      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom  sx={{ p: 2}}>
+      <Paper className="paper-container" elevation={3} >
+        <Typography className="page-title" variant="h4" >
           THÔNG TIN TÀI KHOẢN
         </Typography>
 
-        <UserForm user={user} onChange={() => {}} errors={{}} readOnly />
+        <UserForm user={user} onChange={() => { }} errors={{}} readOnly />
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="contained" color="default" onClick={() => navigate(`/user/${userId}/edit`)}>

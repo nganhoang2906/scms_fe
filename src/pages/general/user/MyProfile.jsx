@@ -31,7 +31,7 @@ const MyProfile = () => {
         const normalizedEmployee = normalizeForDisplay(employeeRes);
         if (normalizedEmployee.avatarUrl) {
           normalizedEmployee.avatarUrl = `${normalizedEmployee.avatarUrl}?t=${Date.now()}`;
-        }        
+        }
         setEmployee(normalizedEmployee);
 
         const userRes = await getUserByEmployeeId(employeeId, token);
@@ -48,8 +48,8 @@ const MyProfile = () => {
 
   return (
     <Container>
-      <Paper elevation={3} sx={{ p: 4, mt: 3 }}>
-        <Typography variant="h4" align="center" gutterBottom >
+      <Paper className="paper-container" elevation={3} >
+        <Typography className="page-title" variant="h4" >
           THÔNG TIN CÁ NHÂN
         </Typography>
 

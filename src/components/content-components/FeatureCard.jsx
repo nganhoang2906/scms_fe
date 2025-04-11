@@ -4,9 +4,9 @@ import { Card, CardContent, Typography, CardMedia } from "@mui/material";
 const FeatureCard = ({ title, description, image }) => {
   return (
     <Card>
-      <CardMedia component="img" height="100" image={image} alt={title} />
-      <CardContent>
-        <Typography variant="h5" gutterBottom>
+      <CardMedia sx={{pt: "40%", backgroundSize: "cover", m: 1}} image={image} alt={title} />
+      <CardContent sx={{ py: 0 }}>
+        <Typography variant="h5" >
           {title}
         </Typography>
         <Typography color="textSecondary">{description}</Typography>
