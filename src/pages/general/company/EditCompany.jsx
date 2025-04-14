@@ -3,6 +3,7 @@ import { Container, Paper, Typography, Grid, Button, Box, } from "@mui/material"
 import { getCompanyById, updateCompany, updateCompanyLogo } from "@services/general/CompanyService";
 import CompanyForm from "@components/general/CompanyForm";
 import { useNavigate } from "react-router-dom";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const EditCompany = () => {
   const [company, setCompany] = useState(null);
@@ -130,14 +131,16 @@ const EditCompany = () => {
     }
   };
 
-  if (!company) return null;
+  if (!company) {
+    return <LoadingPaper title="CHỈNH SỬA THÔNG TIN CÔNG TY" />;
+  }
 
   return (
     <Container>
       <Paper className="paper-container" elevation={3} >
-              <Typography className="page-title" variant="h4" >
-                CHỈNH SỬA THÔNG TIN CÔNG TY
-              </Typography>
+        <Typography className="page-title" variant="h4" >
+          CHỈNH SỬA THÔNG TIN CÔNG TY
+        </Typography>
         <Box display="flex" alignItems="center" gap={3} mb={3}>
           <Box mb={3}>
             <img

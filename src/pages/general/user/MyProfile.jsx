@@ -7,6 +7,7 @@ import UserForm from "@components/general/UserForm";
 
 import { getEmployeeById } from "@services/general/EmployeeService";
 import { getUserByEmployeeId } from "@services/general/UserService";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const MyProfile = () => {
   const [employee, setEmployee] = useState(null);
@@ -44,7 +45,9 @@ const MyProfile = () => {
     fetchData();
   }, []);
 
-  if (!employee || !user) return null;
+  if (!employee || !user) {
+    return <LoadingPaper title="THÔNG TIN CÁ NHÂN" />;
+  }
 
   return (
     <Container>

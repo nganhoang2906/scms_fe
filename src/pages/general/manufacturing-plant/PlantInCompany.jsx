@@ -60,6 +60,8 @@ const PlantInCompany = () => {
     { id: "description", label: "Mô tả" },
   ];
 
+  if (plants.length === 0) return null;
+
   return (
     <Container>
       <Paper className="paper-container" elevation={3}>

@@ -3,6 +3,7 @@ import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import PlantForm from "@components/general/PlantForm";
 import { getPlantById } from "@services/general/ManufacturePlantService";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const PlantDetail = () => {
   const { plantId } = useParams();
@@ -32,13 +33,15 @@ const PlantDetail = () => {
     fetchPlant();
   }, [plantId]);
 
-  if (!plant) return null;
-
   const readOnlyFields = {
     plantCode: true,
     plantName: true,
     description: true,
   };
+
+  if (!plant) {
+    return <LoadingPaper title="THÔNG TIN XƯỞNG SẢN XUẤT" />;
+  }
 
   return (
     <Container>

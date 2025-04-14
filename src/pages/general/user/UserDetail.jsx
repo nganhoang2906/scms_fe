@@ -3,6 +3,7 @@ import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import UserForm from "@components/general/UserForm";
 import { getUserById } from "@services/general/UserService";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const UserDetail = () => {
   const { userId } = useParams();
@@ -33,7 +34,9 @@ const UserDetail = () => {
     fetchUser();
   }, [userId]);
 
-  if (!user) return null;
+  if (!user) {
+    return <LoadingPaper title="THÔNG TIN TÀI KHOẢN" />;
+  }
 
   return (
     <Container>

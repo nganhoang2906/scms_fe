@@ -63,6 +63,8 @@ const WarehouseInCompany = () => {
     { id: "status", label: "Trạng thái" },
   ];
 
+  if (warehouses.length === 0) return null;
+
   return (
     <Container>
       <Paper className="paper-container" elevation={3} >

@@ -6,6 +6,7 @@ import { getEmployeeById } from "@services/general/EmployeeService";
 import { getDepartmentById } from "@services/general/DepartmentService";
 import { getCompanyById } from "@services/general/CompanyService";
 import { useNavigate } from "react-router-dom";
+import { setupTokenExpirationCheck } from "@utils/tokenUtils";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -26,58 +27,57 @@ const LoginForm = () => {
   };
 
   const handleSubmit = async (event) => {
-    localStorage.clear();
     event.preventDefault();
+    localStorage.clear();
+  
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-
+  
     setErrors({});
-
+  
     try {
       const response = await login(formData);
-
+  
       if (response.statusCode !== 200) {
         setErrors({ apiError: response.message });
         return;
       }
-
-      const token = response.token;
-      const role = response.role;
-      const employeeId = response.employeeId;
-
+  
+      const { token, role, employeeId } = response;
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
       localStorage.setItem("employeeId", employeeId);
-
+  
       console.log("Token:", token);
       console.log("Role:", role);
       console.log("Employee ID:", employeeId);
-
+  
       const employeeData = await getEmployeeById(employeeId, token);
-      const departmentId = employeeData.departmentId;
+      const { departmentId } = employeeData;
       localStorage.setItem("departmentId", departmentId);
       console.log("Department ID:", departmentId);
-
+  
       const departmentData = await getDepartmentById(departmentId, token);
-      const companyId = departmentData.companyId;
+      const { companyId } = departmentData;
       localStorage.setItem("companyId", companyId);
       console.log("Company ID:", companyId);
-
+  
       const companyData = await getCompanyById(companyId, token);
-      const companyType = companyData.companyType;
+      const { companyType } = companyData;
       localStorage.setItem("companyType", companyType);
       console.log("Company Type:", companyType);
-
+      setupTokenExpirationCheck();
       navigate("/homepage");
+  
     } catch (error) {
-      setErrors({
-        apiError: error.response?.data?.message || "Đăng nhập thất bại! Vui lòng thử lại.",
-      });
+      const errorMessage = error.response?.data?.message || "Đăng nhập thất bại! Vui lòng thử lại.";
+      setErrors({ apiError: errorMessage });
     }
   };
+  
 
   return (
     <Container maxWidth="xs">

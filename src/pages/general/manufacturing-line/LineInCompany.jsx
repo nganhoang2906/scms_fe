@@ -63,6 +63,8 @@ const LineInCompany = () => {
     { id: "description", label: "Mô tả" },
   ];
 
+  if (lines.length === 0) return null;
+
   return (
     <Container>
       <Paper className="paper-container" elevation={3}>

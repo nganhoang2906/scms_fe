@@ -3,6 +3,7 @@ import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import EmployeeForm from "@components/general/EmployeeForm";
 import { getEmployeeById, deleteEmployee } from "@services/general/EmployeeService";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const EmployeeDetail = () => {
   const { employeeId } = useParams();
@@ -48,7 +49,9 @@ const EmployeeDetail = () => {
     }
   };
 
-  if (!employee) return null;
+  if (!employee) {
+    return <LoadingPaper title="THÔNG TIN NHÂN VIÊN" />;
+  }
 
   return (
     <Container>

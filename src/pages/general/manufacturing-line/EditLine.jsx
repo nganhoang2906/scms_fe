@@ -3,6 +3,7 @@ import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import LineForm from "@components/general/LineForm";
 import { getLineById, updateLine } from "@services/general/ManufactureLineService";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const EditLine = () => {
   const { lineId } = useParams();
@@ -84,11 +85,13 @@ const EditLine = () => {
     }
   };
 
-  if (!line) return null;
-
   const readOnlyFields = {
     lineCode: true,
   };
+
+  if (!line) {
+    return <LoadingPaper title="CHỈNH SỬA THÔNG TIN DÂY CHUYỀN" />;
+  }
 
   return (
     <Container>

@@ -3,6 +3,7 @@ import { Container, Paper, Typography, Button, Box } from "@mui/material";
 import { getCompanyById } from "@services/general/CompanyService";
 import CompanyForm from "@components/general/CompanyForm";
 import { useNavigate } from "react-router-dom";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const CompanyDetail = () => {
   const [company, setCompany] = useState(null);
@@ -39,7 +40,9 @@ const CompanyDetail = () => {
     fetchCompany();
   }, []);
 
-  if (!company) return null;
+  if (!company) {
+    return <LoadingPaper title="THÔNG TIN CÔNG TY" />;
+  }
 
   return (
     <Container>

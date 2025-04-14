@@ -31,14 +31,6 @@ const DepartmentInCompany = () => {
     }
   }, [companyId, token]);
 
-  if (!departments) {
-    return (
-      <Container>
-        <Typography variant="h6" mt={4}>Đang tải thông tin phòng ban...</Typography>
-      </Container>
-    );
-  }
-
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -63,6 +55,8 @@ const DepartmentInCompany = () => {
     { id: "departmentCode", label: "Mã phòng ban" },
     { id: "departmentName", label: "Tên phòng ban" },
   ];
+
+  if (departments.length === 0) return null;
 
   return (
     <Container>

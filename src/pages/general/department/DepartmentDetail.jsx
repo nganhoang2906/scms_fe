@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Paper, Typography, Grid, TextField } from "@mui/material";
 import { getDepartmentById } from "@services/general/DepartmentService";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const DepartmentDetail = () => {
   const { departmentId } = useParams();
@@ -25,11 +26,7 @@ const DepartmentDetail = () => {
   }, [departmentId, token]);
 
   if (!department) {
-    return (
-      <Container>
-        <Typography variant="h6" mt={4}>Đang tải thông tin phòng ban...</Typography>
-      </Container>
-    );
+    return <LoadingPaper title="THÔNG TIN PHÒNG BAN" />;
   }
 
   return (

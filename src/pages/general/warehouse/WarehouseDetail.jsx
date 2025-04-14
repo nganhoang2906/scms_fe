@@ -3,6 +3,7 @@ import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import WarehouseForm from "@components/general/WarehouseForm";
 import { getWarehouseById } from "@services/general/WarehouseService";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const WarehouseDetail = () => {
   const { warehouseId } = useParams();
@@ -32,8 +33,6 @@ const WarehouseDetail = () => {
     fetchWarehouse();
   }, [warehouseId]);
 
-  if (!warehouse) return null;
-
   const readOnlyFields = {
     warehouseCode: true,
     warehouseName: true,
@@ -42,6 +41,10 @@ const WarehouseDetail = () => {
     description: true,
     status: true,
   };
+
+  if (!warehouse) {
+    return <LoadingPaper title="THÔNG TIN KHO HÀNG" />;
+  }
 
   return (
     <Container>

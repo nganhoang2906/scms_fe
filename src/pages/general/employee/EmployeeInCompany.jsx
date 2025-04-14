@@ -29,14 +29,6 @@ const EmployeeInCompany = () => {
     fetchEmployees();
   }, [companyId, token]);
 
-  if (employees.length === 0) {
-    return (
-      <Container>
-        <Typography variant="h6" mt={4}>Đang tải thông tin nhân viên...</Typography>
-      </Container>
-    );
-  }
-
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -68,6 +60,8 @@ const EmployeeInCompany = () => {
     { id: "phoneNumber", label: "Số điện thoại" },
     { id: "status", label: "Trạng thái" },
   ];
+
+  if (employees.length === 0) return null;
 
   return (
     <Container>

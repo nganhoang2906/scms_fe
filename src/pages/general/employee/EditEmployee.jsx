@@ -3,6 +3,7 @@ import { Container, Paper, Typography, Button, Box, } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import EmployeeForm from "@components/general/EmployeeForm";
 import { getEmployeeById, updateEmployee, updateEmployeeAvatar } from "@services/general/EmployeeService";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const EditEmployee = () => {
   const { employeeId } = useParams();
@@ -131,7 +132,9 @@ const EditEmployee = () => {
     }
   };
 
-  if (!employee) return null;
+  if (!employee) {
+    return <LoadingPaper title="CHỈNH SỬA THÔNG TIN NHÂN VIÊN" />;
+  }
 
   const readOnlyFields = {
     employeeCode: true,

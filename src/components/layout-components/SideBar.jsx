@@ -4,8 +4,10 @@ import {
   ListItemButton, ListItemIcon, ListItemText, Button, Box
 } from '@mui/material';
 import {
-  Home, Info, ContactMail, ExpandLess, ExpandMore, Factory, Business, People, Person, RequestPage, Note, Category, Warehouse, BuildCircle
+  Home, Info, ContactMail, ExpandLess, ExpandMore, Factory, Business, People, Person, RequestPage, Note, Category, Warehouse, BuildCircle,
+  ShoppingCart, Sell, Inventory, LocalShipping, ListAlt, RequestQuote, CompareArrows
 } from '@mui/icons-material';
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import logo from "@assets/img/logo-sidebar.png";
 import MenuItem from './MenuItem';
@@ -100,6 +102,57 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
             </Collapse>
           </>
         )}
+
+        <ListItemButton onClick={() => handleToggle('purchasing')}>
+          <ListItemIcon><ShoppingCart /></ListItemIcon>
+          <ListItemText primary="Quản lý mua hàng" />
+          {openMenus.purchasing ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openMenus.purchasing} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
+          <List component="div" disablePadding>
+            <MenuItem icon={<RequestQuote />} title="Yêu cầu báo giá" path="/purchase-request-quotation" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<Sell />} title="Báo giá" path="/purchase-quotation" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<ListAlt />} title="Đơn mua hàng" path="/purchase-order" selectedPath={selectedPath} onSelect={handleSelect} />
+          </List>
+        </Collapse>
+
+        <ListItemButton onClick={() => handleToggle('sales')}>
+          <ListItemIcon><Sell /></ListItemIcon>
+          <ListItemText primary="Quản lý bán hàng" />
+          {openMenus.sales ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openMenus.sales} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
+          <List component="div" disablePadding>
+            <MenuItem icon={<Sell />} title="Báo giá" path="/sale-quotation" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<RequestQuote />} title="Yêu cầu báo giá" path="/sale-request-quotation" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<ListAlt />} title="Đơn bán hàng" path="/sale-order" selectedPath={selectedPath} onSelect={handleSelect} />
+          </List>
+        </Collapse>
+
+        <ListItemButton onClick={() => handleToggle('inventory')}>
+          <ListItemIcon><Inventory /></ListItemIcon>
+          <ListItemText primary="Quản lý kho" />
+          {openMenus.inventory ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openMenus.inventory} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
+          <List component="div" disablePadding>
+            <MenuItem icon={<Inventory />} title="Tồn kho" path="/inventory-stock" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<Warehouse />} title="Nhập kho" path="/inventory-receipt" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<Warehouse />} title="Xuất kho" path="/inventory-delivery" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<CompareArrows />} title="Chuyển kho" path="/inventory-transfer" selectedPath={selectedPath} onSelect={handleSelect} />
+          </List>
+        </Collapse>
+
+        <ListItemButton onClick={() => handleToggle('delivery')}>
+          <ListItemIcon><LocalShipping /></ListItemIcon>
+          <ListItemText primary="Quản lý vận chuyển" />
+          {openMenus.delivery ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openMenus.delivery} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
+          <List component="div" disablePadding>
+            <MenuItem icon={<LocalShipping />} title="Đơn vận chuyển" path="/delivery-order" selectedPath={selectedPath} onSelect={handleSelect} />
+          </List>
+        </Collapse>
       </List>
       <Divider />
       <Box sx={{ p: 2 }}>

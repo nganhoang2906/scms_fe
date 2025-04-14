@@ -62,6 +62,8 @@ const ItemInCompany = () => {
     { id: "uom", label: "Đơn vị" },
     { id: "unitPrice", label: "Đơn giá" },
   ];
+  
+  if (items.length === 0) return null;
 
   return (
     <Container>

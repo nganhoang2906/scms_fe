@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import UserForm from "@components/general/UserForm";
 import UpdatePasswordForm from "@components/general/UpdatePasswordForm";
 import { getUserById, updateUser } from "@services/general/UserService";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const EditUser = () => {
   const { userId } = useParams();
@@ -72,7 +73,9 @@ const EditUser = () => {
     }
   };
 
-  if (!user) return null;
+  if (!user) {
+    return <LoadingPaper title="CHỈNH SỬA TÀI KHOẢN" />;
+  }
 
   return (
     <Container>

@@ -3,6 +3,7 @@ import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import LineForm from "@components/general/LineForm";
 import { getLineById } from "@services/general/ManufactureLineService";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const LineDetail = () => {
   const { lineId } = useParams();
@@ -32,14 +33,16 @@ const LineDetail = () => {
     fetchLine();
   }, [lineId]);
 
-  if (!line) return null;
-
   const readOnlyFields = {
     plantId: true,
     lineCode: true,
     lineName: true,
     description: true,
   };
+
+  if (!line) {
+    return <LoadingPaper title="THÔNG TIN DÂY CHUYỀN SẢN XUẤT" />;
+  }
 
   return (
     <Container>
