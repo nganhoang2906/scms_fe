@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, TableRow, TableCell, Typography, Paper, } from "@mui/material";
 import DataTable from "@components/content-components/DataTable";
-import { getAllUsersInCompany } from "@services/general/UserService";
+import { getAllUsersInCompany } from "@/services/general/UserService";
 import { useNavigate } from "react-router-dom";
 
 const UserInCompany = () => {
@@ -56,8 +56,6 @@ const UserInCompany = () => {
     { id: "role", label: "Vai trò" },
     { id: "status", label: "Trạng thái" },
   ];
-
-  if (users.length === 0) return null;
 
   return (
     <Container>

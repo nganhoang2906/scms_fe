@@ -2,48 +2,45 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:8080";
 
-export const createItem = async (companyId, itemData, token) => {
-  const response = await axios.post(
-    `${BASE_URL}/comad/create-item/${companyId}`,
-    itemData,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    }
-  );
-  return response.data;
-};
-
-export const getAllItemsInCompany = async (companyId, token) => {
-  const response = await axios.get(
-    `${BASE_URL}/user/get-all-item-in-com/${companyId}`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    }
-  );
-  return response.data;
-};
-
-export const getItemById = async (itemId, token) => {
-  const response = await axios.get(`${BASE_URL}/user/get-item/${itemId}`, {
+const getAllItemsInCompany = async (companyId, token) => {
+  const res = await axios.get(`${BASE_URL}/user/get-all-item-in-com/${companyId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  return response.data;
+  return res.data;
 };
 
-export const updateItem = async (itemId, itemData, token) => {
-  const response = await axios.put(
-    `${BASE_URL}/comad/update-item/${itemId}`,
-    itemData,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    }
-  );
-  return response.data;
-};
-
-export const deleteItem = async (itemId, token) => {
-  const response = await axios.delete(`${BASE_URL}/comad/delete-item/${itemId}`, {
+const getItemById = async (itemId, token) => {
+  const res = await axios.get(`${BASE_URL}/user/get-item/${itemId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  return response.data;
+  return res.data;
+};
+
+const createItem = async (companyId, data, token) => {
+  const res = await axios.post(`${BASE_URL}/comad/create-item/${companyId}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
+
+const updateItem = async (itemId, data, token) => {
+  const res = await axios.put(`${BASE_URL}/comad/update-item/${itemId}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
+
+const deleteItem = async (itemId, token) => {
+  const res = await axios.delete(`${BASE_URL}/comad/delete-item/${itemId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
+
+export {
+  getAllItemsInCompany,
+  getItemById,
+  createItem,
+  updateItem,
+  deleteItem,
 };

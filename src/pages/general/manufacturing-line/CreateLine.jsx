@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Typography, Button, Grid, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { createLine } from "@services/general/ManufactureLineService";
+import { createLine } from "@/services/general/ManufactureLineService";
 import LineForm from "@components/general/LineForm";
 
 const CreateLine = () => {

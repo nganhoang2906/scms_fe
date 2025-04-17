@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Typography, Button, Grid, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { createEmployee } from "@services/general/EmployeeService";
+import { createEmployee } from "@/services/general/EmployeeService";
 import EmployeeForm from "@components/general/EmployeeForm"; // Đường dẫn tới file component con
 
 const CreateEmployee = () => {
@@ -28,7 +28,7 @@ const CreateEmployee = () => {
 
   const validateForm = () => {
     const errors = {};
-    if (!formData.departmentId) errors.departmentId = "Phòng ban không được để trống";
+    if (!formData.departmentId) errors.departmentId = "Bộ phận không được để trống";
     if (!formData.position?.trim()) errors.position = "Chức vụ không được để trống";
     if (!formData.employeeCode?.trim()) errors.employeeCode = "Mã nhân viên không được để trống";
     if (!formData.employeeName?.trim()) errors.employeeName = "Họ và tên không được để trống";

@@ -53,6 +53,7 @@ const DataTable = ({
           variant="outlined"
           label="Tìm kiếm"
           value={search}
+          placeholder="Nhập mã hoặc tên"
           onChange={(e) => setSearch(e.target.value)}
           InputProps={{
             endAdornment: (

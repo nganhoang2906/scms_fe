@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, TableRow, TableCell, Typography, Paper, Box, Button } from "@mui/material";
 import DataTable from "@components/content-components/DataTable";
-import { getAllEmployeesInCompany } from "@services/general/EmployeeService";
+import { getAllEmployeesInCompany } from "@/services/general/EmployeeService";
 import { useNavigate } from "react-router-dom";
 
 const EmployeeInCompany = () => {
@@ -52,7 +52,7 @@ const EmployeeInCompany = () => {
   const columns = [
     { id: "employeeCode", label: "Mã nhân viên" },
     { id: "employeeName", label: "Tên nhân viên" },
-    { id: "departmentName", label: "Phòng ban" },
+    { id: "departmentName", label: "Bộ phận" },
     { id: "position", label: "Chức vụ" },
     { id: "gender", label: "Giới tính" },
     { id: "dateOfBirth", label: "Ngày sinh" },
@@ -60,8 +60,6 @@ const EmployeeInCompany = () => {
     { id: "phoneNumber", label: "Số điện thoại" },
     { id: "status", label: "Trạng thái" },
   ];
-
-  if (employees.length === 0) return null;
 
   return (
     <Container>

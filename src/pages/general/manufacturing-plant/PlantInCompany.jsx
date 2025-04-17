@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, TableRow, TableCell, Box, Button } from "@mui/material";
 import DataTable from "@components/content-components/DataTable";
 import { useNavigate } from "react-router-dom";
-import { getAllPlantsInCompany } from "@services/general/ManufacturePlantService";
+import { getAllPlantsInCompany } from "@/services/general/ManufacturePlantService";
 
 const PlantInCompany = () => {
   const [plants, setPlants] = useState([]);
@@ -59,8 +59,6 @@ const PlantInCompany = () => {
     { id: "plantName", label: "Tên xưởng" },
     { id: "description", label: "Mô tả" },
   ];
-
-  if (plants.length === 0) return null;
 
   return (
     <Container>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Typography, Button, Grid, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { createPlant } from "@services/general/ManufacturePlantService";
+import { createPlant } from "@/services/general/ManufacturePlantService";
 import PlantForm from "@components/general/PlantForm";
 
 const CreatePlant = () => {

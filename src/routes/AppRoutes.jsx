@@ -31,6 +31,10 @@ import UserDetail from "@pages/general/user/UserDetail";
 import EditUser from "@pages/general/user/EditUser";
 
 import ItemInCompany from "@pages/general/item/ItemInCompany";
+import ItemDetail from "@/pages/general/item/ItemDetail";
+import EditItem from "@/pages/general/item/EditItem";
+import CreateItem from "@/pages/general/item/CreateItem";
+import CreateItemFromExcel from "@/pages/general/item/CreateItemFromExcel";
 
 import WarehouseInCompany from "@pages/general/warehouse/WarehouseInCompany";
 import WarehouseDetail from "@pages/general/warehouse/WarehouseDetail";
@@ -46,6 +50,10 @@ import LineInCompany from "@/pages/general/manufacturing-line/LineInCompany";
 import LineDetail from "@/pages/general/manufacturing-line/LineDetail";
 import EditLine from "@/pages/general/manufacturing-line/EditLine";
 import CreateLine from "@/pages/general/manufacturing-line/CreateLine";
+
+import BomInCompany from "@/pages/manufacturing/BomInCompany";
+import CreateBom from "@/pages/manufacturing/CreateBom";
+import BomDetail from "@/pages/manufacturing/BomDetail";
 
 function AppRoutes() {
   return (
@@ -81,7 +89,11 @@ function AppRoutes() {
           <Route path="/user/:userId/edit" element={<PrivateRoute element={<EditUser />} allowedRoles={["C-ADMIN", "USER", "S-ADMIN"]}/>} />
           
           <Route path="/item-in-company" element={<PrivateRoute element={<ItemInCompany />} allowedRoles={["C-ADMIN"]}/>} />
-          
+          <Route path="/item-detail/:itemId" element={<PrivateRoute element={<ItemDetail/>} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/create-item" element={<PrivateRoute element={<CreateItem />} allowedRoles={["C-ADMIN"]}/>} />
+          <Route path="/item/:itemId/edit" element={<PrivateRoute element={<EditItem />} allowedRoles={["C-ADMIN"]}/>} />  
+          <Route path="/create-item-from-excel" element={<PrivateRoute element={<CreateItemFromExcel />} allowedRoles={["C-ADMIN"]}/>} />
+
           <Route path="/warehouse-in-company" element={<PrivateRoute element={<WarehouseInCompany />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/warehouse-detail/:warehouseId" element={<PrivateRoute element={<WarehouseDetail />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/create-warehouse" element={<PrivateRoute element={<CreateWarehouse />} allowedRoles={["C-ADMIN"]}/>} />
@@ -97,6 +109,9 @@ function AppRoutes() {
           <Route path="/create-line" element={<PrivateRoute element={<CreateLine />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/line/:lineId/edit" element={<PrivateRoute element={<EditLine />} allowedRoles={["C-ADMIN"]}/>} />
 
+          <Route path="/bom-in-company" element={<PrivateRoute element={<BomInCompany />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Sản xuất"]}/>} />
+          <Route path="/create-bom" element={<PrivateRoute element={<CreateBom />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Sản xuất"]}/>} />
+          <Route path="/bom-detail/:bomId" element={<PrivateRoute element={<BomDetail />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Route>
       </Routes>

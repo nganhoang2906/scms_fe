@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, TableRow, TableCell, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DataTable from "@components/content-components/DataTable";
-import { getAllDepartmentsInCompany } from "@services/general/DepartmentService";
+import { getAllDepartmentsInCompany } from "@/services/general/DepartmentService";
 
 const DepartmentInCompany = () => {
   const [departments, setDepartments] = useState([]);
@@ -22,7 +22,7 @@ const DepartmentInCompany = () => {
         const data = await getAllDepartmentsInCompany(companyId, token);
         setDepartments(data);
       } catch (error) {
-        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách phòng ban!");
+        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách bộ phận!");
       }
     };
 
@@ -52,17 +52,15 @@ const DepartmentInCompany = () => {
   );
 
   const columns = [
-    { id: "departmentCode", label: "Mã phòng ban" },
-    { id: "departmentName", label: "Tên phòng ban" },
+    { id: "departmentCode", label: "Mã bộ phận" },
+    { id: "departmentName", label: "Tên bộ phận" },
   ];
-
-  if (departments.length === 0) return null;
 
   return (
     <Container>
       <Paper className="paper-container" elevation={3} >
         <Typography className="page-title" variant="h4" >
-          DANH SÁCH PHÒNG BAN
+          DANH SÁCH BỘ PHẬN
         </Typography>
         <DataTable
           rows={filteredDepartments}

@@ -76,7 +76,7 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
         <Collapse in={openMenus.info} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
           <List component="div" disablePadding>
             <MenuItem icon={<Business />} title="Thông tin công ty" path="/company-detail" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<People />} title="Quản lý phòng ban" path="/department-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<People />} title="Quản lý bộ phận" path="/department-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<Person />} title="Quản lý nhân viên" path="/employee-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<ContactMail />} title="Quản lý tài khoản" path="/user-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<Category />} title="Quản lý hàng hóa" path="/item-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
@@ -97,7 +97,7 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
             <Collapse in={openMenus.manufacturing} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
               <List component="div" disablePadding>
                 <MenuItem icon={<RequestPage />} title="Lệnh sản xuất" path="/manufacturing-orders" selectedPath={selectedPath} onSelect={handleSelect} />
-                <MenuItem icon={<Note />} title="Quản lý BOM" path="/bom-management" selectedPath={selectedPath} onSelect={handleSelect} />
+                <MenuItem icon={<Note />} title="Quản lý BOM" path="/bom-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
               </List>
             </Collapse>
           </>

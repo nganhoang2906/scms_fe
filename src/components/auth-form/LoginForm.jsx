@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Container, TextField, Button, Typography, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { login } from "@services/general/AuthService";
-import { getEmployeeById } from "@services/general/EmployeeService";
-import { getDepartmentById } from "@services/general/DepartmentService";
-import { getCompanyById } from "@services/general/CompanyService";
+import { login } from "@/services/general/AuthService";
+import { getEmployeeById } from "@/services/general/EmployeeService";
+import { getDepartmentById } from "@/services/general/DepartmentService";
+import { getCompanyById } from "@/services/general/CompanyService";
 import { useNavigate } from "react-router-dom";
 import { setupTokenExpirationCheck } from "@utils/tokenUtils";
 
@@ -41,11 +41,6 @@ const LoginForm = () => {
     try {
       const response = await login(formData);
   
-      if (response.statusCode !== 200) {
-        setErrors({ apiError: response.message });
-        return;
-      }
-  
       const { token, role, employeeId } = response;
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
@@ -56,9 +51,11 @@ const LoginForm = () => {
       console.log("Employee ID:", employeeId);
   
       const employeeData = await getEmployeeById(employeeId, token);
-      const { departmentId } = employeeData;
+      const { departmentId, departmentName } = employeeData;
       localStorage.setItem("departmentId", departmentId);
       console.log("Department ID:", departmentId);
+      localStorage.setItem("departmentName", departmentName);
+      console.log("Department Name:", departmentName);
   
       const departmentData = await getDepartmentById(departmentId, token);
       const { companyId } = departmentData;

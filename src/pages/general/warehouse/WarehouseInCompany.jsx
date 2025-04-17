@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, TableRow, TableCell, Box, Button } from "@mui/material";
 import DataTable from "@components/content-components/DataTable";
 import { useNavigate } from "react-router-dom";
-import { getAllWarehousesInCompany } from "@services/general/WarehouseService";
+import { getAllWarehousesInCompany } from "@/services/general/WarehouseService";
 
 const WarehouseInCompany = () => {
   const [warehouses, setWarehouses] = useState([]);
@@ -62,8 +62,6 @@ const WarehouseInCompany = () => {
     { id: "warehouseType", label: "Loại kho" },
     { id: "status", label: "Trạng thái" },
   ];
-
-  if (warehouses.length === 0) return null;
 
   return (
     <Container>

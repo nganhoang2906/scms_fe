@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getAllDepartmentsInCompany } from "@services/general/DepartmentService";
+import { getAllDepartmentsInCompany } from "@/services/general/DepartmentService";
 
 const EmployeeForm = ({ employee, onChange, errors = {}, readOnlyFields , mode }) => {
   const [departments, setDepartments] = useState([]);
@@ -15,7 +15,7 @@ const EmployeeForm = ({ employee, onChange, errors = {}, readOnlyFields , mode }
         const data = await getAllDepartmentsInCompany(companyId, token);
         setDepartments(data);
       } catch (error) {
-        alert(error.response?.data?.message || "Có lỗi khi lấy phòng ban!");
+        alert(error.response?.data?.message || "Có lỗi khi lấy bộ phận!");
       }
     };
     fetchDepartments();
@@ -24,7 +24,7 @@ const EmployeeForm = ({ employee, onChange, errors = {}, readOnlyFields , mode }
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
-        <TextField select fullWidth label="Phòng ban" name="departmentId" value={employee.departmentId} onChange={onChange}
+        <TextField select fullWidth label="Bộ phận" name="departmentId" value={employee.departmentId} onChange={onChange}
           error={!!errors.departmentId} helperText={errors.departmentId} required
           InputProps={{ readOnly: isFieldReadOnly("departmentId") }}
         >

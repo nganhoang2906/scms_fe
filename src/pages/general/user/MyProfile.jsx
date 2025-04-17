@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import EmployeeForm from "@components/general/EmployeeForm";
 import UserForm from "@components/general/UserForm";
 
-import { getEmployeeById } from "@services/general/EmployeeService";
-import { getUserByEmployeeId } from "@services/general/UserService";
+import { getEmployeeById } from "@/services/general/EmployeeService";
+import { getUserByEmployeeId } from "@/services/general/UserService";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const MyProfile = () => {
@@ -73,7 +73,7 @@ const MyProfile = () => {
               />
             </Box>
 
-            <EmployeeForm employee={employee} onChange={() => { }} errors={{}} readOnly />
+            <EmployeeForm employee={employee} onChange={() => { }} errors={{}} readOnlyFields={Object.keys(employee)} />
 
             <Box mt={2} display="flex" justifyContent="flex-end">
               <Button variant="contained" color="default" onClick={() => navigate(`/employee/${employee.employeeId}/edit`)} >

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import PlantForm from "@components/general/PlantForm";
-import { getPlantById, updatePlant } from "@services/general/ManufacturePlantService";
+import { getPlantById, updatePlant } from "@/services/general/ManufacturePlantService";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const EditPlant = () => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import LineForm from "@components/general/LineForm";
-import { getLineById, updateLine } from "@services/general/ManufactureLineService";
+import { getLineById, updateLine } from "@/services/general/ManufactureLineService";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const EditLine = () => {

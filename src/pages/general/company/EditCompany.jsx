@@ -1,6 +1,6 @@
 import React, { useEffect, useState, } from "react";
 import { Container, Paper, Typography, Grid, Button, Box, } from "@mui/material";
-import { getCompanyById, updateCompany, updateCompanyLogo } from "@services/general/CompanyService";
+import { getCompanyById, updateCompany, updateCompanyLogo } from "@/services/general/CompanyService";
 import CompanyForm from "@components/general/CompanyForm";
 import { useNavigate } from "react-router-dom";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
@@ -31,27 +31,28 @@ const EditCompany = () => {
   };
 
   useEffect(() => {
-    const fetchCompany = async () => {
-      const companyId = localStorage.getItem("companyId");
-      if (!companyId) return;
-
-      try {
-        const data = await getCompanyById(companyId);
-        const normalizedData = normalizeCompanyForDisplay(data);
-
-        if (normalizedData.logoUrl) {
-          normalizedData.logoUrl = `${normalizedData.logoUrl}?t=${Date.now()}`;
+      const fetchCompany = async () => {
+        const companyId = localStorage.getItem("companyId");
+        const token = localStorage.getItem("token");
+        if (!companyId) return;
+  
+        try {
+          const data = await getCompanyById(companyId, token);
+          const normalizedData = normalizeCompanyForDisplay(data);
+  
+          if (normalizedData.logoUrl) {
+            normalizedData.logoUrl = `${normalizedData.logoUrl}?t=${Date.now()}`;
+          }
+  
+          setCompany(normalizedData);
+          setEditedCompany(normalizedData);
+        } catch (error) {
+          alert(error.response?.data?.message || "Lỗi khi lấy thông tin công ty!");
         }
-
-        setCompany(normalizedData);
-        setEditedCompany(normalizedData);
-      } catch (error) {
-        alert(error.response?.data?.message || "Lỗi khi lấy thông tin công ty!");
-      }
-    };
-
-    fetchCompany();
-  }, []);
+      };
+  
+      fetchCompany();
+    }, []);
 
   const validateForm = () => {
     const errors = {};
@@ -94,7 +95,7 @@ const EditCompany = () => {
     try {
       await updateCompany(companyId, normalizeCompanyForSave(editedCompany), token);
 
-      const refreshed = await getCompanyById(companyId);
+      const refreshed = await getCompanyById(companyId, token);
       const normalizedRefreshed = normalizeCompanyForDisplay(refreshed);
 
       setCompany(normalizedRefreshed);

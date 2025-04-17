@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import WarehouseForm from "@components/general/WarehouseForm";
-import { getWarehouseById, updateWarehouse } from "@services/general/WarehouseService";
+import { getWarehouseById, updateWarehouse } from "@/services/general/WarehouseService";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const EditWarehouse = () => {

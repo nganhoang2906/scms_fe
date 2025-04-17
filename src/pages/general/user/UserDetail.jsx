@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, Box, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import UserForm from "@components/general/UserForm";
-import { getUserById } from "@services/general/UserService";
+import { getUserById } from "@/services/general/UserService";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const UserDetail = () => {

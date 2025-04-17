@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, Button, Box } from "@mui/material";
-import { getCompanyById } from "@services/general/CompanyService";
+import { getCompanyById } from "@/services/general/CompanyService";
 import CompanyForm from "@components/general/CompanyForm";
 import { useNavigate } from "react-router-dom";
 import LoadingPaper from "@/components/content-components/LoadingPaper";

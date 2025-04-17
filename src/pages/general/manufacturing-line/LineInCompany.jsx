@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Paper, Typography, TableRow, TableCell, Box, Button, } from "@mui/material";
 import DataTable from "@components/content-components/DataTable";
 import { useNavigate } from "react-router-dom";
-import { getAllLinesInCompany } from "@services/general/ManufactureLineService";
+import { getAllLinesInCompany } from "@/services/general/ManufactureLineService";
 
 const LineInCompany = () => {
   const [lines, setLines] = useState([]);
@@ -56,14 +56,12 @@ const LineInCompany = () => {
   );
 
   const columns = [
-    { id: "plantName", label: "Tên xưởng" },
     { id: "lineCode", label: "Mã dây chuyền" },
     { id: "lineName", label: "Tên dây chuyền" },
+    { id: "plantName", label: "Tên xưởng" },
     { id: "capacity", label: "Công suất" },
     { id: "description", label: "Mô tả" },
   ];
-
-  if (lines.length === 0) return null;
 
   return (
     <Container>
@@ -93,9 +91,9 @@ const LineInCompany = () => {
           isLoading={loading}
           renderRow={(line) => (
             <TableRow key={line.id} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/line-detail/${line.lineId}`)}>
-              <TableCell>{line.plantName}</TableCell>
               <TableCell>{line.lineCode}</TableCell>
               <TableCell>{line.lineName}</TableCell>
+              <TableCell>{line.plantName}</TableCell>
               <TableCell>{line.capacity}</TableCell>
               <TableCell>{line.description}</TableCell>
             </TableRow>

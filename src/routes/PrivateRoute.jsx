@@ -5,7 +5,7 @@ const PrivateRoute = ({ element, allowedRoles, allowedDepartments }) => {
   const [redirectPath, setRedirectPath] = useState(null);
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
-  const departmentId = localStorage.getItem("departmentId");
+  const departmentName = localStorage.getItem("departmentName");
 
   useEffect(() => {
     if (!token) {
@@ -14,11 +14,11 @@ const PrivateRoute = ({ element, allowedRoles, allowedDepartments }) => {
     } else if (!allowedRoles.includes(role)) {
       alert("Bạn không có quyền truy cập vào trang này!")
         setRedirectPath("/unauthorized");
-    } else if (allowedDepartments && !allowedDepartments.includes(parseInt(departmentId))) {
+    } else if (allowedDepartments && !allowedDepartments.includes(departmentName)) {
       alert("Bạn không có quyền truy cập vào trang này!")
         setRedirectPath("/unauthorized");
     }
-  }, [token, role, departmentId, allowedRoles, allowedDepartments]);
+  }, [token, role, departmentName, allowedRoles, allowedDepartments]);
 
   if (redirectPath) {
     return <Navigate to={redirectPath} replace />;

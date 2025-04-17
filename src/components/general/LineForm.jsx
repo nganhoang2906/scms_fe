@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, TextField, MenuItem } from "@mui/material";
-import { getAllPlantsInCompany } from "@services/general/ManufacturePlantService";
+import { getAllPlantsInCompany } from "@/services/general/ManufacturePlantService";
 
 const LineForm = ({ line, onChange, errors = {}, readOnlyFields = {} }) => {
   const [plants, setPlants] = useState([]);
@@ -23,8 +23,8 @@ const LineForm = ({ line, onChange, errors = {}, readOnlyFields = {} }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
-        <TextField select fullWidth label="Xưởng sản xuất" name="plantId" value={line.PlantId} onChange={onChange}
-          error={!!errors.plantId} helperText={errors.PlantId} required
+        <TextField select fullWidth label="Xưởng sản xuất" name="plantId" value={line.plantId} onChange={onChange}
+          error={!!errors.plantId} helperText={errors.plantId} required
           InputProps={{ readOnly: isFieldReadOnly("plantId") }}
         >
           {plants.map((plant) => (

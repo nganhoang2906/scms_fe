@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Typography, Button, Grid, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { createWarehouse } from "@services/general/WarehouseService";
+import { createWarehouse } from "@/services/general/WarehouseService";
 import WarehouseForm from "@components/general/WarehouseForm";
 
 const CreateWarehouse = () => {

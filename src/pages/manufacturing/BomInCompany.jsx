@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Container, TableRow, TableCell, Typography, Paper, Box, Button } from "@mui/material";
 import DataTable from "@components/content-components/DataTable";
-import { getAllItemsInCompany } from "@/services/general/ItemService";
+import { getAllBomsByCompany } from "@/services/manufacturing/BomService";
 import { useNavigate } from "react-router-dom";
 
-const ItemInCompany = () => {
-  const [items, setItems] = useState([]);
+const BomInCompany = () => {
+  const [boms, setBoms] = useState([]);
   const [search, setSearch] = useState("");
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("itemCode");
@@ -17,16 +17,16 @@ const ItemInCompany = () => {
   const companyId = localStorage.getItem("companyId");
 
   useEffect(() => {
-    const fetchItems = async () => {
+    const fetchBoms = async () => {
       try {
-        const data = await getAllItemsInCompany(companyId, token);
-        setItems(data);
+        const data = await getAllBomsByCompany(companyId, token);
+        setBoms(data);
       } catch (error) {
-        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách mặt hàng!");
+        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách Bom!");
       }
     };
 
-    fetchItems();
+    fetchBoms();
   }, [companyId, token]);
 
   const handleRequestSort = (property) => {
@@ -44,35 +44,32 @@ const ItemInCompany = () => {
     setPage(1);
   };
 
-  const filteredItems = items.filter((item) =>
-    item.itemCode.toLowerCase().includes(search.toLowerCase()) ||
-    (item.itemName && item.itemName.toLowerCase().includes(search.toLowerCase()))
+  const filteredBoms = boms.filter((bom) =>
+    bom.itemCode.toLowerCase().includes(search.toLowerCase()) ||
+    (bom.itemName && bom.itemName.toLowerCase().includes(search.toLowerCase()))
   );
 
   const columns = [
-    { id: "itemCode", label: "Mã mặt hàng" },
-    { id: "itemName", label: "Tên mặt hàng" },
-    { id: "itemType", label: "Loại mặt hàng" },
-    { id: "uom", label: "Đơn vị tính" },
-    { id: "technicalSpecifications", label: "Thông số kỹ thuật" },
-    { id: "importPrice", label: "Giá nhập" },
-    { id: "exportPrice", label: "Giá xuất" },
+    { id: "bomCode", label: "Mã BOM" },
+    { id: "itemCode", label: "Mã sản phẩm" },
+    { id: "itemName", label: "Tên sản phẩm" },
     { id: "description", label: "Mô tả" },
+    { id: "status", label: "Trạng thái" },
   ];
 
   return (
     <Container>
       <Paper className="paper-container" elevation={3}>
         <Typography className="page-title" variant="h4">
-          DANH SÁCH MẶT HÀNG
+          DANH SÁCH BOM
         </Typography>
         <Box mt={3} mb={3}>
-          <Button variant="contained" color="default" onClick={() => navigate("/create-item")}>
+          <Button variant="contained" color="default" onClick={() => navigate("/create-bom")}>
             Thêm mới
           </Button>
         </Box>
         <DataTable
-          rows={filteredItems}
+          rows={filteredBoms}
           columns={columns}
           order={order}
           orderBy={orderBy}
@@ -83,21 +80,18 @@ const ItemInCompany = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
           search={search}
           setSearch={setSearch}
-          renderRow={(item) => (
+          renderRow={(bom) => (
             <TableRow
-              key={item.itemId}
+              key={bom.bomId}
               hover
               sx={{ cursor: "pointer" }}
-              onClick={() => navigate(`/item-detail/${item.itemId}`)}
+              onClick={() => navigate(`/bom-detail/${bom.bomId}`)}
             >
-              <TableCell>{item.itemCode || ""}</TableCell>
-              <TableCell>{item.itemName || ""}</TableCell>
-              <TableCell>{item.itemType || ""}</TableCell>
-              <TableCell>{item.uom || ""}</TableCell>
-              <TableCell>{item.technicalSpecifications || ""}</TableCell>
-              <TableCell>{item.importPrice !== null ? item.importPrice : ""}</TableCell>
-              <TableCell>{item.exportPrice !== null ? item.exportPrice : ""}</TableCell>
-              <TableCell>{item.description || ""}</TableCell>
+              <TableCell>{bom.bomCode || ""}</TableCell>
+              <TableCell>{bom.itemCode || ""}</TableCell>
+              <TableCell>{bom.itemName || ""}</TableCell>
+              <TableCell>{bom.description || ""}</TableCell>
+              <TableCell>{bom.status || ""}</TableCell>
             </TableRow>
           )}
         />
@@ -106,4 +100,4 @@ const ItemInCompany = () => {
   );
 };
 
-export default ItemInCompany;
+export default BomInCompany;
