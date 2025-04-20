@@ -79,7 +79,7 @@ const EditCompany = () => {
 
   const handleCancel = () => {
     setEditedCompany(company);
-    navigate("/company-detail");
+    navigate("/company");
   };
 
   const handleSave = async () => {
@@ -101,7 +101,7 @@ const EditCompany = () => {
       setCompany(normalizedRefreshed);
       setEditedCompany(normalizedRefreshed);
       alert("Cập nhật thông tin thành công!");
-      navigate("/company-detail");
+      navigate("/company");
 
     } catch (error) {
       alert(error.response?.data?.message || "Cập nhật thất bại!");

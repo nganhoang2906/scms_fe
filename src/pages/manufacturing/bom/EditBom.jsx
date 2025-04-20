@@ -1,41 +1,49 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Typography, Button, Grid, Paper } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { createBom } from "@/services/manufacturing/BomService";
+import { useNavigate, useParams } from "react-router-dom";
+import { getBomByItemId, updateBom } from "@/services/manufacturing/BomService";
 import { getAllItemsInCompany } from "@/services/general/ItemService";
 import BomForm from "@/components/manufacturing/BomForm";
 import BomDetailTable from "@/components/manufacturing/BomDetailTable";
+import LoadingPaper from "@/components/content-components/LoadingPaper";
 
-const CreateBom = () => {
+const EditBom = () => {
+  const { itemId } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const companyId = localStorage.getItem("companyId");
 
-  const [errors, setErrors] = useState({ bomDetailErrors: [] });
+  const [bom, setBom] = useState(null);
   const [bomDetails, setBomDetails] = useState([]);
   const [items, setItems] = useState([]);
-
-  const [bom, setBom] = useState({
-    companyId,
-    bomCode: "",
-    itemId: "",
-    itemCode: "",
-    itemName: "",
-    description: "",
-    status: "",
-  });
+  const [errors, setErrors] = useState({ bomDetailErrors: [] });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchItems = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getAllItemsInCompany(companyId, token);
-        setItems(data);
+        const [bomData, itemData] = await Promise.all([
+          getBomByItemId(itemId, token),
+          getAllItemsInCompany(companyId, token),
+        ]);
+        setBom({
+          ...bomData,
+          itemId: bomData.itemId || "",
+          itemCode: bomData.itemCode || "",
+          itemName: bomData.itemName || "",
+          description: bomData.description || "",
+          status: bomData.status || "",
+        });
+        setBomDetails(bomData.bomDetails || []);
+        setItems(itemData);
       } catch (error) {
-        alert(error.response?.data?.message || "Có lỗi khi lấy danh sách mặt hàng!");
+        alert(error.response?.data?.message || "Có lỗi khi tải dữ liệu!");
+      } finally {
+        setLoading(false);
       }
     };
-    fetchItems();
-  }, [companyId, token]);
+    fetchData();
+  }, [itemId, companyId, token]);
 
   const validateForm = () => {
     const formErrors = {};
@@ -58,6 +66,12 @@ const CreateBom = () => {
     });
 
     return tableErrors;
+  };
+
+  const readOnlyFields = {
+    bomCode: true,
+    itemCode: true,
+    itemName: true,
   };
 
   const handleChange = (e) => {
@@ -86,12 +100,11 @@ const CreateBom = () => {
         })),
       };
 
-      await createBom(payload, token);
-      alert("Tạo BOM thành công!");
-      navigate("/bom-in-company");
+      await updateBom(bom.bomId, payload, token);
+      alert("Cập nhật BOM thành công!");
+      navigate(-1);
     } catch (error) {
-      console.log(error.response);
-      alert(error.response?.data?.message || "Lỗi khi tạo BOM!");
+      alert(error.response?.data?.message || "Lỗi khi cập nhật BOM!");
     }
   };
 
@@ -99,32 +112,23 @@ const CreateBom = () => {
     navigate("/bom-in-company");
   };
 
+  if (loading) {
+    return <LoadingPaper title="CẬP NHẬT BOM" />;
+  }
+
   return (
     <Container>
       <Paper className="paper-container" elevation={3}>
-        <Typography className="page-title" variant="h4">
-          THÊM MỚI BOM
-        </Typography>
+        <Typography className="page-title" variant="h4">CẬP NHẬT BOM</Typography>
 
-        <BomForm
-          bom={bom}
-          onChange={handleChange}
-          errors={errors}
-          readOnlyFields={{ bomCode: true }}
-          setBom={setBom}
-        />
+        <BomForm bom={bom} onChange={handleChange} errors={errors} readOnlyFields={readOnlyFields} setBom={setBom} />
 
-        <BomDetailTable
-          bomDetails={bomDetails}
-          setBomDetails={setBomDetails}
-          items={items}
-          errors={errors.bomDetailErrors}
-        />
+        <BomDetailTable bomDetails={bomDetails} setBomDetails={setBomDetails} items={items} errors={errors.bomDetailErrors} />
 
         <Grid container spacing={2} mt={3} justifyContent="flex-end">
           <Grid item>
             <Button variant="contained" color="default" onClick={handleSubmit}>
-              Thêm
+              Lưu
             </Button>
           </Grid>
           <Grid item>
@@ -138,4 +142,4 @@ const CreateBom = () => {
   );
 };
 
-export default CreateBom;
+export default EditBom;

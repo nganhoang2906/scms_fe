@@ -96,7 +96,7 @@ const EditUser = () => {
           )}
 
           <Box display="flex" gap={2}>
-            <Button variant="outlined" color="default" onClick={() => navigate(`/user-detail/${userId}`)}>
+            <Button variant="outlined" color="default" onClick={() => navigate(`/user/${userId}`)}>
               Hủy
             </Button>
             <Button variant="contained" color="default" onClick={handleSave}>

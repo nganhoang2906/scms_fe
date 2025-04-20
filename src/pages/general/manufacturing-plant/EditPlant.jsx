@@ -61,7 +61,7 @@ const EditPlant = () => {
 
   const handleCancel = () => {
     setEditedPlant(plant);
-    navigate(`/plant-detail/${plantId}`);
+    navigate(`/plant/${plantId}`);
   };
 
   const handleSave = async () => {
@@ -79,7 +79,7 @@ const EditPlant = () => {
       setPlant(updated);
       setEditedPlant(updated);
       alert("Cập nhật xưởng thành công!");
-      navigate(`/plant-detail/${plantId}`);
+      navigate(`/plant/${plantId}`);
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi xảy ra khi cập nhật xưởng!");
     }

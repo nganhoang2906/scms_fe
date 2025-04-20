@@ -1,16 +1,34 @@
 import React from "react";
 import { Autocomplete, TextField } from "@mui/material";
 
-const SelectAutocomplete = ({ options, value, onChange, onInputChange, placeholder, error, helperText, size = "small", disabled }) => {
+const SelectAutocomplete = ({
+  options = [],
+  value,
+  onChange,
+  onInputChange,
+  placeholder,
+  error,
+  helperText,
+  size = "small",
+  disabled,
+}) => {
   return (
     <Autocomplete
       size={size}
       options={options}
       getOptionLabel={(option) => option.label || ""}
-      isOptionEqualToValue={(option, value) => option.value === value.value}
-      value={options.find((option) => option.value === value) || null}
-      onChange={(_, newValue) => onChange(newValue ? newValue.value : "")}
-      onInputChange={(_, newInputValue) => onInputChange && onInputChange(newInputValue)}
+      isOptionEqualToValue={(option, val) =>
+        option.value === (val?.value ?? val)
+      }
+      value={
+        typeof value === "object"
+          ? value
+          : options.find((opt) => opt.value === value) || null
+      }
+      onChange={(_, newValue) => onChange(newValue)}
+      onInputChange={(_, newInputValue) =>
+        onInputChange && onInputChange(newInputValue)
+      }
       renderInput={(params) => (
         <TextField
           {...params}

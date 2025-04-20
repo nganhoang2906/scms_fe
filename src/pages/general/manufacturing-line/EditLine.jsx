@@ -63,7 +63,7 @@ const EditLine = () => {
 
   const handleCancel = () => {
     setEditedLine(line);
-    navigate(`/line-detail/${lineId}`);
+    navigate(`/line/${lineId}`);
   };
 
   const handleSave = async () => {
@@ -79,7 +79,7 @@ const EditLine = () => {
       setLine(normalized);
       setEditedLine(normalized);
       alert("Cập nhật dây chuyền thành công!");
-      navigate(`/line-detail/${lineId}`);
+      navigate(`/line/${lineId}`);
     } catch (error) {
       alert(error.response?.data?.message || "Lỗi khi cập nhật dây chuyền!");
     }

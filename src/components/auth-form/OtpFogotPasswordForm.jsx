@@ -37,14 +37,8 @@ const OtpForgotPasswordForm = () => {
     }
 
     try {
-      const response = await verifyForgotPasswordOtp({ email, otp });
-
-      if (response.statusCode !== 200) {
-        setErrors({ apiError: response.message });
-        return;
-      }
-
-      alert("Xác thực thành công! Đang chuyển hướng...");
+      await verifyForgotPasswordOtp({ email, otp });
+      alert("Xác thực thành công!");
       navigate("/reset-password");
     } catch (error) {
       setErrors((prevErrors) => ({

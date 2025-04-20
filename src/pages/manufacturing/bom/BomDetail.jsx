@@ -3,18 +3,17 @@ import { Container, Paper, Typography, TableRow, TableCell, Box, Button } from "
 import { useParams, useNavigate } from "react-router-dom";
 import DataTable from "@/components/content-components/DataTable";
 import BomForm from "@/components/manufacturing/BomForm";
-import { getBomById } from "@/services/manufacturing/BomService";
+import { getBomByItemId, deleteBom } from "@/services/manufacturing/BomService";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
 
 const BomDetail = () => {
-  const { bomId } = useParams();
+  const { itemId } = useParams();
   const [bom, setBom] = useState(null);
   const [bomDetails, setBomDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  // Các state cho DataTable
   const [search, setSearch] = useState("");
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("itemCode");
@@ -33,10 +32,10 @@ const BomDetail = () => {
     const fetchBom = async () => {
       setLoading(true);
       try {
-        const data = await getBomById(bomId, token);
+        const data = await getBomByItemId(itemId, token);
         const normalizedBom = normalizeForDisplay(data);
         setBom(normalizedBom);
-        setBomDetails(Array.isArray(data.bomDetails) ? data.bomDetails : []);  // Kiểm tra mảng
+        setBomDetails(Array.isArray(data.bomDetails) ? data.bomDetails : []);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi khi lấy thông tin BOM!");
       } finally {
@@ -44,7 +43,7 @@ const BomDetail = () => {
       }
     };
     fetchBom();
-  }, [bomId, token]);
+  }, [itemId, token]);
 
   const readOnlyFields = {
     bomCode: true,
@@ -77,7 +76,7 @@ const BomDetail = () => {
   };
 
   const filteredDetails = Array.isArray(bomDetails)
-  ? bomDetails
+    ? bomDetails
       .filter((detail) => {
         const code = detail.itemCode?.toLowerCase() || "";
         const name = detail.itemName?.toLowerCase() || "";
@@ -91,7 +90,7 @@ const BomDetail = () => {
         }
         return 0;
       })
-  : [];
+    : [];
 
 
   const paginatedDetails = filteredDetails.slice(
@@ -99,7 +98,20 @@ const BomDetail = () => {
     (page - 1) * rowsPerPage + rowsPerPage
   );
 
-  if (loading || !bom) {
+  const handleDelete = async () => {
+    if (!window.confirm("Bạn có chắc muốn xóa BOM này không?")) return;
+
+    const token = localStorage.getItem("token");
+    try {
+      await deleteBom(bom.bomId, token);
+      alert("Xóa BOM thành công!");
+      navigate("/bom-in-company");
+    } catch (error) {
+      alert(error.response?.data?.message || "Có lỗi xảy ra khi xóa BOM!");
+    }
+  };
+
+  if (!bom) {
     return <LoadingPaper title="THÔNG TIN BOM" />;
   }
 
@@ -110,7 +122,7 @@ const BomDetail = () => {
           THÔNG TIN BOM
         </Typography>
 
-        <BomForm bom={bom} onChange={() => {}} errors={{}} readOnlyFields={readOnlyFields} setBom={setBom} />
+        <BomForm bom={bom} onChange={() => { }} errors={{}} readOnlyFields={readOnlyFields} setBom={setBom} />
 
         <Typography variant="h5" mt={3} mb={3}>
           Danh sách nguyên vật liệu:
@@ -140,8 +152,11 @@ const BomDetail = () => {
         />
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
-          <Button variant="contained" color="default" onClick={() => navigate(`/bom-in-company`)}>
-            Quay lại
+          <Button variant="contained" color="default" onClick={() => navigate(`/bom/${bom.bomId}/edit`)}>
+            Sửa
+          </Button>
+          <Button variant="contained" color="error" onClick={handleDelete}>
+            Xóa
           </Button>
         </Box>
       </Paper>

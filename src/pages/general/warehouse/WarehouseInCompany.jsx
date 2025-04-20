@@ -94,7 +94,7 @@ const WarehouseInCompany = () => {
               key={warehouse.id}
               hover
               sx={{ cursor: "pointer" }}
-              onClick={() => navigate(`/warehouse-detail/${warehouse.warehouseId}`)}
+              onClick={() => navigate(`/warehouse/${warehouse.warehouseId}`)}
             >
               <TableCell>{warehouse.warehouseCode}</TableCell>
               <TableCell>{warehouse.warehouseName}</TableCell>

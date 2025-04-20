@@ -23,69 +23,60 @@ export default function Theme(colors) {
 
   return {
     default: {
-      main: "#05518B",
+      lighter: "#D0E6F5",
+      light:   "#77B7DF",
+      main:    "#05518B",
+      dark:    "#033B64",
+      darker:  "#022840",
       contrastText
     },
     
     primary: {
-      lighter: blue[0],
-      100: blue[1],
-      200: blue[2],
-      light: blue[3],
-      400: blue[4],
-      main: blue[5],
-      dark: blue[6],
-      700: blue[7],
-      darker: blue[8],
-      900: blue[9],
+      lighter: blue[2],
+      light: blue[4],
+      main: blue[6],
+      dark: blue[8],
+      darker: blue[10],
       contrastText
     },
     secondary: {
       lighter: greyColors[100],
-      100: greyColors[100],
-      200: greyColors[200],
       light: greyColors[300],
-      400: greyColors[400],
       main: greyColors[500],
-      600: greyColors[600],
       dark: greyColors[700],
-      800: greyColors[800],
       darker: greyColors[900],
-      A100: greyColors[0],
-      A200: greyColors.A400,
-      A300: greyColors.A700,
-      contrastText: greyColors[0]
+      contrastText
     },
     error: {
-      lighter: red[0],
-      light: red[2],
-      main: red[4],
-      dark: red[7],
-      darker: red[9],
+      lighter: red[2],
+      light: red[4],
+      main: red[6],
+      dark: red[8],
+      darker: red[10],
       contrastText
     },
     warning: {
-      lighter: gold[0],
-      light: gold[3],
-      main: gold[5],
-      dark: gold[7],
-      darker: gold[9],
-      contrastText: greyColors[100]
+      lighter: gold[2],
+      light: gold[4],
+      main: gold[6],
+      dark: gold[8],
+      darker: gold[10],
+      contrastText
     },
     info: {
-      lighter: cyan[0],
-      light: cyan[3],
-      main: cyan[5],
-      dark: cyan[7],
-      darker: cyan[9],
+      lighter: cyan[2],
+      light: cyan[4],
+      main: cyan[6],
+      dark: cyan[8],
+      darker: cyan[10],
       contrastText
     },
     success: {
-      lighter: green[0],
-      light: green[3],
-      main: green[5],
-      dark: green[7],
-      darker: green[9],
+      lighter: green[2],
+      light: green[4],
+      main: green[6],
+      dark: green[8],
+      darker: green[10],
       contrastText
     },
     grey: greyColors

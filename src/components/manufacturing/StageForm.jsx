@@ -3,7 +3,7 @@ import { Grid, TextField, FormControl, InputLabel, Select, MenuItem, FormHelperT
 import { getAllItemsInCompany } from "@/services/general/ItemService";
 import SelectAutocomplete from "@components/content-components/SelectAutocomplete";
 
-const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
+const StageForm = ({ stage, onChange, errors = {}, readOnlyFields, setStage }) => {
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const token = localStorage.getItem("token");
@@ -19,11 +19,11 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
           (item) => item.itemType === "Thành phẩm" || item.itemType === "Bán thành phẩm"
         );
 
-        if (bom?.itemCode && !filtered.some(item => item.itemCode === bom.itemCode)) {
+        if (stage?.itemCode && !filtered.some(item => item.itemCode === stage.itemCode)) {
           filtered.unshift({
-            itemCode: bom.itemCode,
-            itemName: bom.itemName,
-            itemId: bom.itemId,
+            itemCode: stage.itemCode,
+            itemName: stage.itemName,
+            itemId: stage.itemId,
           });
         }
 
@@ -34,11 +34,11 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
       }
     };
     fetchItems();
-  }, [companyId, token, bom]);
+  }, [companyId, token, stage]);
 
   const handleItemCodeChange = (value) => {
     const selectedItem = items.find((item) => item.itemCode === value);
-    setBom((prev) => ({
+    setStage((prev) => ({
       ...prev,
       itemCode: value || "",
       itemName: selectedItem ? selectedItem.itemName : "",
@@ -55,16 +55,16 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Mã BOM" name="bomCode" value={bom.bomCode} onChange={onChange}
-          placeholder="Mã BOM sẽ tự động tạo" required
-          inputProps={{ readOnly: isFieldReadOnly("bomCode") }}
+        <TextField fullWidth label="Mã Stage" name="stageCode" value={stage.stageCode} onChange={onChange}
+          placeholder="Mã Stage sẽ tự động tạo" required
+          inputProps={{ readOnly: isFieldReadOnly("stageCode") }}
         />
       </Grid>
 
       <Grid item xs={12} sm={6}>
         <SelectAutocomplete
           options={filteredItems.map(item => ({ label: item.itemCode, value: item.itemCode }))}
-          value={bom.itemCode}
+          value={stage.itemCode}
           onChange={(selected) => handleItemCodeChange(selected?.value || "")}
           onInputChange={handleSearchInputChange}
           placeholder="Chọn mã sản phẩm"
@@ -73,11 +73,10 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
           size="small"
           disabled={isFieldReadOnly("itemCode")}
         />
-
       </Grid>
 
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Tên sản phẩm" name="itemName" value={bom.itemName} onChange={onChange}
+        <TextField fullWidth label="Tên sản phẩm" name="itemName" value={stage.itemName} onChange={onChange}
           required error={!!errors.itemName} helperText={errors.itemName}
           InputProps={{ readOnly: true }}
         />
@@ -86,7 +85,7 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
       <Grid item xs={12} sm={6}>
         <FormControl fullWidth required error={!!errors.status}>
           <InputLabel>Trạng thái</InputLabel>
-          <Select name="status" value={bom.status || ''} label="Trạng thái" onChange={onChange} inputProps={{ readOnly: isFieldReadOnly("status") }} >
+          <Select name="status" value={stage.status || ''} label="Trạng thái" onChange={onChange} inputProps={{ readOnly: isFieldReadOnly("status") }} >
             <MenuItem value="Đang sử dụng">Đang sử dụng</MenuItem>
             <MenuItem value="Ngừng sử dụng">Ngừng sử dụng</MenuItem>
           </Select>
@@ -95,7 +94,7 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
       </Grid>
 
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Mô tả" name="description" value={bom.description}
+        <TextField fullWidth label="Mô tả" name="description" value={stage.description}
           onChange={onChange} multiline minRows={3}
           InputProps={{ readOnly: isFieldReadOnly("description") }}
         />
@@ -104,4 +103,4 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
   );
 };
 
-export default BomForm;
+export default StageForm;

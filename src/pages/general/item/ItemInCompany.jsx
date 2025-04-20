@@ -88,7 +88,7 @@ const ItemInCompany = () => {
               key={item.itemId}
               hover
               sx={{ cursor: "pointer" }}
-              onClick={() => navigate(`/item-detail/${item.itemId}`)}
+              onClick={() => navigate(`/item/${item.itemId}`)}
             >
               <TableCell>{item.itemCode || ""}</TableCell>
               <TableCell>{item.itemName || ""}</TableCell>

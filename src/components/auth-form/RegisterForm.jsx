@@ -29,7 +29,6 @@ const RegisterForm = () => {
 
   const validateForm = () => {
     const errors = {};
-    if (!formData.companyCode.trim()) errors.companyCode = "Mã công ty không được để trống";
     if (!formData.companyName.trim()) errors.companyName = "Tên công ty không được để trống";
     if (!formData.taxCode.trim()) errors.taxCode = "Mã số thuế là bắt buộc";
     if (!formData.address.trim()) errors.address = "Địa chỉ không được để trống";
@@ -58,11 +57,7 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await registerCompany(formData);
-      if (response.statusCode !== 200) {
-        setErrors({ apiError: response.message });
-        return;
-      }
+      await registerCompany(formData);
       localStorage.setItem("registeredEmail", formData.email);
       alert("Đăng ký thành công! Kiểm tra email để nhận mã OTP.");
       navigate("/otp-verification");
@@ -78,7 +73,7 @@ const RegisterForm = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Mã công ty" name="companyCode" value={formData.companyCode}
-              onChange={handleChange} error={!!errors.companyCode} helperText={errors.companyCode} required />
+              placeholder="Mã công ty được tạo tự động" readOnly />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Tên công ty" name="companyName" value={formData.companyName}

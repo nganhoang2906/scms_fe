@@ -77,7 +77,7 @@ const UserInCompany = () => {
           search={search}
           setSearch={setSearch}
           renderRow={(user) => (
-            <TableRow key={user.employeeId} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/user-detail/${user.userId}`)}>
+            <TableRow key={user.employeeId} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/user/${user.userId}`)}>
               <TableCell>{user.employeeCode || ""}</TableCell>
               <TableCell>{user.username || ""}</TableCell>
               <TableCell>{user.email || ""}</TableCell>

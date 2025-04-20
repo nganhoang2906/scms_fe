@@ -1,72 +1,32 @@
 import axios from "axios";
 
 const BASE_URL = "http://localhost:8080";
+const axiosAuth = (token) => ({
+  headers: { Authorization: `Bearer ${token}` },
+});
 
 // Bom
-const createBom = async (data, token) => {
-  const res = await axios.post(`${BASE_URL}/user/create-bom`, data, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const createBom = async (data, token) => {
+  const res = await axios.post(`${BASE_URL}/user/create-bom`, data, axiosAuth(token));
   return res.data;
 };
 
-const getAllBomsByCompany = async (companyId, token) => {
-  const res = await axios.get(`${BASE_URL}/user/get-all-bom-in-com/${companyId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const getAllBomsByCompany = async (companyId, token) => {
+  const res = await axios.get(`${BASE_URL}/user/get-all-bom-in-com/${companyId}`, axiosAuth(token));
   return res.data;
 };
 
-const getBomById = async (bomId, token) => {
-  const res = await axios.get(`${BASE_URL}/user/get-bom/${bomId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const getBomByItemId = async (itemId, token) => {
+  const res = await axios.get(`${BASE_URL}/user/get-bom/${itemId}`, axiosAuth(token));
   return res.data;
 };
 
-const updateBom = async (bomId, data, token) => {
-  const res = await axios.put(`${BASE_URL}/user/update-bom/${bomId}`, data, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const updateBom = async (bomId, data, token) => {
+  const res = await axios.put(`${BASE_URL}/user/update-bom/${bomId}`, data, axiosAuth(token));
   return res.data;
 };
 
-const deleteBom = async (bomId, token) => {
-  const res = await axios.delete(`${BASE_URL}/comad/delete-bom/${bomId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const deleteBom = async (bomId, token) => {
+  const res = await axios.delete(`${BASE_URL}/comad/delete-bom/${bomId}`, axiosAuth(token));
   return res.data;
-};
-
-// Bom Detail
-const addBomDetail = async (bomId, data, token) => {
-  const res = await axios.post(`${BASE_URL}/user/add-bom-detail/${bomId}`, data, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return res.data;
-};
-
-const updateBomDetail = async (bomId, bomDetailId, data, token) => {
-  const res = await axios.put(`${BASE_URL}/user/update-bom-detail/${bomId}/${bomDetailId}`, data, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return res.data;
-};
-
-const deleteBomDetail = async (bomDetailId, token) => {
-  const res = await axios.delete(`${BASE_URL}/user/delete-bom-detail/${bomDetailId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return res.data;
-};
-
-export {
-  createBom,
-  getAllBomsByCompany,
-  getBomById,
-  updateBom,
-  deleteBom,
-  addBomDetail,
-  updateBomDetail,
-  deleteBomDetail,
 };

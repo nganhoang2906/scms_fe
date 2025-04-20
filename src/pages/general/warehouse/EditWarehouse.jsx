@@ -63,7 +63,7 @@ const EditWarehouse = () => {
 
   const handleCancel = () => {
     setEditedWarehouse(warehouse);
-    navigate(`/warehouse-detail/${warehouseId}`);
+    navigate(`/warehouse/${warehouseId}`);
   };
 
   const handleSave = async () => {
@@ -81,7 +81,7 @@ const EditWarehouse = () => {
       setWarehouse(updated);
       setEditedWarehouse(updated);
       alert("Cập nhật kho thành công!");
-      navigate(`/warehouse-detail/${warehouseId}`);
+      navigate(`/warehouse/${warehouseId}`);
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi xảy ra khi cập nhật kho!");
     }

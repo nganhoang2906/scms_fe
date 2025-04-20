@@ -70,7 +70,7 @@ const EditItem = () => {
 
   const handleCancel = () => {
     setEditedItem(item);
-    navigate(`/item-detail/${itemId}`);
+    navigate(`/item/${itemId}`);
   };
 
   const handleSave = async () => {
@@ -88,7 +88,7 @@ const EditItem = () => {
       setItem(updatedData);
       setEditedItem(updatedData);
       alert("Cập nhật thông tin hàng hóa thành công!");
-      navigate(`/item-detail/${itemId}`);
+      navigate(`/item/${itemId}`);
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi xảy ra khi cập nhật thông tin hàng hóa!");
     }

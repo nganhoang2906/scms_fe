@@ -85,7 +85,7 @@ const EmployeeInCompany = () => {
           search={search}
           setSearch={setSearch}
           renderRow={(emp) => (
-            <TableRow key={emp.employeeId} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/employee-detail/${emp.employeeId}`)}>
+            <TableRow key={emp.employeeId} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/employee/${emp.employeeId}`)}>
               <TableCell>{emp.employeeCode || ""}</TableCell>
               <TableCell>{emp.employeeName || ""}</TableCell>
               <TableCell>{emp.departmentName || ""}</TableCell>

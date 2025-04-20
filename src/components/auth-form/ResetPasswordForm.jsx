@@ -5,7 +5,6 @@ import { resetPassword } from "@/services/general/AuthService";
 import { useNavigate } from "react-router-dom";
 
 const ResetPasswordForm = () => {
-
   const [formData, setFormData] = useState({ email: "", newPassword: "" });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -42,14 +41,8 @@ const ResetPasswordForm = () => {
     setErrors({});
 
     try {
-      const response = await resetPassword(formData);
-
-      if (response.statusCode !== 200) {
-        setErrors({ apiError: response.message });
-      } else {
-        localStorage.setItem("token", response.token);
-        navigate("/login");
-      }
+      await resetPassword(formData);
+      navigate("/login");
     } catch (error) {
       setErrors({
         apiError: error.response?.data?.message || "Thay đổi thất bại! Vui lòng thử lại.",

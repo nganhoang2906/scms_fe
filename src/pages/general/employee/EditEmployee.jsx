@@ -77,7 +77,7 @@ const EditEmployee = () => {
 
   const handleCancel = () => {
     setEditedEmployee(employee);
-    navigate(`/employee-detail/${employeeId}`);
+    navigate(`/employee/${employeeId}`);
   };
 
   const handleSave = async () => {
@@ -96,7 +96,7 @@ const EditEmployee = () => {
       setEmployee(updatedData);
       setEditedEmployee(updatedData);
       alert("Cập nhật thông tin nhân viên thành công!");
-      navigate(`/employee-detail/${employeeId}`);
+      navigate(`/employee/${employeeId}`);
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi xảy ra khi cập nhật thông tin nhân viên!");
     }
@@ -126,7 +126,7 @@ const EditEmployee = () => {
       setAvatarPreview(null);
 
       alert("Cập nhật avatar thành công!");
-      navigate(`/employee-detail/${employeeId}`);
+      navigate(`/employee/${employeeId}`);
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi xảy ra khi cập nhật avatar!");
     }

@@ -37,15 +37,10 @@ const OtpVerificationForm = () => {
     }
 
     try {
-      const response = await verifyOtp(email, otp);
-
-      if (response.statusCode !== 200) {
-        setErrors({ apiError: response.message });
-        return;
-      }
-
-      alert("Xác thực thành công! Đang chuyển hướng...");
+      verifyOtp({email, otp});
+      alert("Xác thực thành công!");
       navigate("/login");
+
     } catch (error) {
       setErrors((prevErrors) => ({
         ...prevErrors,

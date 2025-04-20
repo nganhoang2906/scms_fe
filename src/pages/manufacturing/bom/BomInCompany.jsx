@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Container, Paper, Typography, TableRow, TableCell, Box, Button } from "@mui/material";
+import { Container, TableRow, TableCell, Typography, Paper, Box, Button } from "@mui/material";
 import DataTable from "@components/content-components/DataTable";
+import { getAllBomsByCompany } from "@/services/manufacturing/BomService";
 import { useNavigate } from "react-router-dom";
-import { getAllPlantsInCompany } from "@/services/general/ManufacturePlantService";
 
-const PlantInCompany = () => {
-  const [plants, setPlants] = useState([]);
-  const [loading, setLoading] = useState(false);
+const BomInCompany = () => {
+  const [boms, setBoms] = useState([]);
   const [search, setSearch] = useState("");
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("plantName");
+  const [orderBy, setOrderBy] = useState("itemCode");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const navigate = useNavigate();
@@ -18,21 +17,16 @@ const PlantInCompany = () => {
   const companyId = localStorage.getItem("companyId");
 
   useEffect(() => {
-    const fetchPlants = async () => {
-      setLoading(true);
+    const fetchBoms = async () => {
       try {
-        const result = await getAllPlantsInCompany(companyId, token);
-        setPlants(result);
+        const data = await getAllBomsByCompany(companyId, token);
+        setBoms(data);
       } catch (error) {
-        alert(error.response?.data?.message || "Lỗi khi tải danh sách xưởng!");
-      } finally {
-        setLoading(false);
+        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách Bom!");
       }
     };
 
-    if (companyId && token) {
-      fetchPlants();
-    }
+    fetchBoms();
   }, [companyId, token]);
 
   const handleRequestSort = (property) => {
@@ -41,40 +35,41 @@ const PlantInCompany = () => {
     setOrderBy(property);
   };
 
-  const handleChangePage = (event, newPage) => setPage(newPage);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(Number(event.target.value));
     setPage(1);
   };
 
-  const filteredPlants = plants.filter((p) =>
-    p.plantCode?.toLowerCase().includes(search.toLowerCase()) ||
-    p.plantName?.toLowerCase().includes(search.toLowerCase()) ||
-    p.description?.toLowerCase().includes(search.toLowerCase())
+  const filteredBoms = boms.filter((bom) =>
+    bom.itemCode.toLowerCase().includes(search.toLowerCase()) ||
+    (bom.itemName && bom.itemName.toLowerCase().includes(search.toLowerCase()))
   );
 
   const columns = [
-    { id: "plantCode", label: "Mã xưởng" },
-    { id: "plantName", label: "Tên xưởng" },
+    { id: "bomCode", label: "Mã BOM" },
+    { id: "itemCode", label: "Mã sản phẩm" },
+    { id: "itemName", label: "Tên sản phẩm" },
     { id: "description", label: "Mô tả" },
+    { id: "status", label: "Trạng thái" },
   ];
 
   return (
     <Container>
       <Paper className="paper-container" elevation={3}>
         <Typography className="page-title" variant="h4">
-          DANH SÁCH XƯỞNG SẢN XUẤT
+          DANH SÁCH BOM
         </Typography>
-
         <Box mt={3} mb={3}>
-          <Button variant="contained" color="default" onClick={() => navigate("/create-plant")}>
+          <Button variant="contained" color="default" onClick={() => navigate("/create-bom")}>
             Thêm mới
           </Button>
         </Box>
-
         <DataTable
-          rows={filteredPlants}
+          rows={filteredBoms}
           columns={columns}
           order={order}
           orderBy={orderBy}
@@ -85,17 +80,18 @@ const PlantInCompany = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
           search={search}
           setSearch={setSearch}
-          isLoading={loading}
-          renderRow={(plant) => (
+          renderRow={(bom) => (
             <TableRow
-              key={plant.plantId}
+              key={bom.bomId}
               hover
               sx={{ cursor: "pointer" }}
-              onClick={() => navigate(`/plant/${plant.plantId}`)}
+              onClick={() => navigate(`/bom/${bom.itemId}`)}
             >
-              <TableCell>{plant.plantCode}</TableCell>
-              <TableCell>{plant.plantName}</TableCell>
-              <TableCell>{plant.description}</TableCell>
+              <TableCell>{bom.bomCode || ""}</TableCell>
+              <TableCell>{bom.itemCode || ""}</TableCell>
+              <TableCell>{bom.itemName || ""}</TableCell>
+              <TableCell>{bom.description || ""}</TableCell>
+              <TableCell>{bom.status || ""}</TableCell>
             </TableRow>
           )}
         />
@@ -104,4 +100,4 @@ const PlantInCompany = () => {
   );
 };
 
-export default PlantInCompany;
+export default BomInCompany;

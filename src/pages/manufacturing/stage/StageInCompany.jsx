@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Container, TableRow, TableCell, Typography, Paper, Box, Button } from "@mui/material";
 import DataTable from "@components/content-components/DataTable";
-import { getAllBomsByCompany } from "@/services/manufacturing/BomService";
+import { getAllStagesInCompany } from "@/services/manufacturing/StageService";
 import { useNavigate } from "react-router-dom";
 
-const BomInCompany = () => {
-  const [boms, setBoms] = useState([]);
+const StageInCompany = () => {
+  const [stages, setStages] = useState([]);
   const [search, setSearch] = useState("");
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("itemCode");
+  const [orderBy, setOrderBy] = useState("stageCode");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const navigate = useNavigate();
@@ -17,16 +17,16 @@ const BomInCompany = () => {
   const companyId = localStorage.getItem("companyId");
 
   useEffect(() => {
-    const fetchBoms = async () => {
+    const fetchStages = async () => {
       try {
-        const data = await getAllBomsByCompany(companyId, token);
-        setBoms(data);
+        const data = await getAllStagesInCompany(companyId, token);
+        setStages(data);
       } catch (error) {
-        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách Bom!");
+        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách Stage!");
       }
     };
 
-    fetchBoms();
+    fetchStages();
   }, [companyId, token]);
 
   const handleRequestSort = (property) => {
@@ -44,13 +44,13 @@ const BomInCompany = () => {
     setPage(1);
   };
 
-  const filteredBoms = boms.filter((bom) =>
-    bom.itemCode.toLowerCase().includes(search.toLowerCase()) ||
-    (bom.itemName && bom.itemName.toLowerCase().includes(search.toLowerCase()))
+  const filteredStages = stages.filter((stage) =>
+    stage.stageCode.toLowerCase().includes(search.toLowerCase()) ||
+    (stage.itemCode && stage.itemCode.toLowerCase().includes(search.toLowerCase()))
   );
 
   const columns = [
-    { id: "bomCode", label: "Mã BOM" },
+    { id: "stageCode", label: "Mã Stage" },
     { id: "itemCode", label: "Mã sản phẩm" },
     { id: "itemName", label: "Tên sản phẩm" },
     { id: "description", label: "Mô tả" },
@@ -61,15 +61,15 @@ const BomInCompany = () => {
     <Container>
       <Paper className="paper-container" elevation={3}>
         <Typography className="page-title" variant="h4">
-          DANH SÁCH BOM
+          DANH SÁCH STAGE
         </Typography>
         <Box mt={3} mb={3}>
-          <Button variant="contained" color="default" onClick={() => navigate("/create-bom")}>
+          <Button variant="contained" color="default" onClick={() => navigate("/create-stage")}>
             Thêm mới
           </Button>
         </Box>
         <DataTable
-          rows={filteredBoms}
+          rows={filteredStages}
           columns={columns}
           order={order}
           orderBy={orderBy}
@@ -80,18 +80,18 @@ const BomInCompany = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
           search={search}
           setSearch={setSearch}
-          renderRow={(bom) => (
+          renderRow={(stage) => (
             <TableRow
-              key={bom.bomId}
+              key={stage.stageId}
               hover
               sx={{ cursor: "pointer" }}
-              onClick={() => navigate(`/bom-detail/${bom.bomId}`)}
+              onClick={() => navigate(`/stage/${stage.itemId}`)}
             >
-              <TableCell>{bom.bomCode || ""}</TableCell>
-              <TableCell>{bom.itemCode || ""}</TableCell>
-              <TableCell>{bom.itemName || ""}</TableCell>
-              <TableCell>{bom.description || ""}</TableCell>
-              <TableCell>{bom.status || ""}</TableCell>
+              <TableCell>{stage.stageCode || ""}</TableCell>
+              <TableCell>{stage.itemCode || ""}</TableCell>
+              <TableCell>{stage.itemName || ""}</TableCell>
+              <TableCell>{stage.description || ""}</TableCell>
+              <TableCell>{stage.status || ""}</TableCell>
             </TableRow>
           )}
         />
@@ -100,4 +100,4 @@ const BomInCompany = () => {
   );
 };
 
-export default BomInCompany;
+export default StageInCompany;

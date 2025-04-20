@@ -26,19 +26,14 @@ const ForgotPasswordForm = () => {
     setErrors({});
 
     try {
-      const response = await sendVerifyOtp(email);
+      await sendVerifyOtp(email);
+      localStorage.setItem("forgotEmail", email);
+      const storedEmail = localStorage.getItem("forgotEmail");
 
-      if (response.statusCode !== 200) {
-        setErrors({ apiError: response.message });
-      } else {
-        localStorage.setItem("forgotEmail", email);
-        const storedEmail = localStorage.getItem("forgotEmail");
+      alert("Kiểm tra email để nhận mã OTP.");
+      navigate("/verify-forgot-password-otp");
 
-        alert("Kiểm tra email để nhận mã OTP.");
-        navigate("/verify-forgot-password-otp");
-
-        console.log(storedEmail);
-      }
+      console.log(storedEmail);
     } catch (error) {
       setErrors({
         apiError: error.response?.data?.message || "Không thể gửi OTP! Vui lòng thử lại.",
@@ -51,7 +46,7 @@ const ForgotPasswordForm = () => {
       <Typography align="center">Nhập email của bạn để nhận mã xác thực</Typography>
       <form onSubmit={handleSubmit}>
         <TextField fullWidth label="Email" value={email} onChange={(e) => setEmail(e.target.value)} error={!!errors.email} helperText={errors.email} margin="normal" required />
-        
+
         {errors.apiError && (
           <Typography className="api-error">{errors.apiError}</Typography>
         )}

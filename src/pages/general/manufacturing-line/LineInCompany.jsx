@@ -90,7 +90,7 @@ const LineInCompany = () => {
           setSearch={setSearch}
           isLoading={loading}
           renderRow={(line) => (
-            <TableRow key={line.id} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/line-detail/${line.lineId}`)}>
+            <TableRow key={line.id} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/line/${line.lineId}`)}>
               <TableCell>{line.lineCode}</TableCell>
               <TableCell>{line.lineName}</TableCell>
               <TableCell>{line.plantName}</TableCell>

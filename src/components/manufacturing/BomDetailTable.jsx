@@ -43,10 +43,10 @@ const BomDetailTable = ({ bomDetails, setBomDetails, items, errors }) => {
                 <TableCell sx={{ width: 200 }}>
                   <SelectAutocomplete
                     options={materialOptions}
-                    value={materialOptions.find(opt => opt.value === bomDetail.itemId) || null}
-                    onChange={(newValue) => {
-                      handleDetailChange(index, "itemId", newValue?.value || "");
-                      handleDetailChange(index, "itemName", newValue?.itemName || "");
+                    value={bomDetail.itemId}
+                    onChange={(selected) => {
+                      handleDetailChange(index, "itemId", selected?.value || "");
+                      handleDetailChange(index, "itemName", selected?.itemName || "");
                     }}
                     placeholder="Chọn nguyên vật liệu"
                     error={!!errors?.find(err => err.index === index && err.field === "itemId")}

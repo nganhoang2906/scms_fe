@@ -4,8 +4,8 @@ import {
   ListItemButton, ListItemIcon, ListItemText, Button, Box
 } from '@mui/material';
 import {
-  Home, Info, ContactMail, ExpandLess, ExpandMore, Factory, Business, People, Person, RequestPage, Note, Category, Warehouse, BuildCircle,
-  ShoppingCart, Sell, Inventory, LocalShipping, ListAlt, RequestQuote, CompareArrows
+  Home, Info, ContactMail, ExpandLess, ExpandMore, Factory, Business, People, Person, Category, Warehouse, BuildCircle,
+  ShoppingCart, Sell, Inventory, LocalShipping, ListAlt, RequestQuote, CompareArrows, FactCheck, Note, Schema, MoveToInbox, Outbox
 } from '@mui/icons-material';
 
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -29,7 +29,6 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
     return localStorage.getItem("selectedMenuPath") || location.pathname || "/homepage";
   });
 
-  // Lưu trạng thái khi thay đổi
   useEffect(() => {
     localStorage.setItem("openMenus", JSON.stringify(openMenus));
   }, [openMenus]);
@@ -75,14 +74,18 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
 
         <Collapse in={openMenus.info} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
           <List component="div" disablePadding>
-            <MenuItem icon={<Business />} title="Thông tin công ty" path="/company-detail" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<Business />} title="Thông tin công ty" path="/company" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<People />} title="Quản lý bộ phận" path="/department-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<Person />} title="Quản lý nhân viên" path="/employee-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<ContactMail />} title="Quản lý tài khoản" path="/user-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<Category />} title="Quản lý hàng hóa" path="/item-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<Warehouse />} title="Quản lý kho" path="/warehouse-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<Factory />} title="Quản lý xưởng sản xuất" path="/plant-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<BuildCircle />} title="Quản lý dây chuyền" path="/line-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+            {companyType === "Doanh nghiệp sản xuất" && (
+              <>
+                <MenuItem icon={<Factory />} title="Quản lý xưởng sản xuất" path="/plant-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+                <MenuItem icon={<BuildCircle />} title="Quản lý dây chuyền" path="/line-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+              </>
+            )}
           </List>
         </Collapse>
 
@@ -96,12 +99,27 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
 
             <Collapse in={openMenus.manufacturing} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
               <List component="div" disablePadding>
-                <MenuItem icon={<RequestPage />} title="Lệnh sản xuất" path="/manufacturing-orders" selectedPath={selectedPath} onSelect={handleSelect} />
-                <MenuItem icon={<Note />} title="Quản lý BOM" path="/bom-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+                <MenuItem icon={<FactCheck />} title="Công lệnh sản xuất" path="/mo-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+                <MenuItem icon={<Note />} title="BOM" path="/bom-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+                <MenuItem icon={<Schema />} title="Quy trình sản xuất" path="/stage-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
               </List>
             </Collapse>
           </>
         )}
+
+        <ListItemButton onClick={() => handleToggle('inventory')}>
+          <ListItemIcon><Warehouse /></ListItemIcon>
+          <ListItemText primary="Quản lý kho" />
+          {openMenus.inventory ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={openMenus.inventory} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
+          <List component="div" disablePadding>
+            <MenuItem icon={<Inventory />} title="Tồn kho" path="/inventory-stock" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<MoveToInbox />} title="Nhập kho" path="/inventory-receipt" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<Outbox />} title="Xuất kho" path="/inventory-delivery" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<CompareArrows />} title="Chuyển kho" path="/inventory-transfer" selectedPath={selectedPath} onSelect={handleSelect} />
+          </List>
+        </Collapse>
 
         <ListItemButton onClick={() => handleToggle('purchasing')}>
           <ListItemIcon><ShoppingCart /></ListItemIcon>
@@ -126,20 +144,6 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
             <MenuItem icon={<Sell />} title="Báo giá" path="/sale-quotation" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<RequestQuote />} title="Yêu cầu báo giá" path="/sale-request-quotation" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<ListAlt />} title="Đơn bán hàng" path="/sale-order" selectedPath={selectedPath} onSelect={handleSelect} />
-          </List>
-        </Collapse>
-
-        <ListItemButton onClick={() => handleToggle('inventory')}>
-          <ListItemIcon><Inventory /></ListItemIcon>
-          <ListItemText primary="Quản lý kho" />
-          {openMenus.inventory ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={openMenus.inventory} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
-          <List component="div" disablePadding>
-            <MenuItem icon={<Inventory />} title="Tồn kho" path="/inventory-stock" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<Warehouse />} title="Nhập kho" path="/inventory-receipt" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<Warehouse />} title="Xuất kho" path="/inventory-delivery" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<CompareArrows />} title="Chuyển kho" path="/inventory-transfer" selectedPath={selectedPath} onSelect={handleSelect} />
           </List>
         </Collapse>
 
