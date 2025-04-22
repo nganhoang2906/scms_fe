@@ -8,6 +8,7 @@ import { getAllLinesInCompany } from "@/services/general/ManufactureLineService"
 import { getAllProcessesInMo, updateProcess } from "@/services/manufacturing/ProcessService";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
 import ProcessCard from "@/components/content-components/ProcessCard";
+import dayjs from "dayjs";
 
 const MoDetail = () => {
   const { moId } = useParams();
@@ -74,41 +75,28 @@ const MoDetail = () => {
     fetchProcesses();
   }, [moId]);
 
-
-  const toISOStringWithTimezone = (localDateTimeString) => {
-    if (!localDateTimeString) return null;
-    return new Date(localDateTimeString).toISOString();
-  };
-
-  const handleConfirm = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const payload = {
-        ...mo,
-        status: "Chờ sản xuất",
-        estimatedStartTime: toISOStringWithTimezone(mo.estimatedStartTime),
-        estimatedEndTime: toISOStringWithTimezone(mo.estimatedEndTime),
-      };
-      await updateMo(moId, payload, token);
-      alert("Đã xác nhận công lệnh!");
-      navigate(`/mo/${moId}`);
-    } catch (error) {
-      alert(error.response?.data?.message || "Có lỗi khi xác nhận!");
-    }
+  const handleConfirm = (type, id) => {
+    navigate(`/check-inventory/${type}/${id}`);
   };
 
   const handleCancelMo = async () => {
+    const confirmCancel = window.confirm("Bạn có chắc chắn muốn hủy công lệnh này không?");
+    if (!confirmCancel) return;
+
     const token = localStorage.getItem("token");
     try {
       const payload = {
         ...mo,
-        status: "Đã hủy",
-        estimatedStartTime: toISOStringWithTimezone(mo.estimatedStartTime),
-        estimatedEndTime: toISOStringWithTimezone(mo.estimatedEndTime),
+        status: "Đã hủy"
       };
       await updateMo(moId, payload, token);
       alert("Đã hủy công lệnh!");
-      navigate(`/mo/${moId}`);
+
+      setMo((prev) => ({
+        ...prev,
+        status: "Đã hủy",
+      }));
+
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi khi hủy công lệnh!");
     }
@@ -124,7 +112,7 @@ const MoDetail = () => {
 
   const handleCompleteProcess = async (currentProcess) => {
     const token = localStorage.getItem("token");
-    const now = new Date().toISOString();
+    const now = dayjs().format("YYYY-MM-DDTHH:mm:ss");
 
     try {
       await updateProcess(currentProcess.id, {
@@ -149,10 +137,8 @@ const MoDetail = () => {
         await updateMo(moId, {
           ...mo,
           status: "Đã hoàn thành",
-          estimatedStartTime: toISOStringWithTimezone(mo.estimatedStartTime),
-          estimatedEndTime: toISOStringWithTimezone(mo.estimatedEndTime),
         }, token);
-        
+
         setMo((prevMo) => ({
           ...prevMo,
           status: "Đã hoàn thành"
@@ -200,7 +186,7 @@ const MoDetail = () => {
 
           {mo.status === "Chờ xác nhận" && (
             <Box display="flex" gap={2}>
-              <Button variant="contained" color="success" onClick={handleConfirm}>
+              <Button variant="contained" color="success" onClick={() => handleConfirm("mo", mo.moId)}>
                 Xác nhận
               </Button>
               <Button variant="contained" color="error" onClick={handleCancelMo}>
@@ -218,18 +204,21 @@ const MoDetail = () => {
           </Button>
         </Box>
 
-        <Typography variant="h5" mt={2} mb={2}>
-          Công đoạn sản xuất:
-        </Typography>
+        {(mo.status !== "Chờ xác nhận" && mo.status !== "Đã hủy") && (
+          <>
+            <Typography variant="h5" mt={2} mb={2}>
+              Công đoạn sản xuất:
+            </Typography>
 
-        <Box sx={{ display: "flex", gap: 2, overflowX: "auto", pb: 1, }} >
-          {processes.map((process) => (
-            <Box key={process.stageDetailOrder} sx={{ flexShrink: 0 }}>
-              <ProcessCard process={process} onComplete={(p) => handleCompleteProcess(p)} />
+            <Box sx={{ display: "flex", gap: 2, overflowX: "auto", pb: 1 }}>
+              {processes.map((process) => (
+                <Box key={process.stageDetailOrder} sx={{ flexShrink: 0 }}>
+                  <ProcessCard process={process} onComplete={(p) => handleCompleteProcess(p)} />
+                </Box>
+              ))}
             </Box>
-          ))}
-        </Box>
-
+          </>
+        )}
 
       </Paper>
     </Container>

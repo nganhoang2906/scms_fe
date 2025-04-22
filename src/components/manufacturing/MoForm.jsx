@@ -60,7 +60,7 @@ const MoForm = ({ mo, onChange, errors = {}, readOnlyFields, setMo, items = [], 
       <Grid item xs={12} sm={6}>
         <SelectAutocomplete size="small"
           options={filteredItems.map(item => ({ label: item.itemCode, value: item.itemId }))}
-          value={mo.itemId} onChange={handleItemChange} onInputChange={handleSearchInputChange} placeholder="Chọn mã sản phẩm *"
+          value={mo.itemId} onChange={handleItemChange} onInputChange={handleSearchInputChange} placeholder="Chọn mã hàng hóa *"
           error={errors.itemId} helperText={errors.itemId} disabled={isFieldReadOnly("itemId")} required
         />
       </Grid>
@@ -115,7 +115,7 @@ const MoForm = ({ mo, onChange, errors = {}, readOnlyFields, setMo, items = [], 
             <MenuItem value="Chờ sản xuất">Chờ sản xuất</MenuItem>
             <MenuItem value="Đang sản xuất">Đang sản xuất</MenuItem>
             <MenuItem value="Đã hoàn thành">Đã hoàn thành</MenuItem>
-            <MenuItem value="Đã huỷ">Đã huỷ</MenuItem>
+            <MenuItem value="Đã hủy">Đã hủy</MenuItem>
           </Select>
           {errors.status && <FormHelperText>{errors.status}</FormHelperText>}
         </FormControl>

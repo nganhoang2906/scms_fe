@@ -25,8 +25,8 @@ const CreateStage = () => {
 
   const validateForm = () => {
     const formErrors = {};
-    if (!stage.itemCode) formErrors.itemCode = "Phải chọn sản phẩm";
-    if (!stage.itemName) formErrors.itemName = "Chưa có tên sản phẩm";
+    if (!stage.itemCode) formErrors.itemCode = "Phải chọn hàng hóa";
+    if (!stage.itemName) formErrors.itemName = "Chưa có tên hàng hóa";
     if (!stage.status?.trim()) formErrors.status = "Trạng thái không được để trống";
     return formErrors;
   };

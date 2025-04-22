@@ -5,6 +5,7 @@ import { createMo } from "@/services/manufacturing/MoService";
 import { getAllItemsInCompany } from "@/services/general/ItemService";
 import { getAllLinesInCompany } from "@/services/general/ManufactureLineService";
 import MoForm from "@/components/manufacturing/MoForm";
+import dayjs from "dayjs";
 
 const CreateMo = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const CreateMo = () => {
 
   const validateForm = () => {
     const formErrors = {};
-    if (!mo.itemId) formErrors.itemCode = "Phải chọn sản phẩm";
+    if (!mo.itemId) formErrors.itemCode = "Phải chọn hàng hóa";
     if (!mo.lineId) formErrors.lineCode = "Phải chọn dây chuyền sản xuất";
     if (!mo.type?.trim()) formErrors.type = "Loại không được để trống";
     if (mo.quantity === "" || mo.quantity <= 0) formErrors.quantity = "Số lượng phải > 0";
@@ -69,12 +70,10 @@ const CreateMo = () => {
     setMo((prev) => ({ ...prev, [name]: value }));
   };
 
-  const toISOStringWithTimezone = (localDateTimeString) => {
+  const toLocalDateTimeString = (localDateTimeString) => {
     if (!localDateTimeString) return null;
-    const localDate = new Date(localDateTimeString);
-    return localDate.toISOString();
+    return dayjs(localDateTimeString).format("YYYY-MM-DDTHH:mm:ss");
   };
-  
 
   const handleSubmit = async () => {
     const formErrors = validateForm();
@@ -89,8 +88,8 @@ const CreateMo = () => {
         lineId: mo.lineId,
         type: mo.type,
         quantity: mo.quantity,
-        estimatedStartTime: toISOStringWithTimezone(mo.estimatedStartTime) || null,
-        estimatedEndTime: toISOStringWithTimezone(mo.estimatedEndTime) || null,
+        estimatedStartTime: toLocalDateTimeString(mo.estimatedStartTime),
+        estimatedEndTime: toLocalDateTimeString(mo.estimatedEndTime),
         status: mo.status,
         createdBy: username,
       };

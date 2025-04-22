@@ -67,7 +67,7 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
           value={bom.itemCode}
           onChange={(selected) => handleItemCodeChange(selected?.value || "")}
           onInputChange={handleSearchInputChange}
-          placeholder="Chọn mã sản phẩm"
+          placeholder="Chọn mã hàng hóa"
           error={errors.itemCode}
           helperText={errors.itemCode}
           size="small"
@@ -77,7 +77,7 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
       </Grid>
 
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Tên sản phẩm" name="itemName" value={bom.itemName} onChange={onChange}
+        <TextField fullWidth label="Tên hàng hóa" name="itemName" value={bom.itemName} onChange={onChange}
           required error={!!errors.itemName} helperText={errors.itemName}
           InputProps={{ readOnly: true }}
         />

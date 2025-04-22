@@ -67,7 +67,7 @@ const StageForm = ({ stage, onChange, errors = {}, readOnlyFields, setStage }) =
           value={stage.itemCode}
           onChange={(selected) => handleItemCodeChange(selected?.value || "")}
           onInputChange={handleSearchInputChange}
-          placeholder="Chọn mã sản phẩm"
+          placeholder="Chọn mã hàng hóa"
           error={errors.itemCode}
           helperText={errors.itemCode}
           size="small"
@@ -76,7 +76,7 @@ const StageForm = ({ stage, onChange, errors = {}, readOnlyFields, setStage }) =
       </Grid>
 
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Tên sản phẩm" name="itemName" value={stage.itemName} onChange={onChange}
+        <TextField fullWidth label="Tên hàng hóa" name="itemName" value={stage.itemName} onChange={onChange}
           required error={!!errors.itemName} helperText={errors.itemName}
           InputProps={{ readOnly: true }}
         />

@@ -6,6 +6,7 @@ import { getMoById, updateMo } from "@/services/manufacturing/MoService";
 import { getAllItemsInCompany } from "@/services/general/ItemService";
 import { getAllLinesInCompany } from "@/services/general/ManufactureLineService";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
+import dayjs from "dayjs";
 
 const EditMo = () => {
   const { moId } = useParams();
@@ -43,14 +44,14 @@ const EditMo = () => {
       try {
         const itemsData = await getAllItemsInCompany(companyId, token);
         setItems(itemsData);
-  
+
         const linesData = await getAllLinesInCompany(companyId, token);
         setLines(linesData);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi khi lấy dữ liệu!");
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -59,9 +60,9 @@ const EditMo = () => {
     setMo((prev) => ({ ...prev, [name]: value }));
   };
 
-  const toISOStringWithTimezone = (localDateTimeString) => {
+  const toLocalDateTimeString = (localDateTimeString) => {
     if (!localDateTimeString) return null;
-    return new Date(localDateTimeString).toISOString();
+    return dayjs(localDateTimeString).format("YYYY-MM-DDTHH:mm:ss");
   };
 
   const validateForm = () => {
@@ -76,18 +77,18 @@ const EditMo = () => {
     }
     return formErrors;
   };
-  
+
   const handleSave = async () => {
     const newErrors = validateForm();
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
-  
+
     const token = localStorage.getItem("token");
     try {
       const payload = {
         ...mo,
-        estimatedStartTime: toISOStringWithTimezone(mo.estimatedStartTime),
-        estimatedEndTime: toISOStringWithTimezone(mo.estimatedEndTime),
+        estimatedStartTime: toLocalDateTimeString(mo.estimatedStartTime),
+        estimatedEndTime: toLocalDateTimeString(mo.estimatedEndTime),
       };
       await updateMo(moId, payload, token);
       alert("Cập nhật thành công!");

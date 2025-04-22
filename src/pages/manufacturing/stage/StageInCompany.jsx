@@ -51,8 +51,8 @@ const StageInCompany = () => {
 
   const columns = [
     { id: "stageCode", label: "Mã Stage" },
-    { id: "itemCode", label: "Mã sản phẩm" },
-    { id: "itemName", label: "Tên sản phẩm" },
+    { id: "itemCode", label: "Mã hàng hóa" },
+    { id: "itemName", label: "Tên hàng hóa" },
     { id: "description", label: "Mô tả" },
     { id: "status", label: "Trạng thái" },
   ];

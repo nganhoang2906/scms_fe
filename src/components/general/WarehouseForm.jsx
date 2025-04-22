@@ -7,7 +7,7 @@ const WarehouseForm = ({ warehouse, onChange, errors, readOnlyFields }) => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Mã kho" name="warehouseCode" value={warehouse.warehouseCode} required 
+        <TextField fullWidth label="Mã kho" name="warehouseCode" value={warehouse.warehouseCode} required onChange={onChange}
         error={!!errors.warehouseCode} helperText={errors.warehouseCode} 
         InputProps={{ readOnly: isFieldReadOnly("warehouseCode") }} />
       </Grid>
@@ -17,7 +17,7 @@ const WarehouseForm = ({ warehouse, onChange, errors, readOnlyFields }) => {
         InputProps={{ readOnly: isFieldReadOnly("warehouseName") }} />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth type="number" label="Sức chứa tối đa" name="maxCapacity" value={warehouse.maxCapacity} onChange={onChange} 
+        <TextField fullWidth type="number" label="Sức chứa tối đa (m³)" name="maxCapacity" value={warehouse.maxCapacity} onChange={onChange} 
         error={!!errors.maxCapacity} helperText={errors.maxCapacity} 
         InputProps={{ readOnly: isFieldReadOnly("maxCapacity") }} />
       </Grid>
@@ -42,8 +42,8 @@ const WarehouseForm = ({ warehouse, onChange, errors, readOnlyFields }) => {
           InputProps={{ readOnly: isFieldReadOnly("status") }}>
           <InputLabel>Trạng thái</InputLabel>
           <Select name="status" value={warehouse.status || ""} label="Trạng thái" onChange={onChange}>
-            <MenuItem value="Đang hoạt động">Đang hoạt động</MenuItem>
-            <MenuItem value="Ngưng hoạt động">Ngừng hoạt động</MenuItem>
+            <MenuItem value="Đang sử dụng">Đang sử dụng</MenuItem>
+            <MenuItem value="Ngưng sử dụng">Ngừng sử dụng</MenuItem>
           </Select>
         </FormControl>
       </Grid>

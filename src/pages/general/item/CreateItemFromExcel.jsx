@@ -39,7 +39,8 @@ const CreateItemFromExcel = () => {
       uom: item["Đơn vị tính"],
       importPrice: item["Giá nhập"],
       exportPrice: item["Giá xuất"],
-      description: "",
+      technicalSpecifications: item["Thông số kỹ thuật"],
+      description: item["Mô tả"],
     }));
 
     setExcelData(mappedData);

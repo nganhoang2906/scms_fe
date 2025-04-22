@@ -66,6 +66,9 @@ import CreateStage from "@/pages/manufacturing/stage/CreateStage";
 import StageDetail from "@/pages/manufacturing/stage/StageDetail";
 import EditStage from "@/pages/manufacturing/stage/EditStage";
 
+import Inventory from "@/pages/inventory/inventory/Inventory";
+import CheckInventory from "@/pages/inventory/inventory/CheckInventory";
+import InventoryCount from "@/pages/inventory/inventory/InventoryCount";
 
 function AppRoutes() {
   return (
@@ -135,6 +138,10 @@ function AppRoutes() {
           <Route path="/create-stage" element={<PrivateRoute element={<CreateStage />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Sản xuất"]}/>} />
           <Route path="/stage/:itemId" element={<PrivateRoute element={<StageDetail />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Sản xuất"]}/>} />
           <Route path="/stage/:itemId/edit" element={<PrivateRoute element={<EditStage />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Sản xuất"]}/>} />
+
+          <Route path="/inventory" element={<PrivateRoute element={<Inventory />} allowedRoles={["C-ADMIN", "USER"]} />} />
+          <Route path="/check-inventory/:type/:id" element={<PrivateRoute element={<CheckInventory />} allowedRoles={["C-ADMIN", "USER"]} />} />
+          <Route path="/inventory-count" element={<PrivateRoute element={<InventoryCount />} allowedRoles={["C-ADMIN"]} />} />
 
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Route>

@@ -39,8 +39,8 @@ const CreateBom = () => {
 
   const validateForm = () => {
     const formErrors = {};
-    if (!bom.itemCode) formErrors.itemCode = "Phải chọn sản phẩm";
-    if (!bom.itemName) formErrors.itemName = "Chưa có tên sản phẩm";
+    if (!bom.itemCode) formErrors.itemCode = "Phải chọn hàng hóa";
+    if (!bom.itemName) formErrors.itemName = "Chưa có tên hàng hóa";
     if (!bom.status?.trim()) formErrors.status = "Trạng thái không được để trống";
     return formErrors;
   };

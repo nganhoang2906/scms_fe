@@ -39,6 +39,8 @@ const ItemForm = ({ item, onChange, errors = {}, readOnlyFields }) => {
           <Select name="uom" value={item.uom || ''} label="Đơn vị tính" onChange={onChange} 
             inputProps={{ readOnly: isFieldReadOnly("uom") }}
           >
+            <MenuItem value="bộ">bộ</MenuItem>
+            <MenuItem value="chiếc">chiếc</MenuItem>
             <MenuItem value="pcs">pcs</MenuItem>
             <MenuItem value="g">g</MenuItem>
             <MenuItem value="m">m</MenuItem>

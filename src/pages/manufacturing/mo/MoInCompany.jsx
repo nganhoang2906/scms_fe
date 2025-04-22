@@ -53,7 +53,7 @@ const MoInCompany = () => {
 
   const columns = [
     { id: "moCode", label: "Mã MO" },
-    { id: "itemCode", label: "Mã sản phẩm" },
+    { id: "itemCode", label: "Mã hàng hóa" },
     { id: "lineCode", label: "Mã chuyền" },
     { id: "type", label: "Loại" },
     { id: "quantity", label: "Số lượng" },

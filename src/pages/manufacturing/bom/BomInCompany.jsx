@@ -51,8 +51,8 @@ const BomInCompany = () => {
 
   const columns = [
     { id: "bomCode", label: "Mã BOM" },
-    { id: "itemCode", label: "Mã sản phẩm" },
-    { id: "itemName", label: "Tên sản phẩm" },
+    { id: "itemCode", label: "Mã hàng hóa" },
+    { id: "itemName", label: "Tên hàng hóa" },
     { id: "description", label: "Mô tả" },
     { id: "status", label: "Trạng thái" },
   ];

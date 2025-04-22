@@ -21,12 +21,12 @@ export const getAllMosInCompany = async (companyId, token) => {
   return response.data;
 };
 
-export const getMoById = async (moid, token) => {
-  const response = await axios.get(`${BASE_URL}/user/get-mo/${moid}`, axiosAuth(token));
+export const getMoById = async (moId, token) => {
+  const response = await axios.get(`${BASE_URL}/user/get-mo/${moId}`, axiosAuth(token));
   return response.data;
 };
 
-export const updateMo = async (moid, mo, token) => {
-  const response = await axios.put(`${BASE_URL}/user/update-mo/${moid}`, mo, axiosAuth(token));
+export const updateMo = async (moId, mo, token) => {
+  const response = await axios.put(`${BASE_URL}/user/update-mo/${moId}`, mo, axiosAuth(token));
   return response.data;
 };

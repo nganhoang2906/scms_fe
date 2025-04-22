@@ -4,7 +4,7 @@ import {
   ListItemButton, ListItemIcon, ListItemText, Button, Box
 } from '@mui/material';
 import {
-  Home, Info, ContactMail, ExpandLess, ExpandMore, Factory, Business, People, Person, Category, Warehouse, BuildCircle,
+  Home, Info, ContactMail, ExpandLess, ExpandMore, Factory, Business, People, Person, Category, Warehouse, BuildCircle, Checklist,
   ShoppingCart, Sell, Inventory, LocalShipping, ListAlt, RequestQuote, CompareArrows, FactCheck, Note, Schema, MoveToInbox, Outbox
 } from '@mui/icons-material';
 
@@ -114,10 +114,11 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
         </ListItemButton>
         <Collapse in={openMenus.inventory} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
           <List component="div" disablePadding>
-            <MenuItem icon={<Inventory />} title="Tồn kho" path="/inventory-stock" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<MoveToInbox />} title="Nhập kho" path="/inventory-receipt" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<Outbox />} title="Xuất kho" path="/inventory-delivery" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<CompareArrows />} title="Chuyển kho" path="/inventory-transfer" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<Checklist />} title="Kiểm kê" path="/inventory-count" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<Inventory />} title="Theo dõi tồn kho" path="/inventory" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<MoveToInbox />} title="Nhập kho" path="/rt-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<Outbox />} title="Xuất kho" path="/it-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<CompareArrows />} title="Chuyển kho" path="/tt-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
           </List>
         </Collapse>
 
@@ -128,9 +129,8 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
         </ListItemButton>
         <Collapse in={openMenus.purchasing} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
           <List component="div" disablePadding>
-            <MenuItem icon={<RequestQuote />} title="Yêu cầu báo giá" path="/purchase-request-quotation" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<Sell />} title="Báo giá" path="/purchase-quotation" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<ListAlt />} title="Đơn mua hàng" path="/purchase-order" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<RequestQuote />} title="Yêu cầu báo giá" path="/rfq-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<ListAlt />} title="Đơn mua hàng" path="/po-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
           </List>
         </Collapse>
 
@@ -141,9 +141,8 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
         </ListItemButton>
         <Collapse in={openMenus.sales} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
           <List component="div" disablePadding>
-            <MenuItem icon={<Sell />} title="Báo giá" path="/sale-quotation" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<RequestQuote />} title="Yêu cầu báo giá" path="/sale-request-quotation" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<ListAlt />} title="Đơn bán hàng" path="/sale-order" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<Sell />} title="Báo giá" path="/quotation-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<ListAlt />} title="Đơn bán hàng" path="/so-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
           </List>
         </Collapse>
 
@@ -154,7 +153,7 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
         </ListItemButton>
         <Collapse in={openMenus.delivery} timeout="auto" unmountOnExit sx={{ pl: 2 }}>
           <List component="div" disablePadding>
-            <MenuItem icon={<LocalShipping />} title="Đơn vận chuyển" path="/delivery-order" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<LocalShipping />} title="Đơn vận chuyển" path="/do-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
           </List>
         </Collapse>
       </List>
