@@ -11,6 +11,6 @@ export const getDepartmentById = async (departmentId, token) => {
 };
 
 export const getAllDepartmentsInCompany = async (companyId, token) => {
-  const res = await axios.get(`${BASE_URL}/user/get-all-department-in-company/${companyId}`, axiosAuth(token));
+  const res = await axios.get(`${BASE_URL}/user/get-all-department-in-com/${companyId}`, axiosAuth(token));
   return res.data;
 };

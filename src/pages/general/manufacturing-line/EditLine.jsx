@@ -14,22 +14,6 @@ const EditLine = () => {
   const [editedLine, setEditedLine] = useState(null);
   const [errors, setErrors] = useState({});
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
-  const normalizeForSave = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] === "" ? null : data[key];
-    }
-    return normalized;
-  };
-
   const validateForm = () => {
     const errors = {};
     const { lineName, lineCode, plantId } = editedLine;
@@ -45,9 +29,8 @@ const EditLine = () => {
     const fetchLineById = async () => {
       try {
         const data = await getLineById(lineId, token);
-        const normalized = normalizeForDisplay(data);
-        setLine(normalized);
-        setEditedLine(normalized);
+        setLine(data);
+        setEditedLine(data);
       } catch (error) {
         alert(error.response?.data?.message || "Lỗi khi lấy thông tin dây chuyền!");
       }
@@ -57,8 +40,19 @@ const EditLine = () => {
   }, [lineId, token]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedLine((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+  
+    let newValue = value;
+    if (type === "number") {
+      const num = parseFloat(value);
+      if (isNaN(num)) {
+        newValue = "";
+      } else {
+        newValue = num < 0 ? 0 : num;
+      }
+    }
+  
+    setEditedLine((prev) => ({ ...prev, [name]: newValue }));
   };
 
   const handleCancel = () => {
@@ -74,10 +68,9 @@ const EditLine = () => {
     }
 
     try {
-      const updatedLine = await updateLine(lineId, normalizeForSave(editedLine), token);
-      const normalized = normalizeForDisplay(updatedLine);
-      setLine(normalized);
-      setEditedLine(normalized);
+      const updatedLine = await updateLine(lineId, editedLine, token);
+      setLine(updatedLine);
+      setEditedLine(updatedLine);
       alert("Cập nhật dây chuyền thành công!");
       navigate(`/line/${lineId}`);
     } catch (error) {

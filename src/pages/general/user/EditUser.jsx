@@ -13,20 +13,12 @@ const EditUser = () => {
   const [showPasswordForm, setShowPasswordForm] = useState(false); // <== thêm
   const navigate = useNavigate();
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem("token");
       try {
         const data = await getUserById(userId, token);
-        setUser(normalizeForDisplay(data));
+        setUser(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin người dùng!");
       }
@@ -66,10 +58,10 @@ const EditUser = () => {
     const token = localStorage.getItem("token");
     try {
       await updateUser(userId, user, token);
-      alert("Cập nhật thành công!");
+      alert("Cập nhật tài khoản thành công!");
       navigate(-1);
     } catch (error) {
-      alert(error.response?.data?.message || "Lỗi khi cập nhật người dùng!");
+      alert(error.response?.data?.message || "Lỗi khi cập nhật tài khoản!");
     }
   };
 

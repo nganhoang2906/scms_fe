@@ -9,14 +9,6 @@ const CompanyDetail = () => {
   const [company, setCompany] = useState(null);
   const navigate = useNavigate();
 
-  const normalizeCompanyForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
   useEffect(() => {
     const fetchCompany = async () => {
       const companyId = localStorage.getItem("companyId");
@@ -25,13 +17,12 @@ const CompanyDetail = () => {
 
       try {
         const data = await getCompanyById(companyId, token);
-        const normalizedData = normalizeCompanyForDisplay(data);
 
-        if (normalizedData.logoUrl) {
-          normalizedData.logoUrl = `${normalizedData.logoUrl}?t=${Date.now()}`;
+        if (data.logoUrl) {
+          data.logoUrl = `${data.logoUrl}?t=${Date.now()}`;
         }
 
-        setCompany(normalizedData);
+        setCompany(data);
       } catch (error) {
         alert(error.response?.data?.message || "Lỗi khi lấy thông tin công ty!");
       }

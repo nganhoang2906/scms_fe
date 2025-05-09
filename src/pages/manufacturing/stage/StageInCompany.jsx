@@ -44,11 +44,6 @@ const StageInCompany = () => {
     setPage(1);
   };
 
-  const filteredStages = stages.filter((stage) =>
-    stage.stageCode.toLowerCase().includes(search.toLowerCase()) ||
-    (stage.itemCode && stage.itemCode.toLowerCase().includes(search.toLowerCase()))
-  );
-
   const columns = [
     { id: "stageCode", label: "Mã Stage" },
     { id: "itemCode", label: "Mã hàng hóa" },
@@ -69,7 +64,7 @@ const StageInCompany = () => {
           </Button>
         </Box>
         <DataTable
-          rows={filteredStages}
+          rows={stages}
           columns={columns}
           order={order}
           orderBy={orderBy}

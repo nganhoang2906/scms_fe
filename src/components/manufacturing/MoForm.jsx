@@ -46,13 +46,12 @@ const MoForm = ({ mo, onChange, errors = {}, readOnlyFields, setMo, items = [], 
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
-  
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
         <TextField fullWidth label="Mã MO" name="moCode"
-          value={mo.moCode} onChange={onChange} placeholder="Mã công lệnh sẽ tự động tạo" required
+          value={mo.moCode} onChange={onChange} placeholder="Mã công lệnh được tạo tự động" required
           inputProps={{ readOnly: isFieldReadOnly("moCode") }}
         />
       </Grid>
@@ -60,7 +59,7 @@ const MoForm = ({ mo, onChange, errors = {}, readOnlyFields, setMo, items = [], 
       <Grid item xs={12} sm={6}>
         <SelectAutocomplete size="small"
           options={filteredItems.map(item => ({ label: item.itemCode, value: item.itemId }))}
-          value={mo.itemId} onChange={handleItemChange} onInputChange={handleSearchInputChange} placeholder="Chọn mã hàng hóa *"
+          value={mo.itemId} onChange={handleItemChange} onInputChange={handleSearchInputChange} placeholder="Chọn hàng hóa *"
           error={errors.itemId} helperText={errors.itemId} disabled={isFieldReadOnly("itemId")} required
         />
       </Grid>
@@ -68,7 +67,7 @@ const MoForm = ({ mo, onChange, errors = {}, readOnlyFields, setMo, items = [], 
       <Grid item xs={12} sm={6}>
         <SelectAutocomplete size="small"
           options={lines.map(line => ({ label: line.lineCode, value: line.lineId }))}
-          value={mo.lineId} onChange={handleLineChange} placeholder="Chọn mã chuyền *"
+          value={mo.lineId} onChange={handleLineChange} placeholder="Chọn dây chuyền *"
           error={errors.lineId} helperText={errors.lineId} disabled={isFieldReadOnly("lineId")}
         />
       </Grid>
@@ -90,6 +89,7 @@ const MoForm = ({ mo, onChange, errors = {}, readOnlyFields, setMo, items = [], 
         <TextField fullWidth label="Số lượng" name="quantity" type="number" value={mo.quantity} onChange={onChange}
           required error={!!errors.quantity} helperText={errors.quantity}
           InputProps={{ readOnly: isFieldReadOnly("quantity") }}
+          inputProps={{ min: 0 }}
         />
       </Grid>
 
@@ -114,6 +114,7 @@ const MoForm = ({ mo, onChange, errors = {}, readOnlyFields, setMo, items = [], 
             <MenuItem value="Chờ xác nhận">Chờ xác nhận</MenuItem>
             <MenuItem value="Chờ sản xuất">Chờ sản xuất</MenuItem>
             <MenuItem value="Đang sản xuất">Đang sản xuất</MenuItem>
+            <MenuItem value="Chờ nhập kho">Chờ nhập kho</MenuItem>
             <MenuItem value="Đã hoàn thành">Đã hoàn thành</MenuItem>
             <MenuItem value="Đã hủy">Đã hủy</MenuItem>
           </Select>

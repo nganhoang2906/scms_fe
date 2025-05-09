@@ -26,7 +26,7 @@ import EmployeeDetail from "@pages/general/employee/EmployeeDetail";
 import EditEmployee from "@pages/general/employee/EditEmployee";
 import CreateEmployee from "@pages/general/employee/CreateEmployee";
 
-import UserInCompany from "@pages/general/user/UserInCompany";  
+import UserInCompany from "@pages/general/user/UserInCompany";
 import UserDetail from "@pages/general/user/UserDetail";
 import EditUser from "@pages/general/user/EditUser";
 
@@ -69,6 +69,18 @@ import EditStage from "@/pages/manufacturing/stage/EditStage";
 import Inventory from "@/pages/inventory/inventory/Inventory";
 import CheckInventory from "@/pages/inventory/inventory/CheckInventory";
 import InventoryCount from "@/pages/inventory/inventory/InventoryCount";
+import CreateInventory from "@/pages/inventory/inventory/CreateInventory";
+
+import ItInCompany from "@/pages/inventory/issue-ticket/ItInCompany";
+import ItDetail from "@/pages/inventory/issue-ticket/ItDetail";
+
+import RtInCompany from "@/pages/inventory/receive-ticket/RtInCompany";
+import RtDetail from "@/pages/inventory/receive-ticket/RtDetail";
+
+import TtInCompany from "@/pages/inventory/transfer-ticket/TtInCompany";
+import TtDetail from "@/pages/inventory/transfer-ticket/TtDetail";
+import EditTt from "@/pages/inventory/transfer-ticket/EditTt";
+import CreateTt from "@/pages/inventory/transfer-ticket/CreateTt";
 
 function AppRoutes() {
   return (
@@ -106,7 +118,7 @@ function AppRoutes() {
           <Route path="/item-in-company" element={<PrivateRoute element={<ItemInCompany />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/item/:itemId" element={<PrivateRoute element={<ItemDetail/>} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/create-item" element={<PrivateRoute element={<CreateItem />} allowedRoles={["C-ADMIN"]}/>} />
-          <Route path="/item/:itemId/edit" element={<PrivateRoute element={<EditItem />} allowedRoles={["C-ADMIN"]}/>} />  
+          <Route path="/item/:itemId/edit" element={<PrivateRoute element={<EditItem />} allowedRoles={["C-ADMIN"]}/>} />
           <Route path="/create-item-from-excel" element={<PrivateRoute element={<CreateItemFromExcel />} allowedRoles={["C-ADMIN"]}/>} />
 
           <Route path="/warehouse-in-company" element={<PrivateRoute element={<WarehouseInCompany />} allowedRoles={["C-ADMIN"]}/>} />
@@ -141,7 +153,19 @@ function AppRoutes() {
 
           <Route path="/inventory" element={<PrivateRoute element={<Inventory />} allowedRoles={["C-ADMIN", "USER"]} />} />
           <Route path="/check-inventory/:type/:id" element={<PrivateRoute element={<CheckInventory />} allowedRoles={["C-ADMIN", "USER"]} />} />
-          <Route path="/inventory-count" element={<PrivateRoute element={<InventoryCount />} allowedRoles={["C-ADMIN"]} />} />
+          <Route path="/inventory-count" element={<PrivateRoute element={<InventoryCount />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Kho"]} />} />
+          <Route path="/create-inventory" element={<PrivateRoute element={<CreateInventory />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Kho"]} />} />
+
+          <Route path="/issue-ticket-in-company" element={<PrivateRoute element={<ItInCompany />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Kho"]}/>} />
+          <Route path="/issue-ticket/:ticketId" element={<PrivateRoute element={<ItDetail />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Kho"]}/>} />
+          
+          <Route path="/receive-ticket-in-company" element={<PrivateRoute element={<RtInCompany />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Kho"]}/>} />
+          <Route path="/receive-ticket/:ticketId" element={<PrivateRoute element={<RtDetail />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Kho"]}/>} />
+          
+          <Route path="/tt-in-company" element={<PrivateRoute element={<TtInCompany />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Kho"]}/>} />
+          <Route path="/transfer-ticket/:ticketId" element={<PrivateRoute element={<TtDetail />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Kho"]}/>} />
+          <Route path="/transfer-ticket/:ticketId/edit" element={<PrivateRoute element={<EditTt />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Kho"]}/>} />
+          <Route path="/create-transfer-ticket" element={<PrivateRoute element={<CreateTt />} allowedRoles={["C-ADMIN", "USER"]} allowedDepartments={["Quản trị", "Kho"]}/>} />
 
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Route>

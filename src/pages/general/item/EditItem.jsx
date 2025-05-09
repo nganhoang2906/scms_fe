@@ -12,22 +12,6 @@ const EditItem = () => {
   const [editedItem, setEditedItem] = useState(null);
   const [errors, setErrors] = useState({});
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
-  const normalizeForSave = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] === "" ? null : data[key];
-    }
-    return normalized;
-  };
-
   const validateForm = () => {
     const errors = {};
     const { itemName, itemType, uom, importPrice, exportPrice } = editedItem;
@@ -52,9 +36,8 @@ const EditItem = () => {
       const token = localStorage.getItem("token");
       try {
         const data = await getItemById(itemId, token);
-        const normalizedData = normalizeForDisplay(data);
-        setItem(normalizedData);
-        setEditedItem(normalizedData);
+        setItem(data);
+        setEditedItem(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin hàng hóa!");
       }
@@ -64,8 +47,19 @@ const EditItem = () => {
   }, [itemId]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedItem((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+  
+    let newValue = value;
+    if (type === "number") {
+      const num = parseFloat(value);
+      if (isNaN(num)) {
+        newValue = "";
+      } else {
+        newValue = num < 0 ? 0 : num;
+      }
+    }
+  
+    setEditedItem((prev) => ({ ...prev, [name]: newValue }));
   };
 
   const handleCancel = () => {
@@ -83,10 +77,9 @@ const EditItem = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await updateItem(itemId, normalizeForSave(editedItem), token);
-      const updatedData = normalizeForDisplay(res);
-      setItem(updatedData);
-      setEditedItem(updatedData);
+      const updatedItem = await updateItem(itemId, editedItem, token);
+      setItem(updatedItem);
+      setEditedItem(updatedItem);
       alert("Cập nhật thông tin hàng hóa thành công!");
       navigate(`/item/${itemId}`);
     } catch (error) {

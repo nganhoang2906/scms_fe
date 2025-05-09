@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, TableRow, TableCell, Typography, Paper, Box, Button } from "@mui/material";
 import DataTable from "@components/content-components/DataTable";
+import StatusSummaryCard from "@/components/content-components/StatusSummaryCard";
 import { getAllMosInCompany } from "@/services/manufacturing/MoService";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from '@mui/material/styles';
 
 const MoInCompany = () => {
   const [mos, setMos] = useState([]);
@@ -12,6 +14,8 @@ const MoInCompany = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const navigate = useNavigate();
+  const [filterStatus, setFilterStatus] = useState("Tất cả");
+  const theme = useTheme();
 
   const token = localStorage.getItem("token");
   const companyId = localStorage.getItem("companyId");
@@ -44,12 +48,9 @@ const MoInCompany = () => {
     setPage(1);
   };
 
-  const filteredMos = mos.filter((mo) =>
-    Object.values(mo)
-      .some((value) =>
-        value?.toString().toLowerCase().includes(search.toLowerCase())
-      )
-  );
+  const filteredMos = !filterStatus || filterStatus === "Tất cả"
+  ? mos
+  : mos.filter((mo) => mo.status === filterStatus);
 
   const columns = [
     { id: "moCode", label: "Mã MO" },
@@ -61,9 +62,9 @@ const MoInCompany = () => {
     { id: "estimatedEndTime", label: "Ngày kết thúc" },
     { id: "createdBy", label: "Người tạo" },
     { id: "createdOn", label: "Ngày tạo" },
-    { id: "lastUpdatedOn", label: "Cập nhật lần cuối" },
+    { id: "lastUpdatedOn", label: "Cập nhật" },
     { id: "status", label: "Trạng thái" },
-  ];  
+  ];
 
   return (
     <Container>
@@ -71,11 +72,27 @@ const MoInCompany = () => {
         <Typography className="page-title" variant="h4">
           DANH SÁCH CÔNG LỆNH SẢN XUẤT
         </Typography>
+        <StatusSummaryCard
+          data={mos}
+          statusLabels={["Tất cả", "Chờ xác nhận", "Chờ sản xuất", "Đang sản xuất", "Chờ nhập kho"]}
+          getStatus={(mo) => mo.status}
+          statusColors={{
+            "Tất cả": "#000",
+            "Chờ xác nhận": theme.palette.secondary.main,
+            "Chờ sản xuất": theme.palette.primary.main,
+            "Đang sản xuất": theme.palette.success.main,
+            "Chờ nhập kho": theme.palette.warning.main
+          }}
+          onSelectStatus={(status) => setFilterStatus(status)}
+          selectedStatus={filterStatus}
+        />
+
         <Box mt={3} mb={3}>
           <Button variant="contained" color="default" onClick={() => navigate("/create-mo")}>
             Thêm mới
           </Button>
         </Box>
+        
         <DataTable
           rows={filteredMos}
           columns={columns}

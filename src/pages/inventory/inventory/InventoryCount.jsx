@@ -5,6 +5,7 @@ import { getAllInventory, updateInventory } from "@/services/inventory/Inventory
 import { getAllItemsInCompany } from "@/services/general/ItemService";
 import { getAllWarehousesInCompany } from "@/services/general/WarehouseService";
 import SelectAutocomplete from "@components/content-components/SelectAutocomplete";
+import { useNavigate } from "react-router-dom";
 
 const InventoryCount = () => {
   const [inventories, setInventories] = useState([]);
@@ -17,6 +18,7 @@ const InventoryCount = () => {
   const [orderBy, setOrderBy] = useState("warehouseCode");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
   const companyId = localStorage.getItem("companyId");
@@ -45,7 +47,12 @@ const InventoryCount = () => {
         : 0;
 
       const data = await getAllInventory(itemId, warehouseId, companyId, token);
-      const withActualQuantity = data.map(inventory => ({ ...inventory, actualQuantity: inventory.quantity }));
+      const withActualQuantity = data.map(inventory => ({
+        ...inventory,
+        actualQuantity: inventory.quantity,
+        actualOnDemandQuantity: inventory.onDemandQuantity
+      }));
+
       setInventories(withActualQuantity);
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi khi lấy tồn kho!");
@@ -55,15 +62,23 @@ const InventoryCount = () => {
   const handleSaveInventory = async (inventory) => {
     try {
       const quantityToSave = inventory.actualQuantity === null ? 0 : inventory.actualQuantity;
+      const onDemandToSave = inventory.actualOnDemandQuantity === null ? 0 : inventory.actualOnDemandQuantity;
 
       await updateInventory(inventory.inventoryId, {
         ...inventory,
-        quantity: quantityToSave
+        quantity: quantityToSave,
+        onDemandQuantity: onDemandToSave
       }, token);
 
       const newInventories = inventories.map((inv) =>
         inv.inventoryId === inventory.inventoryId
-          ? { ...inv, actualQuantity: quantityToSave, quantity: quantityToSave }
+          ? {
+            ...inv,
+            actualQuantity: quantityToSave,
+            quantity: quantityToSave,
+            actualOnDemandQuantity: onDemandToSave,
+            onDemandQuantity: onDemandToSave
+          }
           : inv
       );
       setInventories(newInventories);
@@ -81,13 +96,10 @@ const InventoryCount = () => {
     { id: "itemName", label: "Tên hàng hóa" },
     { id: "quantity", label: "Số lượng hiện tại" },
     { id: "actualQuantity", label: "Số lượng thực tế" },
+    { id: "onDemandQuantity", label: "Số lượng cần dùng" },
+    { id: "actualOnDemandQuantity", label: "Số lượng cần dùng thực tế" },
     { id: "action", label: "Hành động" }
   ];
-
-  const filteredInventories = inventories.filter((inventory) =>
-    inventory.itemCode.toLowerCase().includes(search.toLowerCase()) ||
-    inventory.warehouseCode.toLowerCase().includes(search.toLowerCase())
-  );
 
   return (
     <Container>
@@ -122,8 +134,14 @@ const InventoryCount = () => {
           </Grid>
         </Box>
 
+        <Box mt={3} mb={3}>
+          <Button variant="contained" color="default" onClick={() => navigate("/create-inventory")}>
+            Thêm mới
+          </Button>
+        </Box>
+
         <DataTable
-          rows={filteredInventories}
+          rows={inventories}
           columns={columns}
           order={order}
           orderBy={orderBy}
@@ -173,24 +191,50 @@ const InventoryCount = () => {
                   inputProps={{ min: 0 }}
                 />
               </TableCell>
+              <TableCell>{inventory.onDemandQuantity}</TableCell>
               <TableCell>
-                {inventory.actualQuantity !== inventory.quantity && (
-                  <Button
-                    variant="contained"
-                    color="success"
-                    size="small"
-                    onClick={() => handleSaveInventory(inventory)}
-                  >
-                    Lưu
-                  </Button>
-                )}
-
+                <TextField
+                  type="number"
+                  size="small"
+                  value={inventory.actualOnDemandQuantity === null ? "" : inventory.actualOnDemandQuantity}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const newInventories = inventories.map((inv) =>
+                      inv.inventoryId === inventory.inventoryId
+                        ? { ...inv, actualOnDemandQuantity: value === "" ? null : Number(value) }
+                        : inv
+                    );
+                    setInventories(newInventories);
+                  }}
+                  onBlur={() => {
+                    const newInventories = inventories.map((inv) =>
+                      inv.inventoryId === inventory.inventoryId
+                        ? { ...inv, actualOnDemandQuantity: inv.actualOnDemandQuantity === null ? 0 : inv.actualOnDemandQuantity }
+                        : inv
+                    );
+                    setInventories(newInventories);
+                  }}
+                  inputProps={{ min: 0 }}
+                />
+              </TableCell>
+              <TableCell>
+                {(inventory.actualQuantity !== inventory.quantity ||
+                  inventory.actualOnDemandQuantity !== inventory.onDemandQuantity) && (
+                    <Button
+                      variant="contained"
+                      color="success"
+                      size="small"
+                      onClick={() => handleSaveInventory(inventory)}
+                    >
+                      Lưu
+                    </Button>
+                  )}
               </TableCell>
             </TableRow>
           )}
         />
       </Paper>
-    </Container>
+    </Container >
   );
 };
 

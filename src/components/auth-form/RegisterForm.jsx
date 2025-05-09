@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Grid, TextField, Button, FormControlLabel, Checkbox,
   Container, Typography, MenuItem, IconButton, InputAdornment
@@ -11,16 +11,11 @@ const RegisterForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyCode: "", companyName: "", taxCode: "", address: "", country: "", companyType: "",
-    mainIndustry: "", representativeName: "", joinDate: "", phoneNumber: "", email: "",
-    employeeCode: "", username: "", password: "", termsAccepted: false,
+    mainIndustry: "", representativeName: "", phoneNumber: "", email: "",
+    employeeCode: "", password: "", termsAccepted: false,
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-
-  useEffect(() => {
-    const today = new Date().toISOString().split("T")[0];
-    setFormData((prevData) => ({ ...prevData, joinDate: today }));
-  }, []);
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -41,7 +36,6 @@ const RegisterForm = () => {
     if (!formData.email.trim()) errors.email = "Email không được để trống";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errors.email = "Email không hợp lệ";
     if (!formData.employeeCode.trim()) errors.employeeCode = "Mã nhân viên không được để trống";
-    if (!formData.username.trim()) errors.username = "Tên đăng nhập không được để trống";
     if (!formData.password.trim()) errors.password = "Mật khẩu không được để trống";
     if (formData.password.length < 8) errors.password = "Mật khẩu phải có ít nhất 8 ký tự";
     if (!formData.termsAccepted) errors.termsAccepted = "Bạn phải đồng ý với điều khoản";
@@ -114,13 +108,9 @@ const RegisterForm = () => {
             <TextField fullWidth label="Email" name="email" value={formData.email}
               onChange={handleChange} error={!!errors.email} helperText={errors.email} required />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Mã nhân viên" name="employeeCode" value={formData.employeeCode}
               onChange={handleChange} error={!!errors.employeeCode} helperText={errors.employeeCode} required />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Tên đăng nhập" name="username" value={formData.username}
-              onChange={handleChange} error={!!errors.username} helperText={errors.username} required />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Mật khẩu" name="password"

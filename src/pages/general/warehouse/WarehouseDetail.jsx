@@ -10,21 +10,12 @@ const WarehouseDetail = () => {
   const [warehouse, setWarehouse] = useState(null);
   const navigate = useNavigate();
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
   useEffect(() => {
     const fetchWarehouse = async () => {
       const token = localStorage.getItem("token");
       try {
         const data = await getWarehouseById(warehouseId, token);
-        const normalizedData = normalizeForDisplay(data);
-        setWarehouse(normalizedData);
+        setWarehouse(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin kho!");
       }

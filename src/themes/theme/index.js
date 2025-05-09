@@ -24,59 +24,59 @@ export default function Theme(colors) {
   return {
     default: {
       lighter: "#D0E6F5",
-      light:   "#77B7DF",
-      main:    "#05518B",
-      dark:    "#033B64",
-      darker:  "#022840",
+      light: "#77B7DF",
+      main: "#05518B",
+      dark: "#033B64",
+      darker: "#022840",
       contrastText
     },
     
     primary: {
-      lighter: blue[2],
+      lighter: blue[3],
       light: blue[4],
-      main: blue[6],
-      dark: blue[8],
-      darker: blue[10],
+      main: blue[5],
+      dark: blue[6],
+      darker: blue[7],
       contrastText
     },
     secondary: {
-      lighter: greyColors[100],
-      light: greyColors[300],
-      main: greyColors[500],
-      dark: greyColors[700],
-      darker: greyColors[900],
+      lighter: grey[4],
+      light: grey[5],
+      main: grey[6],
+      dark: grey[7],
+      darker: grey[8],
       contrastText
     },
     error: {
-      lighter: red[2],
+      lighter: red[3],
       light: red[4],
       main: red[6],
-      dark: red[8],
-      darker: red[10],
+      dark: red[7],
+      darker: red[8],
       contrastText
     },
     warning: {
-      lighter: gold[2],
+      lighter: gold[3],
       light: gold[4],
-      main: gold[6],
-      dark: gold[8],
-      darker: gold[10],
+      main: gold[5],
+      dark: gold[6],
+      darker: gold[7],
       contrastText
     },
     info: {
-      lighter: cyan[2],
-      light: cyan[4],
-      main: cyan[6],
+      lighter: cyan[5],
+      light: cyan[6],
+      main: cyan[7],
       dark: cyan[8],
-      darker: cyan[10],
+      darker: cyan[9],
       contrastText
     },
     success: {
-      lighter: green[2],
-      light: green[4],
+      lighter: green[4],
+      light: green[5],
       main: green[6],
-      dark: green[8],
-      darker: green[10],
+      dark: green[7],
+      darker: green[8],
       contrastText
     },
     grey: greyColors

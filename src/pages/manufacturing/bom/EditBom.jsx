@@ -26,6 +26,7 @@ const EditBom = () => {
           getBomByItemId(itemId, token),
           getAllItemsInCompany(companyId, token),
         ]);
+
         setBom({
           ...bomData,
           itemId: bomData.itemId || "",
@@ -34,6 +35,7 @@ const EditBom = () => {
           description: bomData.description || "",
           status: bomData.status || "",
         });
+
         setBomDetails(bomData.bomDetails || []);
         setItems(itemData);
       } catch (error) {
@@ -89,7 +91,7 @@ const EditBom = () => {
     }
 
     try {
-      const payload = {
+      const request = {
         itemId: bom.itemId,
         description: bom.description,
         status: bom.status,
@@ -100,7 +102,7 @@ const EditBom = () => {
         })),
       };
 
-      await updateBom(bom.bomId, payload, token);
+      await updateBom(bom.bomId, request, token);
       alert("Cập nhật BOM thành công!");
       navigate(-1);
     } catch (error) {

@@ -44,11 +44,6 @@ const EmployeeInCompany = () => {
     setPage(1);
   };
 
-  const filteredEmployees = employees.filter((emp) =>
-    emp.employeeCode.toLowerCase().includes(search.toLowerCase()) ||
-    (emp.employeeName && emp.employeeName.toLowerCase().includes(search.toLowerCase()))
-  );
-
   const columns = [
     { id: "employeeCode", label: "Mã nhân viên" },
     { id: "employeeName", label: "Tên nhân viên" },
@@ -73,7 +68,7 @@ const EmployeeInCompany = () => {
           </Button>
         </Box>
         <DataTable
-          rows={filteredEmployees}
+          rows={employees}
           columns={columns}
           order={order}
           orderBy={orderBy}

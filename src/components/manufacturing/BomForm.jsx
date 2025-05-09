@@ -56,7 +56,7 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
         <TextField fullWidth label="Mã BOM" name="bomCode" value={bom.bomCode} onChange={onChange}
-          placeholder="Mã BOM sẽ tự động tạo" required
+          placeholder="Mã BOM được tạo tự động" required
           inputProps={{ readOnly: isFieldReadOnly("bomCode") }}
         />
       </Grid>
@@ -67,7 +67,7 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
           value={bom.itemCode}
           onChange={(selected) => handleItemCodeChange(selected?.value || "")}
           onInputChange={handleSearchInputChange}
-          placeholder="Chọn mã hàng hóa"
+          placeholder="Chọn hàng hóa"
           error={errors.itemCode}
           helperText={errors.itemCode}
           size="small"

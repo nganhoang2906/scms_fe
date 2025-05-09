@@ -39,11 +39,11 @@ const UpdatePasswordForm = ({ userId, onSuccess }) => {
   
     const token = localStorage.getItem("token");
     try {
-      const payload = {
+      const request = {
         currentPassword: formData.currentPassword,
         newPassword: formData.newPassword,
       };
-      await updatePassword(userId, payload, token);
+      await updatePassword(userId, request, token);
       alert("Đổi mật khẩu thành công!");
       onSuccess?.();
     } catch (error) {

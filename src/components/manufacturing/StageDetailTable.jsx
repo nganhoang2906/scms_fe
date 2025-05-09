@@ -3,10 +3,21 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextF
 import { Delete } from "@mui/icons-material";
 
 const StageDetailTable = ({ stageDetails, setStageDetails, errors }) => {
-  const handleDetailChange = (index, field, value) => {
+  const handleDetailChange = (index, field, value, type) => {
+    let newValue = value;
+
+    if (type === "number") {
+      const num = parseFloat(value);
+      if (isNaN(num)) {
+        newValue = "";
+      } else {
+        newValue = num < 0 ? 0 : num;
+      }
+    }
+  
     setStageDetails(prev =>
       prev.map((detail, i) =>
-        i === index ? { ...detail, [field]: value } : detail
+        i === index ? { ...detail, [field]: newValue } : detail
       )
     );
   };
@@ -60,7 +71,8 @@ const StageDetailTable = ({ stageDetails, setStageDetails, errors }) => {
                     type="number"
                     size="small"
                     value={detail.estimatedTime}
-                    onChange={(e) => handleDetailChange(index, "estimatedTime", e.target.value)}
+                    inputProps={{ min: 0 }}
+                    onChange={(e) => handleDetailChange(index, "estimatedTime", e.target.value, "number")}
                     error={!!errors?.find(err => err.index === index && err.field === "estimatedTime")}
                     helperText={errors?.find(err => err.index === index && err.field === "estimatedTime")?.message}
                   />

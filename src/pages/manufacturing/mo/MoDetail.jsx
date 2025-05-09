@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Container, Paper, Typography, Box, Button } from "@mui/material";
+import { Container, Paper, Typography, Box, Button, Grid, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import MoForm from "@/components/manufacturing/MoForm";
 import { getMoById, updateMo } from "@/services/manufacturing/MoService";
 import { getAllItemsInCompany } from "@/services/general/ItemService";
 import { getAllLinesInCompany } from "@/services/general/ManufactureLineService";
 import { getAllProcessesInMo, updateProcess } from "@/services/manufacturing/ProcessService";
+import { getAllWarehousesInCompany } from "@/services/general/WarehouseService";
+import { createReceiveTicket } from "@/services/inventory/ReceiveTicketService";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
 import ProcessCard from "@/components/content-components/ProcessCard";
 import dayjs from "dayjs";
@@ -16,36 +18,29 @@ const MoDetail = () => {
   const [items, setItems] = useState([]);
   const [lines, setLines] = useState([]);
   const [processes, setProcesses] = useState([]);
+  const [selectedWarehouseId, setSelectedWarehouseId] = useState("");
+  const [warehouses, setWarehouses] = useState([]);
+  const [hasRequestedReceive, setHasRequestedReceive] = useState(false);
 
   const navigate = useNavigate();
-
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
+  const token = localStorage.getItem("token");
+  const companyId = localStorage.getItem("companyId");
 
   useEffect(() => {
     const fetchMo = async () => {
-      const token = localStorage.getItem("token");
       try {
         const data = await getMoById(moId, token);
-        const normalizedData = normalizeForDisplay(data);
-        setMo(normalizedData);
+        setMo(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin công lệnh!");
       }
     };
 
     fetchMo();
-  }, [moId]);
+  }, [moId, token]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      const companyId = localStorage.getItem("companyId");
       try {
         const itemsData = await getAllItemsInCompany(companyId, token);
         setItems(itemsData);
@@ -58,11 +53,10 @@ const MoDetail = () => {
     };
 
     fetchData();
-  }, []);
+  }, [companyId, token]);
 
   useEffect(() => {
     const fetchProcesses = async () => {
-      const token = localStorage.getItem("token");
       try {
         const data = await getAllProcessesInMo(moId, token);
         const sorted = data.sort((a, b) => a.stageDetailOrder - b.stageDetailOrder);
@@ -73,7 +67,19 @@ const MoDetail = () => {
     };
 
     fetchProcesses();
-  }, [moId]);
+  }, [moId, token]);
+
+  useEffect(() => {
+    const fetchWarehouses = async () => {
+      try {
+        const data = await getAllWarehousesInCompany(companyId, token);
+        setWarehouses(data);
+      } catch (error) {
+        alert(error.response?.data?.message || "Không thể tải danh sách kho!");
+      }
+    };
+    fetchWarehouses();
+  }, [companyId, token]);
 
   const handleConfirm = (type, id) => {
     navigate(`/check-inventory/${type}/${id}`);
@@ -83,20 +89,18 @@ const MoDetail = () => {
     const confirmCancel = window.confirm("Bạn có chắc chắn muốn hủy công lệnh này không?");
     if (!confirmCancel) return;
 
-    const token = localStorage.getItem("token");
     try {
-      const payload = {
+      const request = {
         ...mo,
         status: "Đã hủy"
       };
-      await updateMo(moId, payload, token);
+      await updateMo(moId, request, token);
       alert("Đã hủy công lệnh!");
 
       setMo((prev) => ({
         ...prev,
         status: "Đã hủy",
       }));
-
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi khi hủy công lệnh!");
     }
@@ -111,7 +115,6 @@ const MoDetail = () => {
   };
 
   const handleCompleteProcess = async (currentProcess) => {
-    const token = localStorage.getItem("token");
     const now = dayjs().format("YYYY-MM-DDTHH:mm:ss");
 
     try {
@@ -136,12 +139,12 @@ const MoDetail = () => {
       } else {
         await updateMo(moId, {
           ...mo,
-          status: "Đã hoàn thành",
+          status: "Chờ nhập kho",
         }, token);
 
         setMo((prevMo) => ({
           ...prevMo,
-          status: "Đã hoàn thành"
+          status: "Chờ nhập kho",
         }));
       }
 
@@ -154,6 +157,30 @@ const MoDetail = () => {
     }
   };
 
+  const handleCreateReceiveTicket = async () => {
+    if (!selectedWarehouseId) {
+      alert("Vui lòng chọn kho nhập.");
+      return;
+    }
+
+    const receiveTicketRequest = {
+      companyId: companyId,
+      warehouseId: selectedWarehouseId,
+      reason: "Nhập kho sau sản xuất",
+      receiveType: "Sản xuất",
+      referenceCode: mo.moCode,
+      status: "Chờ xác nhận",
+    };
+
+    try {
+      console.log("Receive Ticket Request: ", receiveTicketRequest);
+      await createReceiveTicket(receiveTicketRequest, token);
+      alert("Yêu cầu nhập kho thành công!");
+      setHasRequestedReceive(true);
+    } catch (error) {
+      alert(error.response?.data?.message || "Không thể tạo phiếu nhập kho!");
+    }
+  };
 
   const readOnlyFields = {
     moCode: true,
@@ -195,6 +222,40 @@ const MoDetail = () => {
             </Box>
           )}
         </Box>
+
+        {mo.status === "Chờ nhập kho" && !hasRequestedReceive && (
+          <Box mt={3} mb={3} p={2} border="3px solid #ccc" borderRadius={2}>
+            <Typography variant="h5" mb={2}>Chọn kho để nhập thành phẩm: </Typography>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel>Kho nhập</InputLabel>
+                  <Select
+                    value={selectedWarehouseId}
+                    onChange={(e) => setSelectedWarehouseId(e.target.value)}
+                    label="Kho nhập"
+                  >
+                    {warehouses.map((wh) => (
+                      <MenuItem key={wh.warehouseId} value={wh.warehouseId}>
+                        {wh.warehouseCode} - {wh.warehouseName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  variant="contained"
+                  color="default"
+                  onClick={handleCreateReceiveTicket}
+                  disabled={!selectedWarehouseId}
+                >
+                  Yêu cầu nhập kho
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        )}
 
         <MoForm mo={mo} onChange={() => { }} errors={{}} readOnlyFields={readOnlyFields} items={items} lines={lines} setMo={setMo} />
 

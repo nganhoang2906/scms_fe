@@ -22,7 +22,6 @@ const CreateEmployee = () => {
     dateOfBirth: "",
     employmentStartDate: "",
     departmentId: "",
-    username: "",
     password: "",
   });
 
@@ -39,7 +38,6 @@ const CreateEmployee = () => {
     }
     if (!formData.phoneNumber?.trim()) errors.phoneNumber = "SĐT không được để trống";
     else if (!/^\d{10,11}$/.test(formData.phoneNumber)) errors.phoneNumber = "SĐT không hợp lệ";
-    if (!formData.username.trim()) errors.username = "Tên đăng nhập không được để trống";
     if (!formData.password.trim()) errors.password = "Mật khẩu không được để trống";
     else if (formData.password.length < 8) errors.password = "Mật khẩu phải ≥ 8 ký tự";
     return errors;

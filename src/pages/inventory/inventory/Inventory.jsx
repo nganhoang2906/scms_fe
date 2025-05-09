@@ -75,11 +75,6 @@ const Inventory = () => {
     { id: "onDemandQuantity", label: "Cần dùng" },
   ];
 
-  const filteredInventories = inventories.filter((inv) =>
-    inv.itemCode.toLowerCase().includes(search.toLowerCase()) ||
-    inv.warehouseCode.toLowerCase().includes(search.toLowerCase())
-  );
-
   return (
     <Container>
       <Paper className="paper-container" elevation={3}>
@@ -114,7 +109,7 @@ const Inventory = () => {
         </Box>
 
         <DataTable
-          rows={filteredInventories}
+          rows={inventories}
           columns={columns}
           order={order}
           orderBy={orderBy}

@@ -75,7 +75,7 @@ const CreateBom = () => {
     }
 
     try {
-      const payload = {
+      const request = {
         itemId: bom.itemId,
         description: bom.description,
         status: bom.status,
@@ -85,9 +85,9 @@ const CreateBom = () => {
           note: detail.note,
         })),
       };
-      console.log(payload);
+      console.log(request);
 
-      await createBom(payload, token);
+      await createBom(request, token);
       alert("Tạo BOM thành công!");
       navigate("/bom-in-company");
     } catch (error) {

@@ -48,12 +48,6 @@ const WarehouseInCompany = () => {
     setPage(1);
   };
 
-  const filteredWarehouses = warehouses.filter((w) =>
-    w.warehouseCode?.toLowerCase().includes(search.toLowerCase()) ||
-    w.warehouseName?.toLowerCase().includes(search.toLowerCase()) ||
-    w.description?.toLowerCase().includes(search.toLowerCase())
-  );
-
   const columns = [
     { id: "warehouseCode", label: "Mã kho" },
     { id: "warehouseName", label: "Tên kho" },
@@ -77,7 +71,7 @@ const WarehouseInCompany = () => {
         </Box>
 
         <DataTable
-          rows={filteredWarehouses}
+          rows={warehouses}
           columns={columns}
           order={order}
           orderBy={orderBy}

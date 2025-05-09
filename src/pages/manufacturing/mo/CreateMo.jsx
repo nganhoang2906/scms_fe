@@ -11,7 +11,7 @@ const CreateMo = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const companyId = localStorage.getItem("companyId");
-  const username = localStorage.getItem("username")
+  const employeeName = localStorage.getItem("employeeName")
 
   const [errors, setErrors] = useState({});
   const [items, setItems] = useState([]);
@@ -27,7 +27,7 @@ const CreateMo = () => {
     quantity: "",
     estimatedStartTime: "",
     estimatedEndTime: "",
-    createdBy: username,
+    createdBy: employeeName,
     status: "Chờ xác nhận",
   });
 
@@ -83,7 +83,7 @@ const CreateMo = () => {
     }
 
     try {
-      const payload = {
+      const request = {
         itemId: mo.itemId,
         lineId: mo.lineId,
         type: mo.type,
@@ -91,13 +91,13 @@ const CreateMo = () => {
         estimatedStartTime: toLocalDateTimeString(mo.estimatedStartTime),
         estimatedEndTime: toLocalDateTimeString(mo.estimatedEndTime),
         status: mo.status,
-        createdBy: username,
+        createdBy: employeeName,
       };
 
       console.log(mo.estimatedStartTime);
 
-      await createMo(payload, token);
-      alert("Tạo MO thành công!");
+      await createMo(request, token);
+      alert("Tạo công lệnh thành công!");
       navigate("/mo-in-company");
     } catch (error) {
       console.log(error.response);

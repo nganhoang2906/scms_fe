@@ -16,7 +16,7 @@ export const getStageByItemId = async (itemId, token) => {
 };
 
 export const getAllStagesInCompany = async (companyId, token) => {
-  const response = await axios.get(`${BASE_URL}/user/get-all-stage-in-company/${companyId}`, axiosAuth(token));
+  const response = await axios.get(`${BASE_URL}/user/get-all-stage-in-com/${companyId}`, axiosAuth(token));
   return response.data;
 };
 

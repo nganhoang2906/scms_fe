@@ -8,7 +8,7 @@ const UserInCompany = () => {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("username");
+  const [orderBy, setOrderBy] = useState("employeeCode");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const navigate = useNavigate();
@@ -44,14 +44,8 @@ const UserInCompany = () => {
     setPage(1);
   };
 
-  const filteredUsers = users.filter((user) =>
-    user.username.toLowerCase().includes(search.toLowerCase()) ||
-    user.email.toLowerCase().includes(search.toLowerCase())
-  );
-
   const columns = [
     { id: "employeeCode", label: "Mã nhân viên" },
-    { id: "username", label: "Tên đăng nhập" },
     { id: "email", label: "Email" },
     { id: "role", label: "Vai trò" },
     { id: "status", label: "Trạng thái" },
@@ -65,7 +59,7 @@ const UserInCompany = () => {
         </Typography>
 
         <DataTable
-          rows={filteredUsers}
+          rows={users}
           columns={columns}
           order={order}
           orderBy={orderBy}
@@ -79,7 +73,6 @@ const UserInCompany = () => {
           renderRow={(user) => (
             <TableRow key={user.employeeId} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/user/${user.userId}`)}>
               <TableCell>{user.employeeCode || ""}</TableCell>
-              <TableCell>{user.username || ""}</TableCell>
               <TableCell>{user.email || ""}</TableCell>
               <TableCell>{user.role || ""}</TableCell>
               <TableCell>{user.status || ""}</TableCell>

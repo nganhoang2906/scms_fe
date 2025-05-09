@@ -10,21 +10,12 @@ const ItemDetail = () => {
   const [item, setItem] = useState(null);
   const navigate = useNavigate();
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
   useEffect(() => {
     const fetchItem = async () => {
       const token = localStorage.getItem("token");
       try {
         const data = await getItemById(itemId, token);
-        const normalizedData = normalizeForDisplay(data);
-        setItem(normalizedData);
+        setItem(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin mặt hàng!");
       }

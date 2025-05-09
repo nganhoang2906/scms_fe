@@ -20,21 +20,12 @@ const StageDetail = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
   useEffect(() => {
     const fetchStage = async () => {
       setLoading(true);
       try {
         const data = await getStageByItemId(itemId, token);
-        const normalizedStage = normalizeForDisplay(data);
-        setStage(normalizedStage);
+        setStage(data);
         setStageDetails(Array.isArray(data.stageDetails) ? data.stageDetails : []);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi khi lấy thông tin công đoạn!");
@@ -76,11 +67,6 @@ const StageDetail = () => {
 
   const filteredDetails = Array.isArray(stageDetails)
     ? stageDetails
-        .filter((detail) => {
-          const name = detail.stageName?.toLowerCase() || "";
-          const keyword = search.toLowerCase();
-          return name.includes(keyword);
-        })
         .sort((a, b) => {
           if (orderBy) {
             if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;

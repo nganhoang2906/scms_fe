@@ -12,22 +12,6 @@ const EditWarehouse = () => {
   const [editedWarehouse, setEditedWarehouse] = useState(null);
   const [errors, setErrors] = useState({});
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
-  const normalizeForSave = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] === "" ? null : data[key];
-    }
-    return normalized;
-  };
-
   const validateForm = () => {
     const errors = {};
     const { warehouseName, warehouseType, maxCapacity } = editedWarehouse;
@@ -45,9 +29,8 @@ const EditWarehouse = () => {
       const token = localStorage.getItem("token");
       try {
         const data = await getWarehouseById(warehouseId, token);
-        const normalized = normalizeForDisplay(data);
-        setWarehouse(normalized);
-        setEditedWarehouse(normalized);
+        setWarehouse(data);
+        setEditedWarehouse(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin kho!");
       }
@@ -57,8 +40,19 @@ const EditWarehouse = () => {
   }, [warehouseId]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedWarehouse((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+  
+    let newValue = value;
+    if (type === "number") {
+      const num = parseFloat(value);
+      if (isNaN(num)) {
+        newValue = "";
+      } else {
+        newValue = num < 0 ? 0 : num;
+      }
+    }
+  
+    setEditedWarehouse((prev) => ({ ...prev, [name]: newValue }));
   };
 
   const handleCancel = () => {
@@ -76,10 +70,9 @@ const EditWarehouse = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await updateWarehouse(warehouseId, normalizeForSave(editedWarehouse), token);
-      const updated = normalizeForDisplay(res);
-      setWarehouse(updated);
-      setEditedWarehouse(updated);
+      const updatedWarehouse = await updateWarehouse(warehouseId, editedWarehouse, token);
+      setWarehouse(updatedWarehouse);
+      setEditedWarehouse(updatedWarehouse);
       alert("Cập nhật kho thành công!");
       navigate(`/warehouse/${warehouseId}`);
     } catch (error) {

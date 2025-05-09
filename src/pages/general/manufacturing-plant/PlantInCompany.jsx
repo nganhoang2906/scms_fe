@@ -48,12 +48,6 @@ const PlantInCompany = () => {
     setPage(1);
   };
 
-  const filteredPlants = plants.filter((p) =>
-    p.plantCode?.toLowerCase().includes(search.toLowerCase()) ||
-    p.plantName?.toLowerCase().includes(search.toLowerCase()) ||
-    p.description?.toLowerCase().includes(search.toLowerCase())
-  );
-
   const columns = [
     { id: "plantCode", label: "Mã xưởng" },
     { id: "plantName", label: "Tên xưởng" },
@@ -74,7 +68,7 @@ const PlantInCompany = () => {
         </Box>
 
         <DataTable
-          rows={filteredPlants}
+          rows={plants}
           columns={columns}
           order={order}
           orderBy={orderBy}

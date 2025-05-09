@@ -41,24 +41,21 @@ const LoginForm = () => {
     try {
       const response = await login(formData);
   
-      const { token, role, employeeId, username } = response;
+      const { token, role, employeeId} = response;
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
       localStorage.setItem("employeeId", employeeId);
-      localStorage.setItem("username", username);
   
       console.log("Token:", token);
       console.log("Role:", role);
       console.log("Employee ID:", employeeId);
-      console.log("Username:", username);
       
   
       const employeeData = await getEmployeeById(employeeId, token);
-      const { departmentId, departmentName } = employeeData;
+      const { departmentId, departmentName, employeeName } = employeeData;
       localStorage.setItem("departmentId", departmentId);
-      console.log("Department ID:", departmentId);
       localStorage.setItem("departmentName", departmentName);
-      console.log("Department Name:", departmentName);
+      localStorage.setItem("employeeName", employeeName);
   
       const departmentData = await getDepartmentById(departmentId, token);
       const { companyId } = departmentData;

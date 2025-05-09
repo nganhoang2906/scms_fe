@@ -61,7 +61,7 @@ const CreateStage = () => {
     }
 
     try {
-      const payload = {
+      const request = {
         itemId: stage.itemId,
         description: stage.description,
         status: stage.status,
@@ -73,8 +73,8 @@ const CreateStage = () => {
         })),
       };
 
-      await createStage(payload, token);
-      alert("Tạo Stage thành công!");
+      await createStage(request, token);
+      alert("Tạo công đoạn sản xuất thành công!");
       navigate("/stage-in-company");
     } catch (error) {
       console.log(error.response);

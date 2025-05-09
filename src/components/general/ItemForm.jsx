@@ -52,6 +52,7 @@ const ItemForm = ({ item, onChange, errors = {}, readOnlyFields }) => {
         <TextField fullWidth label="Giá nhập" name="importPrice" type="number" value={item.importPrice} onChange={onChange}
           error={!!errors.importPrice} helperText={errors.importPrice}
           InputProps={{ readOnly: isFieldReadOnly("importPrice") }}
+          inputProps={{ min: 0 }}
         />
       </Grid>
 
@@ -59,6 +60,7 @@ const ItemForm = ({ item, onChange, errors = {}, readOnlyFields }) => {
         <TextField fullWidth label="Giá xuất" name="exportPrice" type="number" value={item.exportPrice} onChange={onChange}
           error={!!errors.exportPrice} helperText={errors.exportPrice}
           InputProps={{ readOnly: isFieldReadOnly("exportPrice") }}
+          inputProps={{ min: 0 }}
         />
       </Grid>
 

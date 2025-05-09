@@ -44,11 +44,6 @@ const ItemInCompany = () => {
     setPage(1);
   };
 
-  const filteredItems = items.filter((item) =>
-    item.itemCode.toLowerCase().includes(search.toLowerCase()) ||
-    (item.itemName && item.itemName.toLowerCase().includes(search.toLowerCase()))
-  );
-
   const columns = [
     { id: "itemCode", label: "Mã mặt hàng" },
     { id: "itemName", label: "Tên mặt hàng" },
@@ -72,7 +67,7 @@ const ItemInCompany = () => {
           </Button>
         </Box>
         <DataTable
-          rows={filteredItems}
+          rows={items}
           columns={columns}
           order={order}
           orderBy={orderBy}

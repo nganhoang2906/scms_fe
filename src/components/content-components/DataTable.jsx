@@ -1,5 +1,8 @@
 import React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField, Box, FormControl, InputLabel, Select, MenuItem, InputAdornment, Pagination, } from "@mui/material";
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, TextField,
+  Box, FormControl, InputLabel, Select, MenuItem, InputAdornment, Pagination,
+} from "@mui/material";
 import { Search } from "@mui/icons-material";
 
 const DataTable = ({
@@ -16,8 +19,6 @@ const DataTable = ({
   setSearch,
   renderRow,
 }) => {
-  const totalPages = Math.ceil(rows.length / rowsPerPage);
-
   const handleSort = (property) => () => {
     onRequestSort(property);
   };
@@ -37,6 +38,21 @@ const DataTable = ({
       ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : b[orderBy] > a[orderBy] ? 1 : 0)
       : (a, b) => (a[orderBy] < b[orderBy] ? -1 : a[orderBy] > b[orderBy] ? 1 : 0);
 
+  const filterRows = (rows, search) => {
+    if (!search) return rows;
+    const lowercasedSearch = search.toLowerCase();
+    return rows.filter((row) =>
+      Object.values(row).some((value) =>
+        String(value).toLowerCase().includes(lowercasedSearch)
+      )
+    );
+  };
+
+  const filteredRows = filterRows(rows, search);
+  const sortedRows = stableSort(filteredRows, getComparator(order, orderBy));
+  const paginatedRows = sortedRows.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+  const filteredTotalPages = Math.ceil(filteredRows.length / rowsPerPage);
+
   return (
     <>
       <Box display="flex" justifyContent="space-between" mb={2}>
@@ -53,7 +69,7 @@ const DataTable = ({
           variant="outlined"
           label="Tìm kiếm"
           value={search}
-          placeholder="Nhập mã hoặc tên"
+          placeholder="Nhập từ khóa tìm kiếm"
           onChange={(e) => setSearch(e.target.value)}
           InputProps={{
             endAdornment: (
@@ -86,26 +102,24 @@ const DataTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {stableSort(rows, getComparator(order, orderBy))
-              .slice((page - 1) * rowsPerPage, page * rowsPerPage)
-              .map((row, index) =>
-                renderRow ? (
-                  renderRow(row, index, page, rowsPerPage)
-                ) : (
-                  <TableRow key={index}>
-                    {columns.map((column) => (
-                      <TableCell key={column.id}>{row[column.id]}</TableCell>
-                    ))}
-                  </TableRow>
-                )
-              )}
+            {paginatedRows.map((row, index) =>
+              renderRow ? (
+                renderRow(row, index, page, rowsPerPage)
+              ) : (
+                <TableRow key={index}>
+                  {columns.map((column) => (
+                    <TableCell key={column.id}>{row[column.id]}</TableCell>
+                  ))}
+                </TableRow>
+              )
+            )}
           </TableBody>
         </Table>
       </TableContainer>
 
       <Box display="flex" justifyContent="center" mt={2}>
         <Pagination
-          count={totalPages}
+          count={filteredTotalPages}
           page={page}
           onChange={onPageChange}
           variant="outlined"

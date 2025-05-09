@@ -46,11 +46,6 @@ const DepartmentInCompany = () => {
     setPage(1);
   };
 
-  const filteredDepartments = departments.filter((dept) =>
-    dept.departmentCode.toLowerCase().includes(search.toLowerCase()) ||
-    dept.departmentName.toLowerCase().includes(search.toLowerCase())
-  );
-
   const columns = [
     { id: "departmentCode", label: "Mã bộ phận" },
     { id: "departmentName", label: "Tên bộ phận" },
@@ -58,12 +53,12 @@ const DepartmentInCompany = () => {
 
   return (
     <Container>
-      <Paper className="paper-container" elevation={3} >
-        <Typography className="page-title" variant="h4" >
+      <Paper className="paper-container" elevation={3}>
+        <Typography className="page-title" variant="h4">
           DANH SÁCH BỘ PHẬN
         </Typography>
         <DataTable
-          rows={filteredDepartments}
+          rows={departments}
           columns={columns}
           order={order}
           orderBy={orderBy}
@@ -75,7 +70,11 @@ const DepartmentInCompany = () => {
           search={search}
           setSearch={setSearch}
           renderRow={(dept) => (
-            <TableRow key={dept.departmentId} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/department/${dept.departmentId}`)}
+            <TableRow
+              key={dept.departmentId}
+              hover
+              sx={{ cursor: "pointer" }}
+              onClick={() => navigate(`/department/${dept.departmentId}`)}
             >
               <TableCell>{dept.departmentCode}</TableCell>
               <TableCell>{dept.departmentName}</TableCell>

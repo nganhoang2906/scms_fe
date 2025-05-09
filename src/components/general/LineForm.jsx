@@ -29,7 +29,7 @@ const LineForm = ({ line, onChange, errors = {}, readOnlyFields = {} }) => {
         >
           {plants.map((plant) => (
             <MenuItem key={plant.plantId} value={plant.plantId}>
-              {plant.plantName}
+              {plant.plantCode} - {plant.plantName}
             </MenuItem>
           ))}
         </TextField>
@@ -53,6 +53,7 @@ const LineForm = ({ line, onChange, errors = {}, readOnlyFields = {} }) => {
         <TextField fullWidth label="Công suất" name="capacity" type="number" value={line.capacity} onChange={onChange}
           error={!!errors.capacity} helperText={errors.capacity} required
           InputProps={{ readOnly: isFieldReadOnly("capacity") }}
+          inputProps={{ min: 0 }}
         />
       </Grid>
 

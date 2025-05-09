@@ -48,13 +48,6 @@ const LineInCompany = () => {
     setPage(1);
   };
 
-  const filteredLines = lines.filter((line) =>
-    line.lineCode?.toLowerCase().includes(search.toLowerCase()) ||
-    line.lineName?.toLowerCase().includes(search.toLowerCase()) ||
-    line.plantName?.toLowerCase().includes(search.toLowerCase()) ||
-    line.description?.toLowerCase().includes(search.toLowerCase())
-  );
-
   const columns = [
     { id: "lineCode", label: "Mã dây chuyền" },
     { id: "lineName", label: "Tên dây chuyền" },
@@ -77,7 +70,7 @@ const LineInCompany = () => {
         </Box>
 
         <DataTable
-          rows={filteredLines}
+          rows={lines}
           columns={columns}
           order={order}
           orderBy={orderBy}

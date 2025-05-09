@@ -4,10 +4,21 @@ import { Delete } from "@mui/icons-material";
 import SelectAutocomplete from "@components/content-components/SelectAutocomplete";
 
 const BomDetailTable = ({ bomDetails, setBomDetails, items, errors }) => {
-  const handleDetailChange = (index, field, value) => {
-    setBomDetails(prevBomDetails =>
-      prevBomDetails.map((bomDetail, i) =>
-        i === index ? { ...bomDetail, [field]: value } : bomDetail
+  const handleDetailChange = (index, field, value, type) => {
+    let newValue = value;
+
+    if (type === "number") {
+      const num = parseFloat(value);
+      if (isNaN(num)) {
+        newValue = "";
+      } else {
+        newValue = num < 0 ? 0 : num;
+      }
+    }
+  
+    setBomDetails(prev =>
+      prev.map((detail, i) =>
+        i === index ? { ...detail, [field]: newValue } : detail
       )
     );
   };
@@ -59,9 +70,10 @@ const BomDetailTable = ({ bomDetails, setBomDetails, items, errors }) => {
                     type="number"
                     size="small"
                     value={bomDetail.quantity}
-                    onChange={(e) => handleDetailChange(index, "quantity", e.target.value)}
+                    onChange={(e) => handleDetailChange(index, "quantity", e.target.value, "number")}
                     error={!!errors?.find(err => err.index === index && err.field === "quantity")}
                     helperText={errors?.find(err => err.index === index && err.field === "quantity")?.message}
+                    inputProps={{ min: 0 }}
                   />
                 </TableCell>
                 <TableCell>

@@ -15,22 +15,6 @@ const EditEmployee = () => {
   const [avatarFile, setAvatarFile] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(null);
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
-  const normalizeForSave = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] === "" ? null : data[key];
-    }
-    return normalized;
-  };
-
   const validateForm = () => {
     const errors = {};
     const { position, employeeName, email, phoneNumber } = editedEmployee;
@@ -54,14 +38,13 @@ const EditEmployee = () => {
       const token = localStorage.getItem("token");
       try {
         const data = await getEmployeeById(employeeId, token);
-        const normalizedData = normalizeForDisplay(data);
 
-        if (normalizedData.avatarUrl) {
-          normalizedData.avatarUrl = `${normalizedData.avatarUrl}?t=${Date.now()}`;
+        if (data.avatarUrl) {
+          data.avatarUrl = `${data.avatarUrl}?t=${Date.now()}`;
         }
 
-        setEmployee(normalizedData);
-        setEditedEmployee(normalizedData);
+        setEmployee(data);
+        setEditedEmployee(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin nhân viên!");
       }
@@ -90,11 +73,10 @@ const EditEmployee = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await updateEmployee(employeeId, normalizeForSave(editedEmployee), token);
+      const updatedEmployee = await updateEmployee(employeeId, editedEmployee, token);
 
-      const updatedData = normalizeForDisplay(res);
-      setEmployee(updatedData);
-      setEditedEmployee(updatedData);
+      setEmployee(updatedEmployee);
+      setEditedEmployee(updatedEmployee);
       alert("Cập nhật thông tin nhân viên thành công!");
       navigate(`/employee/${employeeId}`);
     } catch (error) {
@@ -125,10 +107,10 @@ const EditEmployee = () => {
       setAvatarFile(null);
       setAvatarPreview(null);
 
-      alert("Cập nhật avatar thành công!");
+      alert("Cập nhật ảnh đại diện thành công!");
       navigate(`/employee/${employeeId}`);
     } catch (error) {
-      alert(error.response?.data?.message || "Có lỗi xảy ra khi cập nhật avatar!");
+      alert(error.response?.data?.message || "Có lỗi xảy ra khi cập nhật ảnh đại diện!");
     }
   };
 

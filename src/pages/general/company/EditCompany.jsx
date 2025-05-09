@@ -14,22 +14,6 @@ const EditCompany = () => {
   const [logoPreview, setLogoPreview] = useState(null);
   const navigate = useNavigate();
 
-  const normalizeCompanyForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
-  const normalizeCompanyForSave = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] === "" ? null : data[key];
-    }
-    return normalized;
-  };
-
   useEffect(() => {
       const fetchCompany = async () => {
         const companyId = localStorage.getItem("companyId");
@@ -38,14 +22,13 @@ const EditCompany = () => {
   
         try {
           const data = await getCompanyById(companyId, token);
-          const normalizedData = normalizeCompanyForDisplay(data);
   
-          if (normalizedData.logoUrl) {
-            normalizedData.logoUrl = `${normalizedData.logoUrl}?t=${Date.now()}`;
+          if (data.logoUrl) {
+            data.logoUrl = `${data.logoUrl}?t=${Date.now()}`;
           }
   
-          setCompany(normalizedData);
-          setEditedCompany(normalizedData);
+          setCompany(data);
+          setEditedCompany(data);
         } catch (error) {
           alert(error.response?.data?.message || "Lỗi khi lấy thông tin công ty!");
         }
@@ -93,13 +76,12 @@ const EditCompany = () => {
     const token = localStorage.getItem("token");
 
     try {
-      await updateCompany(companyId, normalizeCompanyForSave(editedCompany), token);
+      await updateCompany(companyId, editedCompany, token);
 
-      const refreshed = await getCompanyById(companyId, token);
-      const normalizedRefreshed = normalizeCompanyForDisplay(refreshed);
+      const updatedCompany = await getCompanyById(companyId, token);
 
-      setCompany(normalizedRefreshed);
-      setEditedCompany(normalizedRefreshed);
+      setCompany(updatedCompany);
+      setEditedCompany(updatedCompany);
       alert("Cập nhật thông tin thành công!");
       navigate("/company");
 

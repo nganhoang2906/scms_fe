@@ -11,7 +11,7 @@ export const createBom = async (data, token) => {
   return res.data;
 };
 
-export const getAllBomsByCompany = async (companyId, token) => {
+export const getAllBomsInCompany = async (companyId, token) => {
   const res = await axios.get(`${BASE_URL}/user/get-all-bom-in-com/${companyId}`, axiosAuth(token));
   return res.data;
 };

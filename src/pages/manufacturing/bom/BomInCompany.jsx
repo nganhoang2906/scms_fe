@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, TableRow, TableCell, Typography, Paper, Box, Button } from "@mui/material";
 import DataTable from "@components/content-components/DataTable";
-import { getAllBomsByCompany } from "@/services/manufacturing/BomService";
+import { getAllBomsInCompany } from "@/services/manufacturing/BomService";
 import { useNavigate } from "react-router-dom";
 
 const BomInCompany = () => {
@@ -19,7 +19,7 @@ const BomInCompany = () => {
   useEffect(() => {
     const fetchBoms = async () => {
       try {
-        const data = await getAllBomsByCompany(companyId, token);
+        const data = await getAllBomsInCompany(companyId, token);
         setBoms(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách Bom!");
@@ -44,11 +44,6 @@ const BomInCompany = () => {
     setPage(1);
   };
 
-  const filteredBoms = boms.filter((bom) =>
-    bom.itemCode.toLowerCase().includes(search.toLowerCase()) ||
-    (bom.itemName && bom.itemName.toLowerCase().includes(search.toLowerCase()))
-  );
-
   const columns = [
     { id: "bomCode", label: "Mã BOM" },
     { id: "itemCode", label: "Mã hàng hóa" },
@@ -69,7 +64,7 @@ const BomInCompany = () => {
           </Button>
         </Box>
         <DataTable
-          rows={filteredBoms}
+          rows={boms}
           columns={columns}
           order={order}
           orderBy={orderBy}

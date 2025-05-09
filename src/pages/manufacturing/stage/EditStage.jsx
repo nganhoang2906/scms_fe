@@ -79,7 +79,7 @@ const EditStage = () => {
     }
 
     try {
-      const payload = {
+      const request = {
         description: stage.description,
         status: stage.status,
         stageDetailList: stageDetails.map((detail) => ({
@@ -90,7 +90,7 @@ const EditStage = () => {
         })),
       };
 
-      await updateStage(stage.stageId, payload, token);
+      await updateStage(stage.stageId, request, token);
       alert("Cập nhật công đoạn thành công!");
       navigate(-1);
     } catch (error) {

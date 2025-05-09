@@ -10,21 +10,12 @@ const LineDetail = () => {
   const [line, setLine] = useState(null);
   const navigate = useNavigate();
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
   useEffect(() => {
     const fetchLine = async () => {
       const token = localStorage.getItem("token");
       try {
         const data = await getLineById(lineId, token);
-        const normalized = normalizeForDisplay(data);
-        setLine(normalized);
+        setLine(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin dây chuyền!");
       }

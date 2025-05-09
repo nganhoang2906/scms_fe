@@ -16,7 +16,7 @@ export const getWarehouseById = async (warehouseId, token) => {
 };
 
 export const getAllWarehousesInCompany = async (companyId, token) => {
-  const response = await axios.get(`${BASE_URL}/user/get-all-warehouse-in-company/${companyId}`, axiosAuth(token));
+  const response = await axios.get(`${BASE_URL}/user/get-all-warehouse-in-com/${companyId}`, axiosAuth(token));
   return response.data;
 };
 

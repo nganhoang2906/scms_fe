@@ -18,8 +18,19 @@ const CreateLine = () => {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setLine((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+  
+    let newValue = value;
+    if (type === "number") {
+      const num = parseFloat(value);
+      if (isNaN(num)) {
+        newValue = "";
+      } else {
+        newValue = num < 0 ? 0 : num;
+      }
+    }
+  
+    setLine((prev) => ({ ...prev, [name]: newValue }));
   };
 
   const validate = () => {

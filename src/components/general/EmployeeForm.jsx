@@ -3,7 +3,7 @@ import { Grid, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui
 import { useEffect, useState } from "react";
 import { getAllDepartmentsInCompany } from "@/services/general/DepartmentService";
 
-const EmployeeForm = ({ employee, onChange, errors = {}, readOnlyFields , mode }) => {
+const EmployeeForm = ({ employee, onChange, errors = {}, readOnlyFields, mode }) => {
   const [departments, setDepartments] = useState([]);
   const token = localStorage.getItem("token");
   const companyId = localStorage.getItem("companyId");
@@ -30,7 +30,7 @@ const EmployeeForm = ({ employee, onChange, errors = {}, readOnlyFields , mode }
         >
           {departments.map((dept) => (
             <MenuItem key={dept.departmentId} value={dept.departmentId}>
-              {dept.departmentName}
+              {dept.departmentCode} - {dept.departmentName}
             </MenuItem>
           ))}
         </TextField>
@@ -105,23 +105,14 @@ const EmployeeForm = ({ employee, onChange, errors = {}, readOnlyFields , mode }
           InputProps={{ readOnly: isFieldReadOnly("email") }}
         />
       </Grid>
-      
-      {mode === "create" && (
-        <>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Tên đăng nhập" name="username" value={employee.username} onChange={onChange}
-              error={!!errors.username} helperText={errors.username} required
-              InputProps={{ readOnly: isFieldReadOnly("username") }}
-            />
-          </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Mật khẩu" name="password" type="password" value={employee.password} onChange={onChange}
-              error={!!errors.password} helperText={errors.password} required
-              InputProps={{ readOnly: isFieldReadOnly("password") }}
-            />
-          </Grid>
-        </>
+      {mode === "create" && (
+        <Grid item xs={12} sm={6}>
+          <TextField fullWidth label="Mật khẩu" name="password" type="password" value={employee.password} onChange={onChange}
+            error={!!errors.password} helperText={errors.password} required
+            InputProps={{ readOnly: isFieldReadOnly("password") }}
+          />
+        </Grid>
       )}
     </Grid>
   );

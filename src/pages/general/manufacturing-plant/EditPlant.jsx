@@ -12,22 +12,6 @@ const EditPlant = () => {
   const [editedPlant, setEditedPlant] = useState(null);
   const [errors, setErrors] = useState({});
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
-  const normalizeForSave = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] === "" ? null : data[key];
-    }
-    return normalized;
-  };
-
   const validateForm = () => {
     const errors = {};
     const { plantName, plantCode } = editedPlant;
@@ -43,9 +27,8 @@ const EditPlant = () => {
       const token = localStorage.getItem("token");
       try {
         const data = await getPlantById(plantId, token);
-        const normalized = normalizeForDisplay(data);
-        setPlant(normalized);
-        setEditedPlant(normalized);
+        setPlant(data);
+        setEditedPlant(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin xưởng!");
       }
@@ -74,10 +57,9 @@ const EditPlant = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await updatePlant(plantId, normalizeForSave(editedPlant), token);
-      const updated = normalizeForDisplay(res);
-      setPlant(updated);
-      setEditedPlant(updated);
+      const updatedPlant = await updatePlant(plantId, editedPlant, token);
+      setPlant(updatedPlant);
+      setEditedPlant(updatedPlant);
       alert("Cập nhật xưởng thành công!");
       navigate(`/plant/${plantId}`);
     } catch (error) {

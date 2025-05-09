@@ -16,20 +16,12 @@ const EditMo = () => {
   const [lines, setLines] = useState([]);
   const navigate = useNavigate();
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
   useEffect(() => {
     const fetchMo = async () => {
       const token = localStorage.getItem("token");
       try {
         const data = await getMoById(moId, token);
-        setMo(normalizeForDisplay(data));
+        setMo(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi khi lấy công lệnh!");
       }
@@ -85,13 +77,13 @@ const EditMo = () => {
 
     const token = localStorage.getItem("token");
     try {
-      const payload = {
+      const request = {
         ...mo,
         estimatedStartTime: toLocalDateTimeString(mo.estimatedStartTime),
         estimatedEndTime: toLocalDateTimeString(mo.estimatedEndTime),
       };
-      await updateMo(moId, payload, token);
-      alert("Cập nhật thành công!");
+      await updateMo(moId, request, token);
+      alert("Cập nhật công lệnh thành công!");
       navigate(-1);
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi khi cập nhật!");

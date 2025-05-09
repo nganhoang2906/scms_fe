@@ -116,8 +116,8 @@ const SideBar = ({ openSidebar, toggleSidebar }) => {
           <List component="div" disablePadding>
             <MenuItem icon={<Checklist />} title="Kiểm kê" path="/inventory-count" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<Inventory />} title="Theo dõi tồn kho" path="/inventory" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<MoveToInbox />} title="Nhập kho" path="/rt-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
-            <MenuItem icon={<Outbox />} title="Xuất kho" path="/it-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<MoveToInbox />} title="Nhập kho" path="/receive-ticket-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
+            <MenuItem icon={<Outbox />} title="Xuất kho" path="/issue-ticket-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
             <MenuItem icon={<CompareArrows />} title="Chuyển kho" path="/tt-in-company" selectedPath={selectedPath} onSelect={handleSelect} />
           </List>
         </Collapse>

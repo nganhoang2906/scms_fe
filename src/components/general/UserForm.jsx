@@ -10,9 +10,6 @@ const UserForm = ({ user, onChange, errors }) => {
         <TextField fullWidth label="Mã nhân viên" name="employeeCode" value={user.employeeCode} required readOnly error={!!errors.employeeCode} helperText={errors.employeeCode} />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth label="Tên đăng nhập" name="username" value={user.username} required readOnly />
-      </Grid>
-      <Grid item xs={12} sm={6}>
         <TextField fullWidth label="Email" name="email" value={user.email} required onChange={onChange} error={!!errors.email} helperText={errors.email}/>
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -30,7 +27,7 @@ const UserForm = ({ user, onChange, errors }) => {
           <InputLabel>Trạng thái</InputLabel>
           <Select name="status" value={user.status || ""} label="Trạng thái" onChange={onChange} >
             <MenuItem value="Đang hoạt động">Đang hoạt động</MenuItem>
-            <MenuItem value="Bị khóa">Bị khóa</MenuItem>
+            <MenuItem value="Đã bị khóa">Đã bị khóa</MenuItem>
           </Select>
         </FormControl>
       </Grid>

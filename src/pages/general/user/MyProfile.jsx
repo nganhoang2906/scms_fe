@@ -14,14 +14,6 @@ const MyProfile = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
@@ -29,14 +21,13 @@ const MyProfile = () => {
 
       try {
         const employeeRes = await getEmployeeById(employeeId, token);
-        const normalizedEmployee = normalizeForDisplay(employeeRes);
-        if (normalizedEmployee.avatarUrl) {
-          normalizedEmployee.avatarUrl = `${normalizedEmployee.avatarUrl}?t=${Date.now()}`;
+        if (employeeRes.avatarUrl) {
+          employeeRes.avatarUrl = `${employeeRes.avatarUrl}?t=${Date.now()}`;
         }
-        setEmployee(normalizedEmployee);
+        setEmployee(employeeRes);
 
         const userRes = await getUserByEmployeeId(employeeId, token);
-        setUser(normalizeForDisplay(userRes));
+        setUser(userRes);
       } catch (error) {
         alert(error.response?.data?.message || "Lỗi khi tải thông tin người dùng!");
       }

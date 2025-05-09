@@ -20,21 +20,12 @@ const BomDetail = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
   useEffect(() => {
     const fetchBom = async () => {
       setLoading(true);
       try {
         const data = await getBomByItemId(itemId, token);
-        const normalizedBom = normalizeForDisplay(data);
-        setBom(normalizedBom);
+        setBom(data);
         setBomDetails(Array.isArray(data.bomDetails) ? data.bomDetails : []);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi khi lấy thông tin BOM!");
@@ -77,12 +68,6 @@ const BomDetail = () => {
 
   const filteredDetails = Array.isArray(bomDetails)
     ? bomDetails
-      .filter((detail) => {
-        const code = detail.itemCode?.toLowerCase() || "";
-        const name = detail.itemName?.toLowerCase() || "";
-        const keyword = search.toLowerCase();
-        return code.includes(keyword) || name.includes(keyword);
-      })
       .sort((a, b) => {
         if (orderBy) {
           if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;

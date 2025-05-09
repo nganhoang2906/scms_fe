@@ -10,24 +10,15 @@ const EmployeeDetail = () => {
   const [employee, setEmployee] = useState(null);
   const navigate = useNavigate();
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
   useEffect(() => {
     const fetchEmployee = async () => {
       const token = localStorage.getItem("token");
       try {
         const data = await getEmployeeById(employeeId, token);
-        const normalizedData = normalizeForDisplay(data);
-        if (normalizedData.avatarUrl) {
-          normalizedData.avatarUrl = `${normalizedData.avatarUrl}?t=${Date.now()}`;
+        if (data.avatarUrl) {
+          data.avatarUrl = `${data.avatarUrl}?t=${Date.now()}`;
         }
-        setEmployee(normalizedData);
+        setEmployee(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin nhân viên!");
       }

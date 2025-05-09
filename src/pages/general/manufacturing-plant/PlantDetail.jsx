@@ -10,21 +10,12 @@ const PlantDetail = () => {
   const [plant, setPlant] = useState(null);
   const navigate = useNavigate();
 
-  const normalizeForDisplay = (data) => {
-    const normalized = {};
-    for (const key in data) {
-      normalized[key] = data[key] ?? "";
-    }
-    return normalized;
-  };
-
   useEffect(() => {
     const fetchPlant = async () => {
       const token = localStorage.getItem("token");
       try {
         const data = await getPlantById(plantId, token);
-        const normalizedData = normalizeForDisplay(data);
-        setPlant(normalizedData);
+        setPlant(data);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin xưởng!");
       }

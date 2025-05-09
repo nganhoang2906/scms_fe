@@ -20,6 +20,7 @@ const WarehouseForm = ({ warehouse, onChange, errors, readOnlyFields }) => {
         <TextField fullWidth type="number" label="Sức chứa tối đa (m³)" name="maxCapacity" value={warehouse.maxCapacity} onChange={onChange} 
         error={!!errors.maxCapacity} helperText={errors.maxCapacity} 
         InputProps={{ readOnly: isFieldReadOnly("maxCapacity") }} />
+        inputProps={{ min: 0 }}
       </Grid>
       <Grid item xs={12} sm={6}>
         <FormControl fullWidth required error={!!errors.warehouseType} helperText={errors.warehouseType} 
