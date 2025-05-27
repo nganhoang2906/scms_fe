@@ -6,12 +6,12 @@ const axiosAuth = (token) => ({
 });
 
 export const getCompanyById = async (companyId, token) => {
-  const res = await axios.get(`${BASE_URL}/user/get-company/${companyId}`, axiosAuth(token));
+  const res = await axios.get(`${BASE_URL}/all/get-company/${companyId}`, axiosAuth(token));
   return res.data;
 };
 
 export const getAllCompanies = async (token) => {
-  const res = await axios.get(`${BASE_URL}/user/get-all-companies`, axiosAuth(token));
+  const res = await axios.get(`${BASE_URL}/all/get-all-companies`, axiosAuth(token));
   return res.data;
 };
 
@@ -33,4 +33,9 @@ export const updateCompanyLogo = async (companyId, file, token) => {
   );
   return res.data;
 };
+
+export const monthlyCompanyReport = async (token) => {
+  const res = await axios.get(`${BASE_URL}/sysad/monthly-company-report`, axiosAuth(token));
+  return res.data;
+}
 

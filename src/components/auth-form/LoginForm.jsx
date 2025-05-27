@@ -46,11 +46,6 @@ const LoginForm = () => {
       localStorage.setItem("role", role);
       localStorage.setItem("employeeId", employeeId);
   
-      console.log("Token:", token);
-      console.log("Role:", role);
-      console.log("Employee ID:", employeeId);
-      
-  
       const employeeData = await getEmployeeById(employeeId, token);
       const { departmentId, departmentName, employeeName } = employeeData;
       localStorage.setItem("departmentId", departmentId);
@@ -60,12 +55,11 @@ const LoginForm = () => {
       const departmentData = await getDepartmentById(departmentId, token);
       const { companyId } = departmentData;
       localStorage.setItem("companyId", companyId);
-      console.log("Company ID:", companyId);
   
       const companyData = await getCompanyById(companyId, token);
-      const { companyType } = companyData;
+      const { companyType, address } = companyData;
       localStorage.setItem("companyType", companyType);
-      console.log("Company Type:", companyType);
+      localStorage.setItem("companyAddress", address);
       setupTokenExpirationCheck();
       navigate("/homepage");
   

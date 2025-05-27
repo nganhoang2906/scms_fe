@@ -5,7 +5,6 @@ const SelectAutocomplete = ({
   options = [],
   value,
   onChange,
-  onInputChange,
   placeholder,
   error,
   helperText,
@@ -26,9 +25,7 @@ const SelectAutocomplete = ({
           : options.find((opt) => opt.value === value) || null
       }
       onChange={(_, newValue) => onChange(newValue)}
-      onInputChange={(_, newInputValue) =>
-        onInputChange && onInputChange(newInputValue)
-      }
+      
       renderInput={(params) => (
         <TextField
           {...params}

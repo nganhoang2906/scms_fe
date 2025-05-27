@@ -10,7 +10,7 @@ const EditUser = () => {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [errors, setErrors] = useState({});
-  const [showPasswordForm, setShowPasswordForm] = useState(false); // <== thêm
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const EditUser = () => {
           CHỈNH SỬA TÀI KHOẢN
         </Typography>
 
-        <UserForm user={user} onChange={handleChange} errors={errors} readOnly={false} />
+        <UserForm user={user} onChange={handleChange} errors={errors} role="c-admin"/>
 
         <Box mt={3} display="flex" justifyContent="space-between" alignItems="center">
           {!showPasswordForm ? (

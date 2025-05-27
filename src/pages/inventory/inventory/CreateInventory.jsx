@@ -21,8 +21,8 @@ const CreateInventory = () => {
 
   const validateForm = () => {
     const formErrors = {};
-    if (!inventory.warehouseCode) formErrors.warehouseCode = "Phải chọn kho";
-    if (!inventory.itemCode) formErrors.itemCode = "Phải chọn hàng hóa";
+    if (!inventory.warehouseId) formErrors.warehouseId = "Phải chọn kho";
+    if (!inventory.itemId) formErrors.itemId = "Phải chọn hàng hóa";
     if (inventory.quantity === "" || inventory.quantity < 0) formErrors.quantity = "Số lượng phải >= 0";
     if (inventory.onDemandQuantity === "" || inventory.onDemandQuantity < 0) formErrors.onDemandQuantity = "Số lượng cần dùng phải >= 0";
     return formErrors;

@@ -11,6 +11,8 @@ import { decreaseOnDemand, decreaseQuantity } from "@/services/inventory/Invento
 import { getAllProcessesInMo, updateProcess } from "@/services/manufacturing/ProcessService";
 import { getTransferTicketById, updateTransferTicket } from "@/services/inventory/TransferTicketService";
 import { createReceiveTicket } from "@/services/inventory/ReceiveTicketService";
+import { getSoById, updateSoStatus } from "@/services/sale/SoService";
+import { createDeliveryOrder } from "@/services/delivery/DoService";
 
 const ItDetail = () => {
   const { ticketId } = useParams();
@@ -117,6 +119,23 @@ const ItDetail = () => {
         }
       }
 
+      if (ticket.issueType === "Bán hàng" && ticket.referenceId) {
+        try {
+          const so = await getSoById(ticket.referenceId, token);
+          await updateSoStatus(so.soId, "Chờ vận chuyển", token);
+
+          const doRequest = {
+            soId: so.soId,
+            status: "Chờ xác nhận",
+          }
+
+          await createDeliveryOrder(doRequest, token);
+
+        } catch (soError) {
+          alert("Cập nhật SO thất bại!");
+        }
+      }
+
       try {
         await Promise.all(
           ticket.issueTicketDetails.map((detail) =>
@@ -183,7 +202,7 @@ const ItDetail = () => {
 
         <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
           {ticket.status === "Chờ xác nhận" && (
-            <Button variant="contained" color="primary" onClick={handleConfirm}>
+            <Button variant="contained" color="default" onClick={handleConfirm}>
               Xác nhận
             </Button>
           )}
@@ -196,7 +215,7 @@ const ItDetail = () => {
 
         <ItForm ticket={ticket} />
 
-        <Typography variant="h5" mt={3} mb={3}>Danh sách hàng hóa xuất kho:</Typography>
+        <Typography variant="h5" mt={3} mb={3}>DANH SÁCH HÀNG HÓA XUẤT KHO:</Typography>
 
         <DataTable
           rows={paginatedDetails}

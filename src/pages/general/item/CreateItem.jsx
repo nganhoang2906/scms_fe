@@ -12,19 +12,18 @@ const CreateItem = () => {
 
   const [formData, setFormData] = useState({
     companyId: companyId,
-    itemCode: "",
     itemName: "",
     itemType: "",
+    isSellable: true,
     uom: "",
     technicalSpecifications: "",
-    importPrice: "",
-    exportPrice: "",
+    importPrice: 0,
+    exportPrice: 0,
   });
   
 
   const validateForm = () => {
     const errors = {};
-    if (!formData.itemCode?.trim()) errors.itemCode = "Mã hàng hóa không được để trống";
     if (!formData.itemName?.trim()) errors.itemName = "Tên hàng hóa không được để trống";
     if (!formData.itemType?.trim()) errors.itemType = "Loại hàng hóa không được để trống";
     if (!formData.uom?.trim()) errors.uom = "Đơn vị tính không được để trống";
@@ -33,6 +32,9 @@ const CreateItem = () => {
     }
     if (formData.exportPrice && (isNaN(formData.exportPrice) || Number(formData.exportPrice) <= 0)) {
       errors.exportPrice = "Giá xuất phải là số và lớn hơn 0 nếu nhập";
+    }
+    if (formData.isSellable && !formData.exportPrice) {
+      errors.exportPrice = "Giá xuất không được để trống nếu là hàng bán";
     }
     return errors;
   };
@@ -54,6 +56,7 @@ const CreateItem = () => {
   };
 
   const handleSubmit = async () => {
+    console.log("formData", formData);
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -64,14 +67,14 @@ const CreateItem = () => {
       console.log(formData);
       await createItem(companyId, formData, token);
       alert("Thêm hàng hóa thành công!");
-      navigate("/item-in-company");
+      navigate("/items");
     } catch (error) {
       alert(error.response?.data?.message || "Lỗi khi thêm hàng hóa!");
     }
   };
 
   const handleCancel = () => {
-    navigate("/item-in-company");
+    navigate("/items");
   };
 
   const handleNavigateToExcelPage = () => {
@@ -85,7 +88,7 @@ const CreateItem = () => {
           THÊM MỚI HÀNG HÓA
         </Typography>
 
-        <ItemForm item={formData} onChange={handleChange} errors={errors} readOnlyFields={{}}/>
+        <ItemForm item={formData} onChange={handleChange} errors={errors} readOnlyFields={{ itemCode: true }}/>
 
         <Grid container spacing={2} mt={3} justifyContent="flex-end">
           <Grid item>

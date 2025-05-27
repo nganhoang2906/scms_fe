@@ -17,7 +17,7 @@ const ItemDetail = () => {
         const data = await getItemById(itemId, token);
         setItem(data);
       } catch (error) {
-        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin mặt hàng!");
+        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy thông tin hàng hóa!");
       }
     };
 
@@ -25,15 +25,15 @@ const ItemDetail = () => {
   }, [itemId]);
 
   const handleDelete = async () => {
-    if (!window.confirm("Bạn có chắc muốn xóa mặt hàng này không?")) return;
+    if (!window.confirm("Bạn có chắc muốn xóa hàng hóa này không?")) return;
 
     const token = localStorage.getItem("token");
     try {
       await deleteItem(itemId, token);
-      alert("Xóa mặt hàng thành công!");
-      navigate("/item-in-company");
+      alert("Xóa hàng hóa thành công!");
+      navigate("/items");
     } catch (error) {
-      alert(error.response?.data?.message || "Có lỗi xảy ra khi xóa mặt hàng!");
+      alert(error.response?.data?.message || "Có lỗi xảy ra khi xóa hàng hóa!");
     }
   };
 

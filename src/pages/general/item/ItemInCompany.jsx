@@ -22,7 +22,7 @@ const ItemInCompany = () => {
         const data = await getAllItemsInCompany(companyId, token);
         setItems(data);
       } catch (error) {
-        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách mặt hàng!");
+        alert(error.response?.data?.message || "Có lỗi xảy ra khi lấy danh sách hàng hóa!");
       }
     };
 
@@ -45,21 +45,22 @@ const ItemInCompany = () => {
   };
 
   const columns = [
-    { id: "itemCode", label: "Mã mặt hàng" },
-    { id: "itemName", label: "Tên mặt hàng" },
-    { id: "itemType", label: "Loại mặt hàng" },
+    { id: "itemCode", label: "Mã hàng hóa" },
+    { id: "itemName", label: "Tên hàng hóa" },
+    { id: "itemType", label: "Loại hàng hóa" },
     { id: "uom", label: "Đơn vị tính" },
     { id: "technicalSpecifications", label: "Thông số kỹ thuật" },
     { id: "importPrice", label: "Giá nhập" },
     { id: "exportPrice", label: "Giá xuất" },
     { id: "description", label: "Mô tả" },
+    { id: "isSellable", label: "Hàng bán" },
   ];
 
   return (
     <Container>
       <Paper className="paper-container" elevation={3}>
         <Typography className="page-title" variant="h4">
-          DANH SÁCH MẶT HÀNG
+          DANH SÁCH HÀNG HÓA
         </Typography>
         <Box mt={3} mb={3}>
           <Button variant="contained" color="default" onClick={() => navigate("/create-item")}>
@@ -90,9 +91,10 @@ const ItemInCompany = () => {
               <TableCell>{item.itemType || ""}</TableCell>
               <TableCell>{item.uom || ""}</TableCell>
               <TableCell>{item.technicalSpecifications || ""}</TableCell>
-              <TableCell>{item.importPrice !== null ? item.importPrice : ""}</TableCell>
-              <TableCell>{item.exportPrice !== null ? item.exportPrice : ""}</TableCell>
+              <TableCell>{item.importPrice !== null ? item.importPrice.toLocaleString() : ""}</TableCell>
+              <TableCell>{item.exportPrice !== null ? item.exportPrice.toLocaleString() : ""}</TableCell>
               <TableCell>{item.description || ""}</TableCell>
+              <TableCell>{item.isSellable ? "Có" : "Không"}</TableCell>
             </TableRow>
           )}
         />

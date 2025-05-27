@@ -24,7 +24,7 @@ const CreateMo = () => {
     lineId: "",
     lineCode: "",
     type: "",
-    quantity: "",
+    quantity: 0,
     estimatedStartTime: "",
     estimatedEndTime: "",
     createdBy: employeeName,
@@ -66,8 +66,19 @@ const CreateMo = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setMo((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+  
+    let newValue = value;
+    if (type === "number") {
+      const num = parseFloat(value);
+      if (isNaN(num)) {
+        newValue = "";
+      } else {
+        newValue = num < 0 ? 0 : num;
+      }
+    }
+  
+    setMo((prev) => ({ ...prev, [name]: newValue }));
   };
 
   const toLocalDateTimeString = (localDateTimeString) => {
@@ -98,7 +109,7 @@ const CreateMo = () => {
 
       await createMo(request, token);
       alert("Tạo công lệnh thành công!");
-      navigate("/mo-in-company");
+      navigate("/mos");
     } catch (error) {
       console.log(error.response);
       alert(error.response?.data?.message || "Lỗi khi tạo MO!");
@@ -106,7 +117,7 @@ const CreateMo = () => {
   };
 
   const handleCancel = () => {
-    navigate("/mo-in-company");
+    navigate("/mos");
   };
 
   return (

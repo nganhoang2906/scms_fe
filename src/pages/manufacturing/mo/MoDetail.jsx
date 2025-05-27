@@ -267,8 +267,8 @@ const MoDetail = () => {
 
         {(mo.status !== "Chờ xác nhận" && mo.status !== "Đã hủy") && (
           <>
-            <Typography variant="h5" mt={2} mb={2}>
-              Công đoạn sản xuất:
+            <Typography variant="h5" mt={3} mb={3}>
+              QUÁ TRÌNH SẢN XUẤT:
             </Typography>
 
             <Box sx={{ display: "flex", gap: 2, overflowX: "auto", pb: 1 }}>

@@ -5,8 +5,6 @@ import { getAllItemsInCompany } from "@/services/general/ItemService";
 import { getAllWarehousesInCompany } from "@/services/general/WarehouseService";
 
 const InventoryForm = ({ inventory, onChange, setInventory, errors }) => {
-  const [filteredItems, setFilteredItems] = useState([]);
-  const [filteredWarehouses, setFilteredWarehouses] = useState([]);
   const [items, setItems] = useState([]);
   const [warehouses, setWarehouses] = useState([]);
 
@@ -27,61 +25,49 @@ const InventoryForm = ({ inventory, onChange, setInventory, errors }) => {
     };
     fetchData();
   }, [companyId, token]);
-  
-  const handleSelectWarehouse = (e) => {
-    const selected = warehouses.find((wh) => wh.warehouseCode === e.target.value);
+
+  const handleWarehouseChange = (selected) => {
+    const selectedWarehouse = warehouses.find((warehouse) => warehouse.warehouseId === selected?.value);
     setInventory((prev) => ({
       ...prev,
-      warehouseId: selected?.warehouseId || "",
-      warehouseCode: selected?.warehouseCode || "",
+      warehouseCode: selectedWarehouse?.warehouseCode || "",
+      warehouseId: selectedWarehouse?.warehouseId || "",
+      warehouseName: selectedWarehouse?.warehouseName || "",
     }));
   };
 
-  const handleSelectItem = (e) => {
-    const selected = items.find((item) => item.itemCode === e.target.value);
+  const handleItemChange = (selected) => {
+    const selectedItem = items.find((item) => item.itemId === selected?.value);
     setInventory((prev) => ({
       ...prev,
-      itemId: selected?.itemId || "",
-      itemCode: selected?.itemCode || "",
+      itemCode: selectedItem?.itemCode || "",
+      itemId: selectedItem?.itemId || "",
+      itemName: selectedItem?.itemName || "",
     }));
-  };
-
-  const handleItemSearchChange = (value) => {
-    const filtered = items
-      .filter((item) => item.itemCode.toLowerCase().includes(value.toLowerCase()))
-    setFilteredItems(filtered);
-  };
-
-  const handleWarehouseSearchChange = (value) => {
-    const filtered = warehouses
-      .filter((warehouse) => warehouse.warehouseCode.toLowerCase().includes(value.toLowerCase()))
-    setFilteredWarehouses(filtered);
   };
 
   return (
     <Grid container spacing={2} mt={2}>
       <Grid item xs={12} sm={6}>
         <SelectAutocomplete
-          options={filteredWarehouses.map(wh => ({ label: wh.warehouseCode, value: wh.warehouseCode }))}
-          value={inventory.warehouseCode}
-          onChange={(selected) => handleSelectWarehouse({ target: { value: selected?.value || "" } })}
-          onInputChange={handleWarehouseSearchChange}
+          options={warehouses.map(wh => ({ label: wh.warehouseCode + " - " + wh.warehouseName, value: wh.warehouseId }))}
+          value={inventory.warehouseId}
+          onChange={handleWarehouseChange}
           placeholder="Chọn kho"
-          error={errors.warehouseCode}
-          helperText={errors.warehouseCode}
+          error={errors.warehouseId}
+          helperText={errors.warehouseId}
           size="small"
         />
       </Grid>
 
       <Grid item xs={12} sm={6}>
         <SelectAutocomplete
-          options={filteredItems.map(item => ({ label: item.itemCode, value: item.itemCode }))}
-          value={inventory.itemCode}
-          onChange={(selected) => handleSelectItem(selected?.value || "")}
-          onInputChange={handleItemSearchChange}
+          options={items.map(item => ({ label: item.itemCode + " - " + item.itemName, value: item.itemId }))}
+          value={inventory.itemId}
+          onChange={handleItemChange}
           placeholder="Chọn hàng hóa"
-          error={errors.itemCode}
-          helperText={errors.itemCode}
+          error={errors.itemId}
+          helperText={errors.itemId}
           size="small"
         />
       </Grid>

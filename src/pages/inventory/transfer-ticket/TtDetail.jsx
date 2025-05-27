@@ -91,7 +91,7 @@ const TtDetail = () => {
     }
   };
 
-  const handleCancelMo = async () => {
+  const handleCancel = async () => {
     const confirmCancel = window.confirm("Bạn có chắc chắn muốn hủy phiếu chuyển kho này không?");
     if (!confirmCancel) return;
 
@@ -129,10 +129,10 @@ const TtDetail = () => {
 
         {ticket.status === "Chờ xác nhận" && (
           <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
-            <Button variant="contained" color="success" onClick={() => handleConfirm("tt", ticket.ticketId)}>
+            <Button variant="contained" color="default" onClick={() => handleConfirm("tt", ticket.ticketId)}>
               Xác nhận
             </Button>
-            <Button variant="contained" color="error" onClick={handleCancelMo}>
+            <Button variant="contained" color="error" onClick={handleCancel}>
               Hủy
             </Button>
           </Box>
@@ -141,7 +141,7 @@ const TtDetail = () => {
         <TtForm ticket={ticket} onChange={() => { }} errors={{}} readOnlyFields={readOnlyFields} setTicket={setTicket} />
 
         <Typography variant="h5" mt={3} mb={3}>
-          Danh sách hàng hóa chuyển kho:
+          DANH SÁCH HÀNG HÓA CHUYỂN KHO:
         </Typography>
 
         <DataTable

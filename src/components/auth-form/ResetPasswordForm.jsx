@@ -42,6 +42,7 @@ const ResetPasswordForm = () => {
 
     try {
       await resetPassword(formData);
+      alert("Đặt lại mật khẩu thành công!");
       navigate("/login");
     } catch (error) {
       setErrors({

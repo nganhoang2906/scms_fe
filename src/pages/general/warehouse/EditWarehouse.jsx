@@ -82,10 +82,6 @@ const EditWarehouse = () => {
 
   if (!warehouse) return null;
 
-  const readOnlyFields = {
-    warehouseCode: true,
-  };
-
   if (!warehouse) {
     return <LoadingPaper title="CHỈNH SỬA THÔNG TIN KHO HÀNG" />;
   }
@@ -97,7 +93,7 @@ const EditWarehouse = () => {
           CHỈNH SỬA THÔNG TIN KHO HÀNG
         </Typography>
 
-        <WarehouseForm warehouse={editedWarehouse} onChange={handleChange} errors={errors} readOnlyFields={readOnlyFields} />
+        <WarehouseForm warehouse={editedWarehouse} onChange={handleChange} errors={errors} />
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="contained" color="default" onClick={handleSave}>

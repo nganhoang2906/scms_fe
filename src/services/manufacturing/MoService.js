@@ -30,3 +30,16 @@ export const updateMo = async (moId, mo, token) => {
   const response = await axios.put(`${BASE_URL}/user/update-mo/${moId}`, mo, axiosAuth(token));
   return response.data;
 };
+
+export const getManufactureReport = async (request, companyId, token) => {
+  const response = await axios.post(`${BASE_URL}/user/manufacture-report/${companyId}`, request, axiosAuth(token));
+  return response.data;
+};
+
+export const getMonthlyManufactureReport = async (companyId, type, token) => {
+  const response = await axios.get(`${BASE_URL}/user/monthly-manufacture-report/${companyId}`, {
+    params: { type },
+    ...axiosAuth(token),
+  });
+  return response.data;
+};

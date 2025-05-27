@@ -31,7 +31,7 @@ const CreateBom = () => {
         const data = await getAllItemsInCompany(companyId, token);
         setItems(data);
       } catch (error) {
-        alert(error.response?.data?.message || "Có lỗi khi lấy danh sách mặt hàng!");
+        alert(error.response?.data?.message || "Có lỗi khi lấy danh sách hàng hóa!");
       }
     };
     fetchItems();
@@ -89,7 +89,7 @@ const CreateBom = () => {
 
       await createBom(request, token);
       alert("Tạo BOM thành công!");
-      navigate("/bom-in-company");
+      navigate("/boms");
     } catch (error) {
       console.log(error.response);
       alert(error.response?.data?.message || "Lỗi khi tạo BOM!");
@@ -97,7 +97,7 @@ const CreateBom = () => {
   };
 
   const handleCancel = () => {
-    navigate("/bom-in-company");
+    navigate("/boms");
   };
 
   return (
@@ -114,6 +114,9 @@ const CreateBom = () => {
           readOnlyFields={{ bomCode: true }}
           setBom={setBom}
         />
+        <Typography variant="h5" mt={3} mb={3}>
+          DANH SÁCH NGUYÊN VẬT LIỆU:
+        </Typography>
 
         <BomDetailTable
           bomDetails={bomDetails}

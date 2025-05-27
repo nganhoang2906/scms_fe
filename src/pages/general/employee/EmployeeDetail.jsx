@@ -34,7 +34,7 @@ const EmployeeDetail = () => {
     try {
       await deleteEmployee(employeeId, token);
       alert("Xóa nhân viên và tài khoản liên quan thành công!");
-      navigate("/employee-in-company");
+      navigate("/employees");
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi xảy ra khi xóa nhân viên!");
     }

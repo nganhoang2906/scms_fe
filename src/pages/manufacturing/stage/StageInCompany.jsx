@@ -56,7 +56,7 @@ const StageInCompany = () => {
     <Container>
       <Paper className="paper-container" elevation={3}>
         <Typography className="page-title" variant="h4">
-          DANH SÁCH STAGE
+          DANH SÁCH QUY TRÌNH SẢN XUẤT
         </Typography>
         <Box mt={3} mb={3}>
           <Button variant="contained" color="default" onClick={() => navigate("/create-stage")}>

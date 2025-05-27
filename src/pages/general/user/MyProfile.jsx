@@ -50,7 +50,7 @@ const MyProfile = () => {
         <Grid container direction="column" spacing={4}>
           <Grid item xs={12}>
             <Typography variant="h5" gutterBottom>
-              Thông tin nhân viên:
+              THÔNG TIN NHÂN VIÊN:
             </Typography>
 
             <Box mb={3}>
@@ -74,11 +74,11 @@ const MyProfile = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <Typography variant="h5" gutterBottom>
-              Thông tin tài khoản:
+            <Typography variant="h5" sx={{ pb: 3 }}>
+              THÔNG TIN TÀI KHOẢN:
             </Typography>
 
-            <UserForm user={user} onChange={() => { }} errors={{}} readOnly />
+            <UserForm user={user} onChange={() => { }} errors={{}} readOnly role="c-admin"/>
 
             <Box mt={2} display="flex" justifyContent="flex-end">
               <Button variant="contained" color="default" onClick={() => navigate(`/user/${user.userId}/edit`)} >

@@ -11,10 +11,9 @@ const CreateWarehouse = () => {
 
   const [warehouse, setWarehouse] = useState({
     companyId,
-    warehouseCode: "",
     warehouseName: "",
     description: "",
-    maxCapacity: "",
+    maxCapacity: 0,
     warehouseType: "",
     status: "",
   });
@@ -39,7 +38,6 @@ const CreateWarehouse = () => {
 
   const validate = () => {
     const newErrors = {};
-    if (!warehouse.warehouseCode.trim()) newErrors.warehouseCode = "Mã kho không được để trống";
     if (!warehouse.warehouseName.trim()) newErrors.warehouseName = "Tên kho không được để trống";
     if (!warehouse.maxCapacity || warehouse.maxCapacity <= 0) newErrors.maxCapacity = "Sức chứa phải lớn hơn 0";
     if (!warehouse.warehouseType) newErrors.warehouseType = "Loại kho không được để trống";
@@ -57,7 +55,7 @@ const CreateWarehouse = () => {
     try {
       await createWarehouse(companyId, warehouse, token);
       alert("Tạo kho hàng thành công!");
-      navigate("/warehouse-in-company");
+      navigate("/warehouses");
     } catch (err) {
       alert(err.response?.data?.message || "Lỗi khi tạo kho!");
     }
@@ -77,7 +75,7 @@ const CreateWarehouse = () => {
             <Button variant="contained" color="default" onClick={handleSubmit}>Lưu</Button>
           </Grid>
           <Grid item>
-            <Button variant="outlined" color="default" onClick={() => navigate("/warehouse-in-company")}>Hủy</Button>
+            <Button variant="outlined" color="default" onClick={() => navigate("/warehouses")}>Hủy</Button>
           </Grid>
         </Grid>
       </Paper>

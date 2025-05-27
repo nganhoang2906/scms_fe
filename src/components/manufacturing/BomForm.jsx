@@ -30,26 +30,20 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
         setItems(filtered);
         setFilteredItems(filtered);
       } catch (error) {
-        alert(error.response?.data?.message || "Có lỗi khi lấy mặt hàng!");
+        alert(error.response?.data?.message || "Có lỗi khi lấy hàng hóa!");
       }
     };
     fetchItems();
   }, [companyId, token, bom]);
 
-  const handleItemCodeChange = (value) => {
-    const selectedItem = items.find((item) => item.itemCode === value);
+  const handleItemCodeChange = (selected) => {
+    const selectedItem = items.find((item) => item.itemCode === selected?.value);
     setBom((prev) => ({
       ...prev,
-      itemCode: value || "",
+      itemCode: selectedItem ? selectedItem.itemCode : "",
       itemName: selectedItem ? selectedItem.itemName : "",
       itemId: selectedItem ? selectedItem.itemId : "",
     }));
-  };
-
-  const handleSearchInputChange = (value) => {
-    const filtered = items
-      .filter((item) => item.itemCode.toLowerCase().includes(value.toLowerCase()))
-    setFilteredItems(filtered);
   };
 
   return (
@@ -63,10 +57,9 @@ const BomForm = ({ bom, onChange, errors = {}, readOnlyFields, setBom }) => {
 
       <Grid item xs={12} sm={6}>
         <SelectAutocomplete
-          options={filteredItems.map(item => ({ label: item.itemCode, value: item.itemCode }))}
+          options={filteredItems.map(item => ({ label: item.itemCode + " - " + item.itemName, value: item.itemCode }))}
           value={bom.itemCode}
-          onChange={(selected) => handleItemCodeChange(selected?.value || "")}
-          onInputChange={handleSearchInputChange}
+          onChange={handleItemCodeChange}
           placeholder="Chọn hàng hóa"
           error={errors.itemCode}
           helperText={errors.itemCode}

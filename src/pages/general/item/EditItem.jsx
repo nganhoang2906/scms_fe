@@ -14,7 +14,7 @@ const EditItem = () => {
 
   const validateForm = () => {
     const errors = {};
-    const { itemName, itemType, uom, importPrice, exportPrice } = editedItem;
+    const { itemName, itemType, uom, importPrice, exportPrice, isSellable } = editedItem;
 
     if (!itemName?.trim()) errors.itemName = "Tên hàng hóa không được để trống";
     if (!itemType) errors.itemType = "Loại hàng hóa không được để trống";
@@ -23,9 +23,11 @@ const EditItem = () => {
     if (importPrice && (isNaN(importPrice) || Number(importPrice) <= 0)) {
       errors.importPrice = "Giá nhập phải là số và lớn hơn 0 nếu nhập";
     }
-
     if (exportPrice && (isNaN(exportPrice) || Number(exportPrice) <= 0)) {
       errors.exportPrice = "Giá xuất phải là số và lớn hơn 0 nếu nhập";
+    }
+    if (isSellable && !exportPrice) {
+      errors.exportPrice = "Giá xuất không được để trống nếu là hàng bán";
     }
 
     return errors;

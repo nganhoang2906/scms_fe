@@ -49,41 +49,29 @@ const TtForm = ({ ticket, onChange, errors = {}, readOnlyFields, setTicket }) =>
 
 
       } catch (error) {
-        alert(error.response?.data?.message || "Có lỗi khi lấy mặt hàng!");
+        alert(error.response?.data?.message || "Có lỗi khi lấy hàng hóa!");
       }
     };
     fetchWarehouses();
   }, [companyId, token, ticket]);
 
-  const handleFromSearchChange = (value) => {
-    const filtered = fromWarehouses
-    .filter(w => w.warehouseCode.toLowerCase().includes(value.toLowerCase()));
-    setFilteredFromWarehouses(filtered);
-  };
-
-  const handleToSearchChange = (value) => {
-    const filtered = toWarehouses
-    .filter(w => w.warehouseCode.toLowerCase().includes(value.toLowerCase()));
-    setFilteredToWarehouses(filtered);
-  };
-
-  const handleFromWarehouseChange = (value) => {
-    const selected = fromWarehouses.find(w => w.warehouseCode === value);
-    setTicket(prev => ({
+  const handleFromWarehouseChange = (selected) => {
+    const selectedWarehouse = fromWarehouses.find(w => w.warehouseCode === selected?.value);
+    setTicket((prev) => ({
       ...prev,
-      fromWarehouseId: selected?.warehouseId || "",
-      fromWarehouseCode: value || "",
-      fromWarehouseName: selected?.warehouseName || "",
+      fromWarehouseId: selectedWarehouse?.warehouseId || "",
+      fromWarehouseCode: selectedWarehouse?.warehouseCode || "",
+      fromWarehouseName: selectedWarehouse?.warehouseName || "",
     }));
   };
 
-  const handleToWarehouseChange = (value) => {
-    const selected = toWarehouses.find(w => w.warehouseCode === value);
-    setTicket(prev => ({
+  const handleToWarehouseChange = (selected) => {
+    const selectedWarehouse = toWarehouses.find(w => w.warehouseCode === selected?.value);
+    setTicket((prev) => ({
       ...prev,
-      toWarehouseId: selected?.warehouseId || "",
-      toWarehouseCode: value || "",
-      toWarehouseName: selected?.warehouseName || "",
+      toWarehouseId: selectedWarehouse?.warehouseId || "",
+      toWarehouseCode: selectedWarehouse?.warehouseCode || "",
+      toWarehouseName: selectedWarehouse?.warehouseName || "",
     }));
   };
 
@@ -107,10 +95,9 @@ const TtForm = ({ ticket, onChange, errors = {}, readOnlyFields, setTicket }) =>
 
       <Grid item xs={12} sm={6}>
         <SelectAutocomplete
-          options={filteredFromWarehouses.map(w => ({ label: w.warehouseCode, value: w.warehouseCode }))}
+          options={filteredFromWarehouses.map(w => ({ label: w.warehouseCode + " - " + w.warehouseName, value: w.warehouseCode }))}
           value={ticket.fromWarehouseCode}
-          onChange={(selected) => handleFromWarehouseChange(selected?.value || "")}
-          onInputChange={handleFromSearchChange}
+          onChange={handleFromWarehouseChange}
           placeholder="Chọn kho xuất"
           error={errors.fromWarehouseCode}
           helperText={errors.fromWarehouseCode}
@@ -121,29 +108,14 @@ const TtForm = ({ ticket, onChange, errors = {}, readOnlyFields, setTicket }) =>
 
       <Grid item xs={12} sm={6}>
         <SelectAutocomplete
-          options={filteredToWarehouses.map(w => ({ label: w.warehouseCode, value: w.warehouseCode }))}
+          options={filteredToWarehouses.map(w => ({ label: w.warehouseCode + " - " + w.warehouseName, value: w.warehouseCode }))}
           value={ticket.toWarehouseCode}
-          onChange={(selected) => handleToWarehouseChange(selected?.value || "")}
-          onInputChange={handleToSearchChange}
+          onChange={handleToWarehouseChange}
           placeholder="Chọn kho nhập"
           error={errors.toWarehouseCode}
           helperText={errors.toWarehouseCode}
           size="small"
           disabled={isFieldReadOnly("toWarehouseCode")}
-        />
-      </Grid>
-
-      <Grid item xs={12} sm={6}>
-        <TextField
-          fullWidth label="Tên kho xuất" name="fromWarehouseName" value={ticket.fromWarehouseName}
-          onChange={onChange} InputProps={{ readOnly: true }}
-        />
-      </Grid>
-
-      <Grid item xs={12} sm={6}>
-        <TextField
-          fullWidth label="Tên kho nhập" name="toWarehouseName" value={ticket.toWarehouseName}
-          onChange={onChange} InputProps={{ readOnly: true }}
         />
       </Grid>
 

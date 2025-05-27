@@ -1,5 +1,5 @@
 import React, { useEffect, useState, } from "react";
-import { Container, Paper, Typography, Grid, Button, Box, } from "@mui/material";
+import { Container, Paper, Typography, Button, Box, } from "@mui/material";
 import { getCompanyById, updateCompany, updateCompanyLogo } from "@/services/general/CompanyService";
 import CompanyForm from "@components/general/CompanyForm";
 import { useNavigate } from "react-router-dom";
@@ -125,13 +125,11 @@ const EditCompany = () => {
           CHỈNH SỬA THÔNG TIN CÔNG TY
         </Typography>
         <Box display="flex" alignItems="center" gap={3} mb={3}>
-          <Box mb={3}>
             <img
               src={logoPreview || company.logoUrl || "https://cdn-icons-png.freepik.com/512/2774/2774806.png"}
               alt=""
               style={{ width: 120, height: 120, objectFit: "cover", borderRadius: 8 }}
             />
-          </Box>
           <Box display="flex" flexDirection="column" gap={1}>
             <Button variant="outlined" color="default" component="label"> Chọn logo
               <input type="file" hidden accept="image/*" onChange={handleLogoChange} />
@@ -140,9 +138,7 @@ const EditCompany = () => {
           </Box>
         </Box>
 
-        <Grid container spacing={2}>
           <CompanyForm companyData={editedCompany} onChange={handleChange} errors={errors} />
-        </Grid>
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="contained" color="default" onClick={handleSave}>Lưu</Button>

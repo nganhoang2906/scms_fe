@@ -8,11 +8,13 @@ import { getMoById, updateMo } from "@/services/manufacturing/MoService";
 import { createIssueTicket } from "@/services/inventory/IssueTicketService";
 import { useNavigate, useParams } from "react-router-dom";
 import { getTransferTicketById, updateTransferTicket } from "@/services/inventory/TransferTicketService";
+import { getPoById } from "@/services/purchasing/PoService";
 
 const CheckInventory = () => {
   const [warehouses, setWarehouses] = useState([]);
   const [bomDetails, setBomDetails] = useState([]);
   const [ttDetails, setTtDetails] = useState([]);
+  const [poDetails, setPoDetails] = useState([]);
   const [selectedWarehouseId, setSelectedWarehouseId] = useState("");
   const [inventoryResults, setInventoryResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -55,6 +57,11 @@ const CheckInventory = () => {
           const tt = await getTransferTicketById(id, token);
           setTtDetails(tt.transferTicketDetails);
           setSelectedWarehouseId(tt.fromWarehouseId);
+        }
+
+        if (type === "po") {
+          const po = await getPoById(id, token);
+          setPoDetails(po.purchaseOrderDetails);
         }
       } catch (error) {
         alert(error.response?.data?.message || "Không thể tải dữ liệu!");
@@ -126,6 +133,23 @@ const CheckInventory = () => {
         );
       }
 
+      if (type === "po") {
+        results = await Promise.all(
+          poDetails.map(async (detail) => {
+            const inventories = await getAllInventory(detail.supplierItemId, selectedWarehouseId, companyId, token);
+            const amountAvailabled = (inventories[0]?.quantity - inventories[0]?.onDemandQuantity) || 0;
+            const amountNeeded = detail.quantity;
+            const check = await checkInventory(detail.supplierItemId, selectedWarehouseId, amountNeeded, token);
+            return {
+              ...detail,
+              quantityNeeded: amountNeeded,
+              available: amountAvailabled,
+              enough: check,
+            };
+          })
+        );
+      }
+
       setInventoryResults(results);
 
     } catch (error) {
@@ -144,14 +168,6 @@ const CheckInventory = () => {
     try {
       const allEnough = inventoryResults.every((r) => r.enough);
       if (allEnough) {
-        await Promise.all(inventoryResults.map((r) =>
-          increaseOnDemand({
-            warehouseId: selectedWarehouseId,
-            itemId: r.itemId,
-            onDemandQuantity: r.quantityNeeded,
-          }, token)
-        ));
-
         if (type === "mo") {
           const mo = await getMoById(id, token);
           const updatedMo = { ...mo, status: "Chờ sản xuất" };
@@ -165,9 +181,18 @@ const CheckInventory = () => {
             referenceCode: mo.moCode,
             status: "Chờ xác nhận",
           };
+          await createIssueTicket(issueTicketRequest, token);
+
+          await Promise.all(inventoryResults.map((r) =>
+            increaseOnDemand({
+              warehouseId: selectedWarehouseId,
+              itemId: r.itemId,
+              onDemandQuantity: r.quantityNeeded,
+            }, token)
+          ));
 
           alert("Đã xác nhận công lệnh sản xuất!");
-          await createIssueTicket(issueTicketRequest, token);
+          navigate(-1);
         }
 
         if (type === "tt") {
@@ -186,10 +211,23 @@ const CheckInventory = () => {
           };
 
           await createIssueTicket(issueTicketRequest, token);
+
+          await Promise.all(inventoryResults.map((r) =>
+            increaseOnDemand({
+              warehouseId: selectedWarehouseId,
+              itemId: r.itemId,
+              onDemandQuantity: r.quantityNeeded,
+            }, token)
+          ));
+
           alert("Đã xác nhận phiếu chuyển kho!");
+          navigate(-1);
         }
 
-        navigate(-1);
+        if (type === "po") {
+          localStorage.setItem("poWarehouseId", selectedWarehouseId);
+          navigate(`/create-so/${id}`);
+        }
       } else {
         alert("Có nguyên liệu không đủ số lượng!");
       }
@@ -212,7 +250,7 @@ const CheckInventory = () => {
     <Container>
       <Paper elevation={3} className="paper-container">
         <Typography variant="h4" className="page-title">
-          Kiểm tra tồn kho
+          KIỂM TRA TỒN KHO
         </Typography>
 
         <Box mt={3}>
@@ -251,15 +289,15 @@ const CheckInventory = () => {
             onRowsPerPageChange={handleChangeRowsPerPage}
             search={search}
             setSearch={setSearch}
-            renderRow={(row) => (
-              <TableRow key={row.itemId}>
-                <TableCell>{row.itemCode}</TableCell>
-                <TableCell>{row.itemName}</TableCell>
+            renderRow={(row, index) => (
+              <TableRow key={`${row.itemId || row.supplierItemId}-${index}`}>
+                <TableCell>{type === "po" ? row.supplierItemCode : row.itemCode}</TableCell>
+                <TableCell>{type === "po" ? row.supplierItemName : row.itemName}</TableCell>
                 <TableCell>
-                  {row.enough === "Không có tồn kho" ? "" : row.quantityNeeded}
+                  {row.enough === "Không có tồn kho" ? "-" : row.quantityNeeded}
                 </TableCell>
                 <TableCell>
-                  {row.enough === "Không có tồn kho" ? "" : row.available}
+                  {row.enough === "Không có tồn kho" ? "-" : row.available}
                 </TableCell>
                 <TableCell>
                   {{

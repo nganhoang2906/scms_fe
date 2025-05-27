@@ -128,7 +128,17 @@ const RegisterForm = () => {
           </Grid>
           <Grid item xs={12}>
             <FormControlLabel
-              control={<Checkbox name="termsAccepted" checked={formData.termsAccepted} onChange={handleChange} />}
+              control={
+                <Checkbox name="termsAccepted" checked={formData.termsAccepted} onChange={handleChange}
+                  sx={{
+                    ml: 0.5,
+                    '&.Mui-checked': {
+                      color: '#05518b',
+                    },
+                    '&:hover': { backgroundColor: 'transparent' },
+                  }}
+                />
+              }
               label="Tôi đồng ý với điều khoản sử dụng"
             />
             {errors.termsAccepted && <Typography color="error">{errors.termsAccepted}</Typography>}

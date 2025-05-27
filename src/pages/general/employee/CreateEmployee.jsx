@@ -58,14 +58,14 @@ const CreateEmployee = () => {
     try {
       await createEmployee(formData, token);
       alert("Tạo nhân viên thành công!");
-      navigate("/employee-in-company");
+      navigate("/employees");
     } catch (error) {
       alert(error.response?.data?.message || "Lỗi khi tạo nhân viên!");
     }
   };
 
   const handleCancel = () => {
-    navigate("/employee-in-company");
+    navigate("/employees");
   };
 
   return (

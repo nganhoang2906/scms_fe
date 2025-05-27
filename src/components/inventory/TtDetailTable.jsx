@@ -39,8 +39,7 @@ const TtDetailTable = ({ ticketDetails, setTicketDetails, items, errors }) => {
 
   const itemOptions = (items || []).map(item => ({
     value: item.itemId,
-    label: item.itemCode,
-    itemName: item.itemName
+    label: item.itemCode + " - " + item.itemName,
   }));
 
   return (
@@ -50,7 +49,6 @@ const TtDetailTable = ({ ticketDetails, setTicketDetails, items, errors }) => {
           <TableHead>
             <TableRow>
               <TableCell>Mã hàng hóa</TableCell>
-              <TableCell>Tên hàng hóa</TableCell>
               <TableCell>Số lượng</TableCell>
               <TableCell>Ghi chú</TableCell>
               <TableCell />
@@ -59,20 +57,18 @@ const TtDetailTable = ({ ticketDetails, setTicketDetails, items, errors }) => {
           <TableBody>
             {(ticketDetails || []).map((detail, index) => (
               <TableRow key={index}>
-                <TableCell sx={{ width: 200 }}>
+                <TableCell sx={{ width: 400 }}>
                   <SelectAutocomplete
                     options={itemOptions}
                     value={detail.itemId}
                     onChange={(selected) => {
                       handleDetailChange(index, "itemId", selected?.value || "");
-                      handleDetailChange(index, "itemName", selected?.itemName || "");
                     }}
                     placeholder="Chọn hàng hóa"
                     error={!!errors?.find(err => err.index === index && err.field === "itemId")}
                     helperText={errors?.find(err => err.index === index && err.field === "itemId")?.message}
                   />
                 </TableCell>
-                <TableCell>{detail.itemName}</TableCell>
                 <TableCell sx={{ width: 100 }}>
                   <TextField
                     type="number"

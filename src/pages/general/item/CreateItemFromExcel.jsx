@@ -11,7 +11,7 @@ const CreateItemFromExcel = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [search, setSearch] = useState("");
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("itemCode");
+  const [orderBy, setOrderBy] = useState("itemName");
   const [page, setPage] = useState(1);
   const companyId = localStorage.getItem("companyId");
   const token = localStorage.getItem("token");
@@ -19,21 +19,20 @@ const CreateItemFromExcel = () => {
   const [fileName, setFileName] = useState("");
 
   const columns = [
-    { id: "itemCode", label: "Mã mặt hàng" },
-    { id: "itemName", label: "Tên mặt hàng" },
-    { id: "itemType", label: "Loại mặt hàng" },
+    { id: "itemName", label: "Tên hàng hóa" },
+    { id: "itemType", label: "Loại hàng hóa" },
     { id: "uom", label: "Đơn vị tính" },
     { id: "technicalSpecifications", label: "Thông số kỹ thuật" },
     { id: "importPrice", label: "Giá nhập" },
     { id: "exportPrice", label: "Giá xuất" },
     { id: "description", label: "Mô tả" },
+    { id: "isSellable", label: "Hàng bán" }
   ];
 
   const handleDataLoaded = (data) => {
     console.log("Dữ liệu đã được tải lên:", data);
 
     const mappedData = data.map((item) => ({
-      itemCode: item["Mã hàng hóa"],
       itemName: item["Tên hàng hóa"],
       itemType: item["Loại hàng hóa"],
       uom: item["Đơn vị tính"],
@@ -41,6 +40,7 @@ const CreateItemFromExcel = () => {
       exportPrice: item["Giá xuất"],
       technicalSpecifications: item["Thông số kỹ thuật"],
       description: item["Mô tả"],
+      isSellable: item["Hàng bán"]
     }));
 
     setExcelData(mappedData);
@@ -50,15 +50,14 @@ const CreateItemFromExcel = () => {
     try {
       for (const item of excelData) {
         const newItemData = {
-          companyId: companyId,
-          itemCode: item.itemCode || "",
           itemName: item.itemName || "",
           itemType: item.itemType || "",
           uom: item.uom || "",
-          importPrice: item.importPrice || "",
-          exportPrice: item.exportPrice || "",
+          importPrice: item.importPrice || 0,
+          exportPrice: item.exportPrice || 0,
           technicalSpecifications: item.technicalSpecifications || "",
           description: item.description || "",
+          isSellable: item.isSellable || false,
         };
 
         console.log("Thêm item:", newItemData);
@@ -67,7 +66,7 @@ const CreateItemFromExcel = () => {
       }
 
       alert("Thêm tất cả hàng hóa thành công!");
-      navigate("/item-in-company");
+      navigate("/items");
     } catch (error) {
       alert(error.response?.data?.message || "Lỗi khi thêm hàng hóa!");
       alert("Lỗi khi thêm hàng hóa!");
@@ -78,7 +77,7 @@ const CreateItemFromExcel = () => {
     <Container>
       <Paper className="paper-container" elevation={3}>
         <Typography className="page-title" variant="h4">
-          NHẬP MẶT HÀNG TỪ EXCEL
+          NHẬP HÀNG HÓA TỪ EXCEL
         </Typography>
 
         <Grid container spacing={2} mt={3} mb={3}>
@@ -124,9 +123,12 @@ const CreateItemFromExcel = () => {
               setSearch={setSearch}
               renderRow={(row, index) => (
                 <TableRow key={index}>
-                  {columns.map((column) => (
-                    <TableCell key={column.id}>{row[column.id]}</TableCell>
-                  ))}
+                  {columns.map((column) => {
+                    if (column.id === "isSellable") {
+                      return <TableCell key={column.id}>{row[column.id] === 1 || row[column.id] === "1" ? "Có" : "Không"}</TableCell>;
+                    }
+                    return <TableCell key={column.id}>{row[column.id]}</TableCell>;
+                  })}
                 </TableRow>
               )}
             />
@@ -137,7 +139,7 @@ const CreateItemFromExcel = () => {
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="outlined" color="default" onClick={() => navigate("/item-in-company")}>
+                <Button variant="outlined" color="default" onClick={() => navigate("/items")}>
                   Hủy
                 </Button>
               </Grid>

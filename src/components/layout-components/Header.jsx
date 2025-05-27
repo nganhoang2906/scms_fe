@@ -50,7 +50,7 @@ const Header = ({ toggleSidebar }) => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         transformOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Typography sx={{ p: 2 }}>Chưa có thông báo</Typography>
+        <Typography sx={{ p: 2 }}>Không có thông báo</Typography>
       </Popover>
 
       <Popover
@@ -61,7 +61,7 @@ const Header = ({ toggleSidebar }) => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         transformOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Typography sx={{ p: 2 }}>Chưa có nội dung thiết lập</Typography>
+        <Typography sx={{ p: 2 }}>Không có nội dung thiết lập</Typography>
       </Popover>
     </div>
   );

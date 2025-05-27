@@ -21,7 +21,7 @@ export const getUserByEmployeeId = async (employeeId, token) => {
 };
 
 export const getUserById = async (userId, token) => {
-  const response = await axios.get(`${BASE_URL}/user/get-user-by-userId/${userId}`, axiosAuth(token));
+  const response = await axios.get(`${BASE_URL}/all/get-user-by-userId/${userId}`, axiosAuth(token));
   return response.data;
 };
 
@@ -34,3 +34,8 @@ export const updatePassword = async (userId, data, token) => {
   const res = await axios.post(`${BASE_URL}/users/update-password/${userId}`, data, axiosAuth(token) );
   return res.data;
 };
+
+export const monthlyUserReport = async (token) => {
+  const res = await axios.get(`${BASE_URL}/sysad/monthly-user-report`, axiosAuth(token));
+  return res.data;
+}

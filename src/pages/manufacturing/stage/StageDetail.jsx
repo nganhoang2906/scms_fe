@@ -67,13 +67,13 @@ const StageDetail = () => {
 
   const filteredDetails = Array.isArray(stageDetails)
     ? stageDetails
-        .sort((a, b) => {
-          if (orderBy) {
-            if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;
-            if (a[orderBy] > b[orderBy]) return order === "asc" ? 1 : -1;
-          }
-          return 0;
-        })
+      .sort((a, b) => {
+        if (orderBy) {
+          if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;
+          if (a[orderBy] > b[orderBy]) return order === "asc" ? 1 : -1;
+        }
+        return 0;
+      })
     : [];
 
   const paginatedDetails = filteredDetails.slice(
@@ -86,27 +86,27 @@ const StageDetail = () => {
     try {
       await deleteStage(stage.stageId, token);
       alert("Xóa công đoạn thành công!");
-      navigate("/stage-in-company");
+      navigate("/stages");
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi khi xóa công đoạn!");
     }
   };
 
   if (!stage) {
-    return <LoadingPaper title="THÔNG TIN CÔNG ĐOẠN" />;
+    return <LoadingPaper title="THÔNG TIN QUY TRÌNH SẢN XUẤT" />;
   }
 
   return (
     <Container>
       <Paper className="paper-container" elevation={3}>
         <Typography className="page-title" variant="h4">
-          THÔNG TIN CÔNG ĐOẠN
+          THÔNG TIN QUY TRÌNH SẢN XUẤT
         </Typography>
 
         <StageForm stage={stage} onChange={() => { }} errors={{}} readOnlyFields={readOnlyFields} setStage={setStage} />
 
         <Typography variant="h5" mt={3} mb={3}>
-          Danh sách chi tiết công đoạn:
+          DANH SÁCH CÔNG ĐOẠN:
         </Typography>
 
         <DataTable

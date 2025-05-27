@@ -28,3 +28,17 @@ export const login = async (data) => {
   const res = await axios.post(`${BASE_URL}/auth/login`, data);
   return res.data;
 };
+
+export const adminLogin = async (email, password) => {
+  const res = await axios.post(`${BASE_URL}/auth/sysadmin-login`, null, {
+    params: { email, password }
+  });
+  return res.data;
+};
+
+export const adminVerifyOtp = async (email, otp) => {
+  const res = await axios.post(`${BASE_URL}/auth/sysadmin-verify-otp`, null, {
+    params: { email, otp }
+  });
+  return res.data;
+};

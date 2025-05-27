@@ -9,8 +9,8 @@ import { useTheme } from '@mui/material/styles';
 const MoInCompany = () => {
   const [mos, setMos] = useState([]);
   const [search, setSearch] = useState("");
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("moCode");
+  const [order, setOrder] = useState("desc");
+  const [orderBy, setOrderBy] = useState("createdOn");
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const navigate = useNavigate();

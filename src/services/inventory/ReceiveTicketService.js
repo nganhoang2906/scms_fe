@@ -24,3 +24,19 @@ export const updateReceiveTicket = async (ticketId, request, token) => {
   const response = await axios.put(`${BASE_URL}/user/update-receive-ticket/${ticketId}`, request, axiosAuth(token));
   return response.data;
 };
+
+export const getReceiveReport = async (request, companyId, token) => {
+  const response = await axios.post(`${BASE_URL}/user/receive-report/${companyId}`, request, axiosAuth(token));
+  return response.data;
+};
+
+export const getMonthlyReceiveReport = async (companyId, receiveType, warehouseId, token) => {
+  const response = await axios.get(`${BASE_URL}/user/monthly-receive-report/${companyId}`, {
+    params: {
+      receiveType,
+      warehouseId,
+    },
+    ...axiosAuth(token),
+  });
+  return response.data;
+};

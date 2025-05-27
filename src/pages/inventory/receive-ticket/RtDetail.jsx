@@ -9,6 +9,7 @@ import { getMoById, updateMo } from "@/services/manufacturing/MoService";
 import dayjs from "dayjs";
 import { increaseQuantity } from "@/services/inventory/InventoryService";
 import { getTransferTicketById, updateTransferTicket } from "@/services/inventory/TransferTicketService";
+import { updatePoStatus } from "@/services/purchasing/PoService";
 
 const RtDetail = () => {
   const { ticketId } = useParams();
@@ -28,6 +29,7 @@ const RtDetail = () => {
       setLoading(true);
       try {
         const data = await getReceiveTicketById(ticketId, token);
+        console.log(data);
         setTicket(data);
       } catch (error) {
         alert(error.response?.data?.message || "Không thể lấy dữ liệu phiếu nhập.");
@@ -89,6 +91,14 @@ const RtDetail = () => {
           alert("Cập nhật phiếu chuyển kho thất bại!");
         }
       }
+
+      if (ticket.receiveType === "Mua hàng" && ticket.referenceId) {
+        try {
+          await updatePoStatus(ticket.referenceId, "Đã hoàn thành", token);
+        } catch (poError) {
+          alert("Cập nhật đơn mua hàng thất bại!");
+        }
+      }
       
       try {
         await Promise.all(
@@ -145,12 +155,12 @@ const RtDetail = () => {
     setPage(1);
   };
 
-  if (!ticket) return <LoadingPaper title="THÔNG TIN PHIẾU NHẬP KHO" />;
-
-  const paginatedDetails = ticket.receiveTicketDetails?.slice(
+  const paginatedDetails = ticket?.receiveTicketDetails.slice(
     (page - 1) * rowsPerPage,
     (page - 1) * rowsPerPage + rowsPerPage
   ) || [];
+
+  if (!ticket) return <LoadingPaper title="THÔNG TIN PHIẾU NHẬP KHO" />;
 
   return (
     <Container>
@@ -159,7 +169,7 @@ const RtDetail = () => {
 
         <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
           {ticket.status === "Chờ xác nhận" && (
-            <Button variant="contained" color="primary" onClick={handleConfirm}>
+            <Button variant="contained" color="default" onClick={handleConfirm}>
               Xác nhận
             </Button>
           )}
@@ -172,7 +182,7 @@ const RtDetail = () => {
 
         <RtForm ticket={ticket} />
 
-        <Typography variant="h5" mt={3} mb={3}>Danh sách hàng hóa nhập kho:</Typography>
+        <Typography variant="h5" mt={3} mb={3}>DANH SÁCH HÀNG HÓA NHẬP KHO:</Typography>
 
         <DataTable
           rows={paginatedDetails}

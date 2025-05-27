@@ -98,7 +98,7 @@ const CreateTt = () => {
 
       await createTransferTicket(request, token);
       alert("Tạo phiếu chuyển kho thành công!");
-      navigate("/tt-in-company");
+      navigate("/transfer-tickets");
     } catch (error) {
       console.log(error.response);
       alert(error.response?.data?.message || "Lỗi khi tạo phiếu chuyển kho!");
@@ -106,7 +106,7 @@ const CreateTt = () => {
   };
 
   const handleCancel = () => {
-    navigate("/tt-in-company");
+    navigate("/transfer-tickets");
   };
 
   return (
@@ -125,7 +125,7 @@ const CreateTt = () => {
         />
 
         <Typography variant="h5" mt={3} mb={3}>
-          Danh sách hàng hóa chuyển kho:
+          DANH SÁCH HÀNG HÓA:
         </Typography>
 
         <TtDetailTable

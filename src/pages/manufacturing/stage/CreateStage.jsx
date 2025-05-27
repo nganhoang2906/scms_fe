@@ -75,7 +75,7 @@ const CreateStage = () => {
 
       await createStage(request, token);
       alert("Tạo công đoạn sản xuất thành công!");
-      navigate("/stage-in-company");
+      navigate("/stages");
     } catch (error) {
       console.log(error.response);
       alert(error.response?.data?.message || "Lỗi khi tạo Stage!");
@@ -83,14 +83,14 @@ const CreateStage = () => {
   };
 
   const handleCancel = () => {
-    navigate("/stage-in-company");
+    navigate("/stages");
   };
 
   return (
     <Container>
       <Paper className="paper-container" elevation={3}>
         <Typography className="page-title" variant="h4">
-          THÊM MỚI STAGE
+          THÊM MỚI QUY TRÌNH SẢN XUẤT
         </Typography>
 
         <StageForm
@@ -100,6 +100,10 @@ const CreateStage = () => {
           readOnlyFields={{ stageCode: true }}
           setStage={setStage}
         />
+
+        <Typography variant="h5" mt={3} mb={3}>
+          DANH SÁCH CÔNG ĐOẠN:
+        </Typography>
 
         <StageDetailTable
           stageDetails={stageDetails}

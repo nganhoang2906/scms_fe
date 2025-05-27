@@ -12,6 +12,7 @@ const CreateLine = () => {
     plantId: "",
     lineCode: "",
     lineName: "",
+    capacity: 0,
     description: "",
   });
 
@@ -38,6 +39,7 @@ const CreateLine = () => {
     if (!line.plantId) newErrors.plantId = "Vui lòng chọn xưởng";
     if (!line.lineCode.trim()) newErrors.lineCode = "Mã dây chuyền không được để trống";
     if (!line.lineName.trim()) newErrors.lineName = "Tên dây chuyền không được để trống";
+    if (!line.capacity || line.capacity <= 0) newErrors.capacity = "Công suất phải lớn hơn 0";
     return newErrors;
   };
 
@@ -52,7 +54,7 @@ const CreateLine = () => {
       console.log("Sending line:", line);
       await createLine(line.plantId, line, token);
       alert("Tạo dây chuyền thành công!");
-      navigate("/line-in-company");
+      navigate("/lines");
     } catch (err) {
       alert(err.response?.data?.message || "Lỗi khi tạo dây chuyền!");
     }
@@ -79,7 +81,7 @@ const CreateLine = () => {
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="outlined" color="default" onClick={() => navigate("/line-in-company")}>
+            <Button variant="outlined" color="default" onClick={() => navigate("/lines")}>
               Hủy
             </Button>
           </Grid>

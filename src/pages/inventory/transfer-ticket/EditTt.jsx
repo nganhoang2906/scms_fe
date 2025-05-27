@@ -130,7 +130,7 @@ const EditTt = () => {
         <TtForm ticket={ticket} onChange={handleChange} errors={errors} readOnlyFields={readOnlyFields} setTicket={setTicket} />
 
         <Typography variant="h5" mt={3} mb={3}>
-          Danh sách hàng hóa chuyển kho:
+          DANH SÁCH HÀNG HÓA CHUYỂN KHO:
         </Typography>
 
         <TtDetailTable ticketDetails={ticketDetails} setTicketDetails={setTicketDetails} items={items} errors={errors.ticketDetailErrors} />

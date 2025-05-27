@@ -8,28 +8,29 @@ const WarehouseForm = ({ warehouse, onChange, errors, readOnlyFields }) => {
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
         <TextField fullWidth label="Mã kho" name="warehouseCode" value={warehouse.warehouseCode} required onChange={onChange}
-        error={!!errors.warehouseCode} helperText={errors.warehouseCode} 
-        InputProps={{ readOnly: isFieldReadOnly("warehouseCode") }} />
+        error={!!errors.warehouseCode} helperText={errors.warehouseCode} placeholder="Mã kho được tạo tự động"
+        readOnly />
       </Grid>
       <Grid item xs={12} sm={6}>
         <TextField fullWidth label="Tên kho" name="warehouseName" value={warehouse.warehouseName} required onChange={onChange} 
-        error={!!errors.warehouseName} helperText={errors.warehouseName} 
+        error={!!errors.warehouseName} helperText={errors.warehouseName}
         InputProps={{ readOnly: isFieldReadOnly("warehouseName") }} />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <TextField fullWidth type="number" label="Sức chứa tối đa (m³)" name="maxCapacity" value={warehouse.maxCapacity} onChange={onChange} 
-        error={!!errors.maxCapacity} helperText={errors.maxCapacity} 
-        InputProps={{ readOnly: isFieldReadOnly("maxCapacity") }} />
-        inputProps={{ min: 0 }}
+        <TextField fullWidth type="number" label="Sức chứa tối đa (m³)" name="maxCapacity" value={warehouse.maxCapacity} onChange={onChange}
+        error={!!errors.maxCapacity} helperText={errors.maxCapacity}
+        InputProps={{ readOnly: isFieldReadOnly("maxCapacity") }} inputProps={{ min: 0 }} />
       </Grid>
       <Grid item xs={12} sm={6}>
         <FormControl fullWidth required error={!!errors.warehouseType} helperText={errors.warehouseType} 
           InputProps={{ readOnly: isFieldReadOnly("maxCapacity") }}>
           <InputLabel>Loại kho</InputLabel>
           <Select name="warehouseType" value={warehouse.warehouseType || ""} label="Loại kho" onChange={onChange}>
-            <MenuItem value="Nguyên liệu">Nguyên liệu</MenuItem>
+            <MenuItem value="Nguyên vật liệu">Nguyên vật liệu</MenuItem>
             <MenuItem value="Thành phẩm">Thành phẩm</MenuItem>
             <MenuItem value="Hàng lỗi">Hàng lỗi</MenuItem>
+            <MenuItem value="Nhận hàng">Nhận hàng</MenuItem>
+            <MenuItem value="Xuất hàng">Xuất hàng</MenuItem>
           </Select>
         </FormControl>
       </Grid>

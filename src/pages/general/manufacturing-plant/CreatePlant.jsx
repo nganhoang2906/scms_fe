@@ -40,7 +40,7 @@ const CreatePlant = () => {
     try {
       await createPlant(companyId, plant, token);
       alert("Tạo xưởng thành công!");
-      navigate("/plant-in-company");
+      navigate("/plants");
     } catch (err) {
       alert(err.response?.data?.message || "Lỗi khi tạo xưởng!");
     }
@@ -62,7 +62,7 @@ const CreatePlant = () => {
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="outlined" color="default" onClick={() => navigate("/plant-in-company")}>
+            <Button variant="outlined" color="default" onClick={() => navigate("/plants")}>
               Hủy
             </Button>
           </Grid>

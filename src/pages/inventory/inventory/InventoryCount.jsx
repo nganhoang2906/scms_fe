@@ -31,7 +31,7 @@ const InventoryCount = () => {
         setItems(itemsData);
         setWarehouses(warehousesData);
       } catch (error) {
-        alert("Có lỗi khi tải dữ liệu kho và mặt hàng!");
+        alert("Có lỗi khi tải dữ liệu kho và hàng hóa!");
       }
     };
     fetchItemsAndWarehouses();
@@ -110,7 +110,7 @@ const InventoryCount = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={5}>
               <SelectAutocomplete
-                options={items.map((item) => ({ label: item.itemCode, value: item.itemCode }))}
+                options={items.map((item) => ({ label: item.itemCode + " - " + item.itemName, value: item.itemCode }))}
                 value={selectedItemCode}
                 onChange={(selected) => setSelectedItemCode(selected?.value || "")}
                 placeholder="Chọn hàng hóa"
@@ -119,7 +119,7 @@ const InventoryCount = () => {
 
             <Grid item xs={12} sm={5}>
               <SelectAutocomplete
-                options={warehouses.map((w) => ({ label: w.warehouseCode, value: w.warehouseCode }))}
+                options={warehouses.map((w) => ({ label: w.warehouseCode + " - " + w.warehouseName, value: w.warehouseCode }))}
                 value={selectedWarehouseCode}
                 onChange={(selected) => setSelectedWarehouseCode(selected?.value || "")}
                 placeholder="Chọn kho"

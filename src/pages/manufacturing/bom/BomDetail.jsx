@@ -90,7 +90,7 @@ const BomDetail = () => {
     try {
       await deleteBom(bom.bomId, token);
       alert("Xóa BOM thành công!");
-      navigate("/bom-in-company");
+      navigate("/boms");
     } catch (error) {
       alert(error.response?.data?.message || "Có lỗi xảy ra khi xóa BOM!");
     }
@@ -110,7 +110,7 @@ const BomDetail = () => {
         <BomForm bom={bom} onChange={() => { }} errors={{}} readOnlyFields={readOnlyFields} setBom={setBom} />
 
         <Typography variant="h5" mt={3} mb={3}>
-          Danh sách nguyên vật liệu:
+          DANH SÁCH NGUYÊN VẬT LIỆU:
         </Typography>
 
         <DataTable

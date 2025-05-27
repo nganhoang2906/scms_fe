@@ -111,7 +111,7 @@ const EditBom = () => {
   };
 
   const handleCancel = () => {
-    navigate("/bom-in-company");
+    navigate("/boms");
   };
 
   if (loading) {
@@ -125,6 +125,11 @@ const EditBom = () => {
 
         <BomForm bom={bom} onChange={handleChange} errors={errors} readOnlyFields={readOnlyFields} setBom={setBom} />
 
+
+        <Typography variant="h5" mt={3} mb={3}>
+          DANH SÁCH NGUYÊN VẬT LIỆU:
+        </Typography>
+        
         <BomDetailTable bomDetails={bomDetails} setBomDetails={setBomDetails} items={items} errors={errors.bomDetailErrors} />
 
         <Grid container spacing={2} mt={3} justifyContent="flex-end">

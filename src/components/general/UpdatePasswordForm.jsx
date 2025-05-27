@@ -76,7 +76,7 @@ const UpdatePasswordForm = ({ userId, onSuccess }) => {
   return (
     <Box mt={3}>
       <Typography variant="h5" gutterBottom>
-        Thay đổi mật khẩu:
+        THAY ĐỔI MẬT KHẨU
       </Typography>
 
       <Box display="flex" flexDirection="column" gap={2}>

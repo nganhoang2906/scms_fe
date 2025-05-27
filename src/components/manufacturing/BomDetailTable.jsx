@@ -32,8 +32,8 @@ const BomDetailTable = ({ bomDetails, setBomDetails, items, errors }) => {
   };
 
   const materialOptions = items
-    .filter(item => item.itemType === "Nguyên vật liệu")
-    .map(item => ({ value: item.itemId, label: item.itemCode, itemName: item.itemName }));
+    .filter(item => item.itemType === "Nguyên vật liệu" || item.itemType === "Bán thành phẩm")
+    .map(item => ({ value: item.itemId, label: item.itemCode + " - " + item.itemName }));
 
   return (
     <>
@@ -42,7 +42,6 @@ const BomDetailTable = ({ bomDetails, setBomDetails, items, errors }) => {
           <TableHead>
             <TableRow>
               <TableCell>Mã nguyên vật liệu</TableCell>
-              <TableCell>Tên nguyên vật liệu</TableCell>
               <TableCell>Số lượng</TableCell>
               <TableCell>Ghi chú</TableCell>
               <TableCell />
@@ -51,20 +50,18 @@ const BomDetailTable = ({ bomDetails, setBomDetails, items, errors }) => {
           <TableBody>
             {bomDetails.map((bomDetail, index) => (
               <TableRow key={index}>
-                <TableCell sx={{ width: 200 }}>
+                <TableCell sx={{ width: 400 }}>
                   <SelectAutocomplete
                     options={materialOptions}
                     value={bomDetail.itemId}
                     onChange={(selected) => {
                       handleDetailChange(index, "itemId", selected?.value || "");
-                      handleDetailChange(index, "itemName", selected?.itemName || "");
                     }}
                     placeholder="Chọn nguyên vật liệu"
                     error={!!errors?.find(err => err.index === index && err.field === "itemId")}
                     helperText={errors?.find(err => err.index === index && err.field === "itemId")?.message}
                   />
                 </TableCell>
-                <TableCell>{bomDetail.itemName}</TableCell>
                 <TableCell sx={{ width: 100 }}>
                   <TextField
                     type="number"

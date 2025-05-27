@@ -23,7 +23,6 @@ const EditStage = () => {
         setStage({
           ...stageData,
           stageCode: stageData.stageCode || "",
-          stageName: stageData.stageName || "",
           description: stageData.description || "",
           status: stageData.status || "",
         });
@@ -40,7 +39,6 @@ const EditStage = () => {
   const validateForm = () => {
     const formErrors = {};
     if (!stage.stageCode) formErrors.stageCode = "Phải nhập mã công đoạn";
-    if (!stage.stageName) formErrors.stageName = "Phải nhập tên công đoạn";
     if (!stage.status?.trim()) formErrors.status = "Trạng thái không được để trống";
     return formErrors;
   };
@@ -79,10 +77,11 @@ const EditStage = () => {
     }
 
     try {
+      console.log("edit");
       const request = {
         description: stage.description,
         status: stage.status,
-        stageDetailList: stageDetails.map((detail) => ({
+        stageDetails: stageDetails.map((detail) => ({
           stageOrder: detail.stageOrder,
           stageName: detail.stageName,
           estimatedTime: detail.estimatedTime,
@@ -99,19 +98,23 @@ const EditStage = () => {
   };
 
   const handleCancel = () => {
-    navigate("/stage-in-company");
+    navigate("/stages");
   };
 
   if (loading) {
-    return <LoadingPaper title="CẬP NHẬT CÔNG ĐOẠN" />;
+    return <LoadingPaper title="CẬP NHẬT QUY TRÌNH SẢN XUẤT" />;
   }
 
   return (
     <Container>
       <Paper className="paper-container" elevation={3}>
-        <Typography className="page-title" variant="h4">CẬP NHẬT CÔNG ĐOẠN</Typography>
+        <Typography className="page-title" variant="h4">CẬP NHẬT QUY TRÌNH SẢN XUẤT</Typography>
 
         <StageForm stage={stage} onChange={handleChange} errors={errors} readOnlyFields={readOnlyFields} setStage={setStage} />
+
+        <Typography variant="h5" mt={3} mb={3}>
+          DANH SÁCH CÔNG ĐOẠN:
+        </Typography>
 
         <StageDetailTable stageDetails={stageDetails} setStageDetails={setStageDetails} errors={errors.stageDetailErrors} />
 

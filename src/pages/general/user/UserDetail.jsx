@@ -36,7 +36,7 @@ const UserDetail = () => {
           THÔNG TIN TÀI KHOẢN
         </Typography>
 
-        <UserForm user={user} onChange={() => { }} errors={{}} readOnly />
+        <UserForm user={user} onChange={() => { }} errors={{}} readOnly role="c-admin"/>
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="contained" color="default" onClick={() => navigate(`/user/${userId}/edit`)}>

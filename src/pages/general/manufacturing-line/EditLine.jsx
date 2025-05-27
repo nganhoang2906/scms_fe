@@ -16,12 +16,14 @@ const EditLine = () => {
 
   const validateForm = () => {
     const errors = {};
-    const { lineName, lineCode, plantId } = editedLine;
+    const { lineName, lineCode, plantId, capacity } = editedLine;
 
     if (!plantId) errors.plantId = "Vui lòng chọn xưởng";
     if (!lineName?.trim()) errors.lineName = "Tên dây chuyền không được để trống";
     if (!lineCode?.trim()) errors.lineCode = "Mã dây chuyền không được để trống";
-
+    if (capacity && (isNaN(capacity) || Number(capacity) <= 0)) {
+      errors.capacity = "Công suất phải lớn hơn 0";
+    }
     return errors;
   };
 

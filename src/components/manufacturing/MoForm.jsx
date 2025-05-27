@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Grid, TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText } from "@mui/material";
 import SelectAutocomplete from "@components/content-components/SelectAutocomplete";
 
 const MoForm = ({ mo, onChange, errors = {}, readOnlyFields, setMo, items = [], lines = [] }) => {
-  const [filteredItems, setFilteredItems] = useState([]);
 
   const isFieldReadOnly = (field) => readOnlyFields?.[field] ?? false;
-
-  useEffect(() => {
-    setFilteredItems(items);
-  }, [items]);
 
   const handleItemChange = (selected) => {
     const selectedItem = items.find((item) => item.itemId === selected?.value);
@@ -27,13 +22,6 @@ const MoForm = ({ mo, onChange, errors = {}, readOnlyFields, setMo, items = [], 
       lineCode: selectedLine?.lineCode || "",
       lineId: selectedLine?.lineId || "",
     }));
-  };
-
-  const handleSearchInputChange = (value) => {
-    const filtered = items.filter((item) =>
-      item.itemCode.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredItems(filtered);
   };
 
   const formatDateTimeLocal = (isoString) => {
@@ -57,22 +45,6 @@ const MoForm = ({ mo, onChange, errors = {}, readOnlyFields, setMo, items = [], 
       </Grid>
 
       <Grid item xs={12} sm={6}>
-        <SelectAutocomplete size="small"
-          options={filteredItems.map(item => ({ label: item.itemCode, value: item.itemId }))}
-          value={mo.itemId} onChange={handleItemChange} onInputChange={handleSearchInputChange} placeholder="Chọn hàng hóa *"
-          error={errors.itemId} helperText={errors.itemId} disabled={isFieldReadOnly("itemId")} required
-        />
-      </Grid>
-
-      <Grid item xs={12} sm={6}>
-        <SelectAutocomplete size="small"
-          options={lines.map(line => ({ label: line.lineCode, value: line.lineId }))}
-          value={mo.lineId} onChange={handleLineChange} placeholder="Chọn dây chuyền *"
-          error={errors.lineId} helperText={errors.lineId} disabled={isFieldReadOnly("lineId")}
-        />
-      </Grid>
-
-      <Grid item xs={12} sm={6}>
         <FormControl fullWidth required error={!!errors.type}>
           <InputLabel>Loại</InputLabel>
           <Select name="type" value={mo.type || ""} label="Loại" onChange={onChange}
@@ -83,6 +55,22 @@ const MoForm = ({ mo, onChange, errors = {}, readOnlyFields, setMo, items = [], 
           </Select>
           {errors.type && <FormHelperText>{errors.type}</FormHelperText>}
         </FormControl>
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <SelectAutocomplete size="small"
+          options={items.map(item => ({ label: item.itemCode + " - " + item.itemName, value: item.itemId }))}
+          value={mo.itemId} onChange={handleItemChange} placeholder="Chọn hàng hóa *"
+          error={errors.itemId} helperText={errors.itemId} disabled={isFieldReadOnly("itemId")}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <SelectAutocomplete size="small"
+          options={lines.map(line => ({ label: line.lineCode + " - " + line.lineName, value: line.lineId }))}
+          value={mo.lineId} onChange={handleLineChange} placeholder="Chọn dây chuyền *"
+          error={errors.lineId} helperText={errors.lineId} disabled={isFieldReadOnly("lineId")}
+        />
       </Grid>
 
       <Grid item xs={12} sm={6}>

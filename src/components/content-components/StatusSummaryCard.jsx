@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Button, Typography, Box } from "@mui/material";
 
-const StatusSummaryCards = ({
+const StatusSummaryCard = ({
   data = [],
   statusLabels = [],
   getStatus,
@@ -68,4 +68,4 @@ const StatusSummaryCards = ({
   );
 };
 
-export default StatusSummaryCards;
+export default StatusSummaryCard;
