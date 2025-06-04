@@ -5,6 +5,7 @@ import DataTable from "@/components/content-components/DataTable";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
 import { getAllWarehousesInCompany } from "@/services/general/WarehouseService";
 import IssueForecast from "@/components/inventory/IssueForecast";
+import dayjs from "dayjs";
 
 const IssueReport = () => {
   const token = localStorage.getItem("token");
@@ -42,8 +43,8 @@ const IssueReport = () => {
       const monthly = await getMonthlyIssueReport(companyId, issueType, warehouseId, token);
       const detail = await getIssueReport(
         {
-          startTime: startDate,
-          endTime: getEndOfDay(endDate),
+          startTime: toLocalDateTimeString(startDate),
+          endTime: toLocalDateTimeString(getEndOfDay(endDate)),
           issueType,
           warehouseId
         },
@@ -59,6 +60,11 @@ const IssueReport = () => {
 
     fetchData();
   }, [issueType, warehouseId, companyId, token, startDate, endDate]);
+
+  const toLocalDateTimeString = (localDateTimeString) => {
+    if (!localDateTimeString) return null;
+    return dayjs(localDateTimeString).format("YYYY-MM-DDTHH:mm:ss");
+  };
 
   const formatDateLocal = (isoString) => {
     if (!isoString) return "";

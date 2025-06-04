@@ -87,7 +87,7 @@ const CreatePo = () => {
       console.log("PO", po);
       await createPo(po, token);
       alert("Tạo đơn mua hàng thành công!");
-      navigate("/pos");
+      navigate("/customer-quotations");
     } catch (err) {
       alert(err.response?.data?.message || "Không thể tạo đơn mua hàng!");
     }
@@ -185,10 +185,10 @@ const CreatePo = () => {
         <Grid container justifyContent="flex-end" mt={2}>
           <Grid item>
             {[
-              { label: "Tổng tiền hàng (VNĐ):", value: quotation.subTotal },
+              { label: "Tổng tiền hàng (VNĐ):", value: quotation.subTotal.toLocaleString() },
               { label: "Thuế (%):", value: quotation.taxRate },
-              { label: "Tiền thuế (VNĐ):", value: quotation.taxAmount },
-              { label: "Tổng cộng (VNĐ):", value: quotation.totalAmount },
+              { label: "Tiền thuế (VNĐ):", value: quotation.taxAmount.toLocaleString() },
+              { label: "Tổng cộng (VNĐ):", value: quotation.totalAmount.toLocaleString() },
             ].map((item, index) => (
               <Grid container key={index} justifyContent="space-between" spacing={2}>
                 <Grid item mb={3}>

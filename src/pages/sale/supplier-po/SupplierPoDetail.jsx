@@ -91,7 +91,7 @@ const SupplierPoDetail = () => {
           CHI TIẾT ĐƠN MUA HÀNG
         </Typography>
 
-        <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
+        <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           {po.status === "Chờ xác nhận" && (
             <Button variant="contained" color="default" onClick={() => handleConfirm("po", po.poId)}>
               Xác nhận

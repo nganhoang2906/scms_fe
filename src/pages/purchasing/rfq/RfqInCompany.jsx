@@ -70,15 +70,16 @@ const RfqInCompany = () => {
         </Typography>
         <StatusSummaryCard
           data={rfqs}
-          statusLabels={["Tất cả", "Chưa báo giá", "Đã báo giá", "Đã chấp nhận", "Đã từ chối", "Quá hạn báo giá"]}
+          statusLabels={["Tất cả", "Chưa báo giá", "Đã báo giá", "Quá hạn báo giá", "Đã chấp nhận", "Đã từ chối", "Đã hủy"]}
           getStatus={(rfq) => rfq.status}
           statusColors={{
             "Tất cả": "#000",
             "Chưa báo giá": theme.palette.secondary.main,
             "Đã báo giá": theme.palette.primary.main,
+            "Quá hạn báo giá": theme.palette.error.main,
             "Đã chấp nhận": theme.palette.success.main,
             "Đã từ chối": theme.palette.warning.main,
-            "Quá hạn báo giá": theme.palette.error.main,
+            "Đã hủy": theme.palette.error.main
           }}
           onSelectStatus={(status) => setFilterStatus(status)}
           selectedStatus={filterStatus}

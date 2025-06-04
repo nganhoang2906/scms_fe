@@ -9,10 +9,12 @@ const UserDetail = () => {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  
+  const role = localStorage.getItem("role");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("token");
       try {
         const data = await getUserById(userId, token);
 
@@ -23,7 +25,7 @@ const UserDetail = () => {
     };
 
     fetchUser();
-  }, [userId]);
+  }, [userId, token]);
 
   if (!user) {
     return <LoadingPaper title="THÔNG TIN TÀI KHOẢN" />;
@@ -36,7 +38,7 @@ const UserDetail = () => {
           THÔNG TIN TÀI KHOẢN
         </Typography>
 
-        <UserForm user={user} onChange={() => { }} errors={{}} readOnly role="c-admin"/>
+        <UserForm user={user} onChange={() => { }} errors={{}} readOnly role={role}/>
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="contained" color="default" onClick={() => navigate(`/user/${userId}/edit`)}>

@@ -72,13 +72,14 @@ const SoInCompany = () => {
 
         <StatusSummaryCard
           data={sos}
-          statusLabels={["Tất cả", "Chờ xuất kho", "Chờ vận chuyển", "Đang vận chuyển"]}
+          statusLabels={["Tất cả", "Chờ xuất kho", "Chờ vận chuyển", "Đang vận chuyển", "Đã hoàn thành"]}
           getStatus={(so) => so.status}
           statusColors={{
             "Tất cả": "#000",
-            "Chờ xuất kho": theme.palette.primary.main,
+            "Chờ xuất kho": theme.palette.secondary.main,
             "Chờ vận chuyển": theme.palette.warning.main,
-            "Đang vận chuyển": theme.palette.success.main,
+            "Đang vận chuyển": theme.palette.primary.main,
+            "Đã hoàn thành": theme.palette.success.main
           }}
           onSelectStatus={setFilterStatus}
           selectedStatus={filterStatus}

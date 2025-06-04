@@ -4,6 +4,7 @@ import DataTable from "@/components/content-components/DataTable";
 import MonthlyBarChart from "@/components/content-components/MonthlyBarChart";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
 import { getManufactureReport, getMonthlyManufactureReport } from "@/services/manufacturing/MoService";
+import dayjs from "dayjs";
 
 const ManufactureReport = () => {
   const token = localStorage.getItem("token");
@@ -30,6 +31,11 @@ const ManufactureReport = () => {
   const [startDate, setStartDate] = useState(getStartOfMonth());
   const [endDate, setEndDate] = useState(new Date());
 
+  const toLocalDateTimeString = (localDateTimeString) => {
+    if (!localDateTimeString) return null;
+    return dayjs(localDateTimeString).format("YYYY-MM-DDTHH:mm:ss");
+  };
+
   const formatDateLocal = (isoString) => {
     if (!isoString) return "";
     const date = new Date(isoString);
@@ -44,8 +50,8 @@ const ManufactureReport = () => {
       const monthly = await getMonthlyManufactureReport(companyId, type, token);
       const detail = await getManufactureReport(
         {
-          startTime: startDate,
-          endTime: getEndOfDay(endDate),
+          startTime: toLocalDateTimeString(startDate),
+          endTime: toLocalDateTimeString(getEndOfDay(endDate)),
           type,
         },
         companyId,

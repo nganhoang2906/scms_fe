@@ -13,9 +13,11 @@ const EditUser = () => {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const navigate = useNavigate();
 
+  const role = localStorage.getItem("role");
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("token");
       try {
         const data = await getUserById(userId, token);
         setUser(data);
@@ -25,7 +27,7 @@ const EditUser = () => {
     };
 
     fetchUser();
-  }, [userId]);
+  }, [userId, token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,7 +78,7 @@ const EditUser = () => {
           CHỈNH SỬA TÀI KHOẢN
         </Typography>
 
-        <UserForm user={user} onChange={handleChange} errors={errors} role="c-admin"/>
+        <UserForm user={user} onChange={handleChange} errors={errors} role={role} />
 
         <Box mt={3} display="flex" justifyContent="space-between" alignItems="center">
           {!showPasswordForm ? (

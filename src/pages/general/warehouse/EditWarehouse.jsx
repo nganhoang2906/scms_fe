@@ -93,7 +93,7 @@ const EditWarehouse = () => {
           CHỈNH SỬA THÔNG TIN KHO HÀNG
         </Typography>
 
-        <WarehouseForm warehouse={editedWarehouse} onChange={handleChange} errors={errors} />
+        <WarehouseForm warehouse={editedWarehouse} onChange={handleChange} errors={errors} readOnlyFields={[]}/>
 
         <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="contained" color="default" onClick={handleSave}>

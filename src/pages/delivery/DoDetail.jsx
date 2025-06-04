@@ -157,7 +157,7 @@ const DoDetail = () => {
           CHI TIẾT ĐƠN VẬN CHUYỂN
         </Typography>
 
-        <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
+        <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
           {deliveryOrder.status === "Chờ xác nhận" && (
             <Button variant="contained" color="default" onClick={handleConfirm}>
               Xác nhận
@@ -169,7 +169,7 @@ const DoDetail = () => {
             </Button>
           )}
           {deliveryOrder.status === "Đang vận chuyển" && (
-            <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
+            <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
               <Button variant="contained" color="success" onClick={() => navigate(`/update-do-process/${deliveryOrder.doId}`)}>
                 Thông tin vận chuyển
               </Button>

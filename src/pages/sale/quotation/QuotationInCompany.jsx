@@ -69,12 +69,12 @@ const QuotationInCompany = () => {
 
         <StatusSummaryCard
           data={quotations}
-          statusLabels={["Tất cả", "Đã báo giá", "Đã từ chối", "Đã chấp nhận"]}
+          statusLabels={["Tất cả", "Đã báo giá", "Đã chấp nhận", "Đã từ chối"]}
           getStatus={(quotation) => quotation.status}
           statusColors={{
             "Tất cả": "#000",
             "Đã báo giá": theme.palette.primary.main,
-            "Đã từ chối": theme.palette.warning.main,
+            "Đã từ chối": theme.palette.error.main,
             "Đã chấp nhận": theme.palette.success.main,
           }}
           onSelectStatus={setFilterStatus}

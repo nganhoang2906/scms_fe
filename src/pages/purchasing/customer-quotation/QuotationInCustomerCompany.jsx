@@ -24,7 +24,7 @@ const QuotationInCustomerCompany = () => {
     const fetchQuotations = async () => {
       try {
         const data = await getAllQuotationsInRequestCompany(companyId, token);
-        const filteredData = data.filter(quotation => quotation.status === "Đã chấp nhận" || quotation.status === "Đã báo giá");
+        const filteredData = data.filter(quotation => quotation.status === "Đã chấp nhận" || quotation.status === "Đã báo giá" || quotation.status === "Đã từ chối");
         setQuotations(filteredData);
       } catch (error) {
         alert(error.response?.data?.message || "Có lỗi khi lấy danh sách báo giá!");
@@ -72,13 +72,13 @@ const QuotationInCustomerCompany = () => {
 
         <StatusSummaryCard
           data={quotations}
-          statusLabels={["Tất cả", "Đã báo giá", "Đã từ chối", "Đã chấp nhận"]}
+          statusLabels={["Tất cả", "Đã báo giá", "Đã chấp nhận", "Đã từ chối"]}
           getStatus={(quotation) => quotation.status}
           statusColors={{
             "Tất cả": "#000",
             "Đã báo giá": theme.palette.primary.main,
-            "Đã từ chối": theme.palette.warning.main,
             "Đã chấp nhận": theme.palette.success.main,
+            "Đã từ chối": theme.palette.error.main,
           }}
           onSelectStatus={setFilterStatus}
           selectedStatus={filterStatus}

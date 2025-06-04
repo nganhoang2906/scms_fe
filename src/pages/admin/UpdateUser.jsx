@@ -10,10 +10,11 @@ const UpdateUser = () => {
   const [user, setUser] = useState(null);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const role = localStorage.getRole("role");
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("token");
       try {
         const data = await getUserById(userId, token);
         setUser(data);
@@ -23,7 +24,7 @@ const UpdateUser = () => {
     };
 
     fetchUser();
-  }, [userId]);
+  }, [userId, token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,7 +75,7 @@ const UpdateUser = () => {
           CHỈNH SỬA TÀI KHOẢN
         </Typography>
 
-        <UserForm user={user} onChange={handleChange} errors={errors} role="s-admin"/>
+        <UserForm user={user} onChange={handleChange} errors={errors} role={role} />
 
         <Box mt={3} display="flex" justifyContent="flex-end" alignItems="center">
           <Box display="flex" gap={2}>

@@ -14,9 +14,12 @@ const MyProfile = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  
+  const role = localStorage.getItem("role");
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
       const employeeId = localStorage.getItem("employeeId");
 
       try {
@@ -34,7 +37,7 @@ const MyProfile = () => {
     };
 
     fetchData();
-  }, []);
+  }, [token]);
 
   if (!employee || !user) {
     return <LoadingPaper title="THÔNG TIN CÁ NHÂN" />;
@@ -78,7 +81,7 @@ const MyProfile = () => {
               THÔNG TIN TÀI KHOẢN:
             </Typography>
 
-            <UserForm user={user} onChange={() => { }} errors={{}} readOnly role="c-admin"/>
+            <UserForm user={user} onChange={() => { }} errors={{}} readOnly role={role}/>
 
             <Box mt={2} display="flex" justifyContent="flex-end">
               <Button variant="contained" color="default" onClick={() => navigate(`/user/${user.userId}/edit`)} >

@@ -5,6 +5,7 @@ import DataTable from "@/components/content-components/DataTable";
 import MonthlyBarChart from "@/components/content-components/MonthlyBarChart";
 import LoadingPaper from "@/components/content-components/LoadingPaper";
 import { getAllWarehousesInCompany } from "@/services/general/WarehouseService";
+import dayjs from "dayjs";
 
 const ReceiveReport = () => {
   const token = localStorage.getItem("token");
@@ -33,6 +34,11 @@ const ReceiveReport = () => {
   const [startDate, setStartDate] = useState(getStartOfMonth());
   const [endDate, setEndDate] = useState(new Date());
 
+  const toLocalDateTimeString = (localDateTimeString) => {
+    if (!localDateTimeString) return null;
+    return dayjs(localDateTimeString).format("YYYY-MM-DDTHH:mm:ss");
+  };
+
   const formatDateLocal = (isoString) => {
     if (!isoString) return "";
     const date = new Date(isoString);
@@ -50,8 +56,8 @@ const ReceiveReport = () => {
       const monthly = await getMonthlyReceiveReport(companyId, receiveType, warehouseId, token);
       const detail = await getReceiveReport(
         {
-          startTime: startDate,
-          endTime: getEndOfDay(endDate),
+          startTime: toLocalDateTimeString(startDate),
+          endTime: toLocalDateTimeString(getEndOfDay(endDate)),
           receiveType,
           warehouseId
         },

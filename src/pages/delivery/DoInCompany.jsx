@@ -74,9 +74,9 @@ const DoInCompany = () => {
           getStatus={(ord) => ord.status}
           statusColors={{
             "Tất cả": "#000",
-            "Chờ xác nhận": theme.palette.primary.main,
+            "Chờ xác nhận": theme.palette.secondary.main,
             "Chờ lấy hàng": theme.palette.warning.main,
-            "Đang vận chuyển": theme.palette.info.main,
+            "Đang vận chuyển": theme.palette.primary.main,
             "Đã hoàn thành": theme.palette.success.main,
           }}
           onSelectStatus={setFilterStatus}

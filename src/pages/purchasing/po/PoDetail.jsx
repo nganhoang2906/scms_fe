@@ -138,29 +138,30 @@ const PoDetail = () => {
           CHI TIẾT ĐƠN MUA HÀNG
         </Typography>
 
-        <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
-          {po && po.status === "Chờ xác nhận" && (
+        {po && po.status === "Chờ xác nhận" && (
+          <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
             <Button variant="contained" color="error" onClick={handleCancel}>
               Hủy
             </Button>
-          )}
-          {po && (po.status === "Đang vận chuyển" || po.status === "Chờ nhập kho") && (
+          </Box>
+        )}
+        {po && (po.status === "Đang vận chuyển" || po.status === "Chờ nhập kho") && (
+          <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
             <Button variant="contained" color="success" onClick={handleViewDoProcess}>
               Thông tin vận chuyển
             </Button>
-          )}
-          {po && po.status === "Đã hoàn thành" && (
-            <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
-              <Button variant="contained" color="default" onClick={handleViewInvoice}>
-                Xem hóa đơn
-              </Button>
-              <Button variant="contained" color="success" onClick={handleViewDoProcess}>
-                Thông tin vận chuyển
-              </Button>
-            </Box>
-          )}
-
-        </Box>
+          </Box>
+        )}
+        {po && po.status === "Đã hoàn thành" && (
+          <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
+            <Button variant="contained" color="default" onClick={handleViewInvoice}>
+              Xem hóa đơn
+            </Button>
+            <Button variant="contained" color="success" onClick={handleViewDoProcess}>
+              Thông tin vận chuyển
+            </Button>
+          </Box>
+        )}
 
         <PoForm po={po} quotation={quotation} readOnly setPo={[]} errors={[]} readOnlyFields={readOnlyFields} />
 

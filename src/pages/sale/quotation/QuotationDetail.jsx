@@ -92,7 +92,7 @@ const QuotationDetail = () => {
           CHI TIẾT BÁO GIÁ
         </Typography>
 
-        <Box mt={3} mb={3} display="flex" justifyContent="flex-start" gap={2}>
+        <Box mt={3} display="flex" justifyContent="flex-start" gap={2}>
           <Button variant="contained" color="info" onClick={() => navigate(`/supplier-rfq/${rfqId}`)}>
             Xem yêu cầu báo giá
           </Button>

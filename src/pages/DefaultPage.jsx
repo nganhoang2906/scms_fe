@@ -30,7 +30,7 @@ const DefaultPage = () => {
       <Typography variant="h6" color="textSecondary" sx={{ p: 1 }}>
         Giúp doanh nghiệp tối ưu hóa quản lý sản xuất, mua hàng, bán hàng, kho và vận chuyển.
       </Typography>
-      <Button variant="contained" color="default" onClick={() => navigate("/login")}>
+      <Button variant="contained" color="default" onClick={() => navigate("/register")}>
         Bắt đầu ngay
       </Button>
 

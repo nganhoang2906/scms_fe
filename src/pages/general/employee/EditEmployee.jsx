@@ -60,7 +60,7 @@ const EditEmployee = () => {
 
   const handleCancel = () => {
     setEditedEmployee(employee);
-    navigate(`/employee/${employeeId}`);
+    navigate(-1);
   };
 
   const handleSave = async () => {

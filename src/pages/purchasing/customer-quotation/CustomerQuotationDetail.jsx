@@ -127,7 +127,7 @@ const CustomerQuotationDetail = () => {
         </Typography>
 
         {quotation.status === "Đã báo giá" && (
-          <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
+          <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
             <Button variant="contained" color="success" onClick={handleAccept}>
               Chấp nhận
             </Button>
@@ -138,7 +138,7 @@ const CustomerQuotationDetail = () => {
         )}
 
         {quotation.status === "Đã chấp nhận" && (
-          <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
+          <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
             <Button variant="contained" color="default" onClick={() => navigate(`/create-po/${quotation.quotationId}`)}>
               Mua hàng
             </Button>

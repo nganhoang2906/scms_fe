@@ -83,23 +83,23 @@ const SoDetail = () => {
       <Paper className="paper-container" elevation={3}>
         <Typography className="page-title" variant="h4">CHI TIẾT ĐƠN BÁN HÀNG</Typography>
 
-        <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
-          {so && (so.status === "Đang vận chuyển") && (
+        {so && (so.status === "Đang vận chuyển") && (
+          <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
             <Button variant="contained" color="success" onClick={() => navigate(`/do-process/${deliveryOrder.doId}`)}>
               Thông tin vận chuyển
             </Button>
-          )}
-          {so && so.status === "Đã hoàn thành" && (
-            <Box mt={3} mb={3} display="flex" justifyContent="flex-end" gap={2}>
-              <Button variant="contained" color="default" onClick={() => getInvoicePdf(so.soId, token)}>
-                Xem hóa đơn
-              </Button>
-              <Button variant="contained" color="success" onClick={() => navigate(`/do-process/${deliveryOrder.doId}`)}>
-                Thông tin vận chuyển
-              </Button>
-            </Box>
-          )}
-        </Box>
+          </Box>
+        )}
+        {so && so.status === "Đã hoàn thành" && (
+          <Box mt={3} display="flex" justifyContent="flex-end" gap={2}>
+            <Button variant="contained" color="default" onClick={() => getInvoicePdf(so.soId, token)}>
+              Xem hóa đơn
+            </Button>
+            <Button variant="contained" color="success" onClick={() => navigate(`/do-process/${deliveryOrder.doId}`)}>
+              Thông tin vận chuyển
+            </Button>
+          </Box>
+        )}
 
         <SoForm po={po} so={so} readOnly />
 

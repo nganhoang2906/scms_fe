@@ -9,11 +9,11 @@ const StatusSummaryCard = ({
   onSelectStatus,
   selectedStatus
 }) => {
-  const countByStatus = statusLabels.reduce((acc, label) => {
-    acc[label] = label === "Tất cả"
+  const countByStatus = statusLabels.reduce((count, label) => {
+    count[label] = label === "Tất cả"
       ? data.length
       : data.filter(item => getStatus(item) === label).length;
-    return acc;
+    return count;
   }, {});
 
   return (
@@ -54,9 +54,9 @@ const StatusSummaryCard = ({
                   }),
               }}
             >
-              <Box display="flex" justifyContent="space-between" width="100%" gap={2}>
-                <Typography variant="h5">{label}</Typography>
-                <Typography variant="h5" fontWeight="bold">
+              <Box display="flex" justifyContent="space-between" width="100%" gap={1}>
+                <Typography variant="h6" fontWeight="bold">{label}</Typography>
+                <Typography variant="h6" fontWeight="bold">
                   {countByStatus[label] || 0}
                 </Typography>
               </Box>

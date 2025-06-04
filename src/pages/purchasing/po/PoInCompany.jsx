@@ -72,14 +72,15 @@ const PoInCompany = () => {
 
         <StatusSummaryCard
           data={pos}
-          statusLabels={["Tất cả", "Chờ xác nhận", "Đã xác nhận", "Đang vận chuyển", "Chờ nhập kho", "Đã hủy"]}
+          statusLabels={["Tất cả", "Chờ xác nhận", "Đã xác nhận", "Đang vận chuyển", "Chờ nhập kho", "Đã hoàn thành", "Đã hủy"]}
           getStatus={(po) => po.status}
           statusColors={{
             "Tất cả": "#000",
-            "Chờ xác nhận": theme.palette.primary.main,
-            "Đã xác nhận": theme.palette.warning.main,
-            "Đang vận chuyển": theme.palette.success.main,
-            "Chờ nhập kho": theme.palette.info.main,
+            "Chờ xác nhận": theme.palette.secondary.main,
+            "Đã xác nhận": theme.palette.primary.main,
+            "Đang vận chuyển": theme.palette.info.main,
+            "Chờ nhập kho": theme.palette.warning.main,
+            "Đã hoàn thành": theme.palette.success.main,
             "Đã hủy": theme.palette.error.main,
           }}
           onSelectStatus={setFilterStatus}

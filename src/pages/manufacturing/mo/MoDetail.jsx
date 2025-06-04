@@ -259,11 +259,13 @@ const MoDetail = () => {
 
         <MoForm mo={mo} onChange={() => { }} errors={{}} readOnlyFields={readOnlyFields} items={items} lines={lines} setMo={setMo} />
 
-        <Box mt={3} display="flex" justifyContent="flex-end">
+        {mo.status === "Chờ xác nhận" && (
+          <Box mt={3} display="flex" justifyContent="flex-end">
           <Button variant="contained" color="default" onClick={handleEditClick}>
             Sửa
           </Button>
         </Box>
+        )}
 
         {(mo.status !== "Chờ xác nhận" && mo.status !== "Đã hủy") && (
           <>

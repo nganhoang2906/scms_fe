@@ -74,14 +74,16 @@ const MoInCompany = () => {
         </Typography>
         <StatusSummaryCard
           data={mos}
-          statusLabels={["Tất cả", "Chờ xác nhận", "Chờ sản xuất", "Đang sản xuất", "Chờ nhập kho"]}
+          statusLabels={["Tất cả", "Chờ xác nhận", "Chờ sản xuất", "Đang sản xuất", "Chờ nhập kho", "Đã hoàn thành", "Đã hủy"]}
           getStatus={(mo) => mo.status}
           statusColors={{
             "Tất cả": "#000",
             "Chờ xác nhận": theme.palette.secondary.main,
-            "Chờ sản xuất": theme.palette.primary.main,
-            "Đang sản xuất": theme.palette.success.main,
-            "Chờ nhập kho": theme.palette.warning.main
+            "Chờ sản xuất": theme.palette.info.main,
+            "Đang sản xuất": theme.palette.primary.main,
+            "Chờ nhập kho": theme.palette.warning.main,
+            "Đã hoàn thành": theme.palette.success.main,
+            "Đã hủy": theme.palette.error.main
           }}
           onSelectStatus={(status) => setFilterStatus(status)}
           selectedStatus={filterStatus}
